@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using ServiceDesk_WebApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<ServiceDesk_WebAppContext>(opt => opt.UseSqlite("Name=ServiceDeskDB"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
