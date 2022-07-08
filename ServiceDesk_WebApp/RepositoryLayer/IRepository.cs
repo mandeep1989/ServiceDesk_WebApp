@@ -2,9 +2,9 @@
 using ServiceDesk_WebApp.Models;
 using System.Linq.Expressions;
 
-namespace Repository
+namespace ServiceDesk_WebApp.RepositoryLayer
 {
-    public interface IBaseRepository
+    public interface IRepository
     {
         #region GET Methods
         Task<IEnumerable<T>> GetAllAsync<T>() where T : class, IAudit;

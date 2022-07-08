@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Repository;
 using ServiceDesk_WebApp.Data;
 using ServiceDesk_WebApp.Models;
 using System.Linq.Expressions;
 
-namespace ServiceDesk_WebApp
+namespace ServiceDesk_WebApp.RepositoryLayer
 {
-    public class BaseRepository : IBaseRepository
+    public class Repository : IRepository
     {
         private readonly ServiceDesk_WebAppContext _context;
       
-        public BaseRepository(ServiceDesk_WebAppContext context)
+        public Repository(ServiceDesk_WebAppContext context)
         {
             _context = context;
         
