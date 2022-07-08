@@ -32,4 +32,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
-app.Run();
+await app.RunAsync();
