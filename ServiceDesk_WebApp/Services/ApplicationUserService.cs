@@ -13,7 +13,7 @@ namespace ServiceDesk_WebApp.Services
         {
             _applictionUserRepo=applictionUserRepo;
         }
-        public async Task<ServiceResult<LoginResponse>> LogIn(LoginRequest loginRequest)
+        public async Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest)
         {
             try
             {

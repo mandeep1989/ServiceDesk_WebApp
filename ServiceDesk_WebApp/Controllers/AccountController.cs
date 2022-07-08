@@ -23,7 +23,7 @@ namespace ServiceDesk_WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
-            var loginResponse = await _applicationUserService.LogIn(loginRequest);
+            var loginResponse = await _applicationUserService.LogInAsync(loginRequest);
             if (loginResponse.Data != null)
             {
 

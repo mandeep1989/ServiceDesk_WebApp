@@ -5,6 +5,6 @@ namespace ServiceDesk_WebApp.Services.Interface
 {
     public interface IApplicationUserService
     {
-        public Task<ServiceResult<LoginResponse>> LogIn(LoginRequest loginRequest);
+        public Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest);
     }
 }
