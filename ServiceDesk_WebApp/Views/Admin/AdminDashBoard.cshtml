@@ -6,7 +6,6 @@
                     <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
                     <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
                     <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
-                    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action list-group-item-light p-3" onclick="if (confirm('Are you sure to logout?')){return true;}else{event.stopPropagation(); event.preventDefault();};" ><i class="fa-solid fa-user-large"></i>LogOut</a>
                 </div>
             </div>
             <!-- Page content wrapper-->
@@ -22,10 +21,33 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Action</a>
-                                        <a class="dropdown-item" href="#!">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                      <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" onclick="ShowModal()">
+                                          Logout
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal-backdrop show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">LogOut</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <h2>Are You Sure You Want LogOut !</h2>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <a asp-controller="Account" asp-action="Logout" class="btn btn-secondary"><i class="fa-solid fa-user-large"></i>LogOut</a>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                       
                                     </div>
                                 </li>
                             </ul>

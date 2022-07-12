@@ -5472,7 +5472,7 @@ textarea.form-control-lg {
   outline: 0;
 }
 
-.modal-backdrop {
+/*.modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -5480,7 +5480,7 @@ textarea.form-control-lg {
   width: 100vw;
   height: 100vh;
   background-color: #000;
-}
+}*/
 .modal-backdrop.fade {
   opacity: 0;
 }

@@ -24,6 +24,7 @@ namespace ServiceDesk_WebApp.Controllers
         {
              return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
@@ -80,6 +81,17 @@ namespace ServiceDesk_WebApp.Controllers
             //Redirect to home page    
             _notyf.Success("Logout !");
             return RedirectToAction("Login", "Account");
+        }
+
+        public IActionResult ForgetPassWord()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ForgetPassWord(LoginRequest loginRequest)
+        {
+            return View();
         }
 
     }

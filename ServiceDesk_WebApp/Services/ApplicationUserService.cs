@@ -11,10 +11,10 @@ namespace ServiceDesk_WebApp.Services
         private readonly IRepository _applictionUserRepo;
         public ApplicationUserService(IRepository applictionUserRepo)
         {
-            _applictionUserRepo=applictionUserRepo;
+            _applictionUserRepo = applictionUserRepo;
         }
         public async Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest)
-        {  
+        {
             try
             {
                 var applicationUsersList = await _applictionUserRepo.GetAllAsync<User>(x => x.Email.ToLower().Equals(loginRequest.Email.ToLower()));
@@ -25,10 +25,10 @@ namespace ServiceDesk_WebApp.Services
                     var applicationUser = applicationUsersList.FirstOrDefault(x => x.Password.Equals(loginRequest.Password));
                     if (applicationUser != null)
                     {
-                        if (applicationUser.IsDeleted==1 )
-                            return new ServiceResult<LoginResponse>(null, "Your Account is blocked, please contact admin.",true);
+                        if (applicationUser.IsDeleted == 1)
+                            return new ServiceResult<LoginResponse>(null, "Your Account is blocked, please contact admin.", true);
 
-                        LoginResponse loginResponse = new();        
+                        LoginResponse loginResponse = new();
 
                         loginResponse.UserRole = applicationUser.UserRole;
                         loginResponse.Id = applicationUser.Id;
@@ -44,10 +44,11 @@ namespace ServiceDesk_WebApp.Services
                 else
                     return new ServiceResult<LoginResponse>(null, "User not found, please contact admin.");
             }
-            catch (Exception ex)       
+            catch (Exception ex)
             {
                 return new ServiceResult<LoginResponse>(ex, ex.Message);
-            }                                                        
+            }
         }
+
     }
 }
