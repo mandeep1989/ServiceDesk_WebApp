@@ -6,7 +6,7 @@
                     <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
                     <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
                     <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
-                    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>LogOut</a>
+                    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action list-group-item-light p-3" onclick="if (confirm('Are you sure to logout?')){return true;}else{event.stopPropagation(); event.preventDefault();};" ><i class="fa-solid fa-user-large"></i>LogOut</a>
                 </div>
             </div>
             <!-- Page content wrapper-->
@@ -18,7 +18,7 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                               <!-- <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>-->
+                               <!--  <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>-->
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
