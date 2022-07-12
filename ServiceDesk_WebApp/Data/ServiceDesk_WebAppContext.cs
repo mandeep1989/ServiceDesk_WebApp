@@ -37,5 +37,7 @@ namespace ServiceDesk_WebApp.Data
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<ServiceDesk_WebApp.Models.Vendor> Vendor { get; set; }
     }
 }

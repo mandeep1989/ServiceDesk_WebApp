@@ -1,0 +1,52 @@
+﻿ <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white ml-0" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i> SD-Admin</div>
+                <div class="list-group list-group-flush">
+                    <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                    <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
+                    <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
+                    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>LogOut</a>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+           <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light  shadow-md">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle"><i class="fa-solid fa-sliders"></i> </button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                               <!-- <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>-->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">LogOut</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <div class="shadow-md mt-4 border-light  border">
+                    <h1 class="fs-4 p-xxl-3 ">Welcome to Admin Dashbaord</h1>
+                    </div>
+                </div>
+            </div>
+</div>
