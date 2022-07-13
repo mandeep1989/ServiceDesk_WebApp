@@ -8,15 +8,11 @@ namespace ServiceDesk_WebApp.Common
     /// </summary>
     public static class PricipalExtension
     {
-        /// <summary>
-        /// Get Username / Email Extension
-        /// </summary>
-        /// <param name="principal"></param>
-        /// <returns>Username / Email of Signed in user</returns>
-        public static string GetUsername(this ClaimsPrincipal principal)
-        {
-            return principal?.Claims?.FirstOrDefault(x => x.Type == AppClaimTypes.UserName)?.Value;
-        }
+   
+        //public static string GetUsername(this ClaimsPrincipal principal)
+        //{
+        //    return principal?.Claims?.FirstOrDefault(x => x.Type == AppClaimTypes.UserName)?.Value;
+        //}
 
         /// <summary>
         /// Get User Role Extension

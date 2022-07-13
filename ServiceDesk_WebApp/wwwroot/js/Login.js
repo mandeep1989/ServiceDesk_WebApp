@@ -9,6 +9,14 @@ function validateLoginUser() {
     SportaForms.ClearValidataionErrors(login_form_id);
     var blankChecks = [txt_login_emailID, txt_login_password];
     SportaForms.BlankInputChecks(blankChecks);
+    debugger
+    if ($(txt_login_emailID).val()) {
+        SportaForms.ValidateInput(txt_login_emailID,
+            !/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                .test($(txt_login_emailID).val()),
+            "Enter a valid email Id");
+    }
+
     return SportaForms.FormValidationStatus(login_form_id);
 }
 
@@ -31,11 +39,12 @@ function Login(data) {
         data: data,
         type: 'POST',
         success: function (response) {
+            debugger
             if (response.isSuccess) {
                 return location.replace(response.url);
             }
             else {
-                SportaUtil.MessageBox(response.message, { type: "Error" });
+                SportaUtil.MessageBoxDanger(response.message);
             }
         },
         error: function (xhr, error, errorMessage) {

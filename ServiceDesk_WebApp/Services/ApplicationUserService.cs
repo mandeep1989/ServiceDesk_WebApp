@@ -50,5 +50,43 @@ namespace ServiceDesk_WebApp.Services
             }
         }
 
+        public async Task<ServiceResult<User>> AddVendor(VendorViewModel vendorViewModel, int createdBy)
+        {
+            try
+            {
+                var contextModel = new User
+                {
+                    Name = vendorViewModel.VendorName,
+                    Email = vendorViewModel.Email,
+                    Password = vendorViewModel.Password,
+                    UserRole = (int)UserRole.Vendor,
+                    IsDeleted = 0
+                };
+
+                // Checks email for duplicate
+                if (await _applictionUserRepo.IsExistsAsync<User>(au => au.Email.Equals(vendorViewModel.Email)))
+                    return new ServiceResult<User>(contextModel, "Email Already Exist!", true);
+
+                await _applictionUserRepo.AddAsync(contextModel, createdBy);
+                var vendorModel = new Vendor
+                {
+                    UserId=contextModel.Id,
+                    VendorName = vendorViewModel.VendorName,
+                    VendorNo = vendorViewModel.VendorNo,
+                    ResidencyStatus = vendorViewModel.ResidencyStatus,
+                    Poremarks = vendorViewModel.PORemarks,
+                    Currency = vendorViewModel.Currency,
+                };
+                await _applictionUserRepo.AddAsync(vendorModel, createdBy);
+
+
+                return new ServiceResult<User>(contextModel, "Vendor added!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<User>(ex, ex.Message);
+            }
+        }
+
     }
 }

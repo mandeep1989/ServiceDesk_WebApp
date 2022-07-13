@@ -1,52 +1,39 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using ServiceDesk_WebApp.Common;
 using ServiceDesk_WebApp.Models;
+using ServiceDesk_WebApp.Services.Interface;
+using ServiceDesk_WebApp.ViewModel;
 
 namespace ServiceDesk_WebApp.Controllers
 {
     
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-       
+        private readonly IApplicationUserService _applicationUserService;
+        public AdminController(IApplicationUserService applicationUserService)
+        {
+            _applicationUserService = applicationUserService;
+        }
+
         public IActionResult AdminDashBoard()
         {
-            return View();
+          return View();
+         
         }
 
         [HttpGet]
-        public IActionResult AddVendor()
+        public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
-            return View();
+            return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId()));
         }
 
-        [HttpPost]
-        public IActionResult AddVendor(Vendor vendor)
-        {
-            return View();
-        }
 
         public IActionResult Vendor()
         {
             return View();
         }
 
-        [HttpGet]
-        public JsonResult GetVendor()
-        {
-            List<Vendor> vendors = new List<Vendor>();
-            vendors.Add(new Vendor
-            {
-                Id=1,
-                VendorNo="1",
-                VendorName="Jhon",
-                ResidencyStatus="ParkStreet",
-                PORemarks="marked",
-                Currency="Dollar",
-                Email="Jhon@gmail.com"
-
-            });
-            return Json(vendors);
-        }
+    
     }
 }

@@ -1,68 +1,114 @@
-﻿<!DOCTYPE html>
+﻿@using ServiceDesk_WebApp.Common
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ServiceDesk_WebApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ServiceDesk_WebApp.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - ServiceDesk_WebApp</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    
+
 
 </head>
 <body>
-  @*  @if (User.Identity.IsAuthenticated)
-    {*@
-       
-                @*<header>
-                        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                            <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@User.Identity.Name</a>
-                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                        aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                                    <ul class="navbar-nav flex-grow-1">
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </header>*@
 
-    @*}*@
-       <div class="container-view">
-         <main role="main" class="pb-3">
-             @RenderBody()
-         </main>
-       </div>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div class="border-end bg-white ml-0" id="sidebar-wrapper">
+			<div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i> SD-Admin</div>
+			<div class="list-group list-group-flush">
+				<a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+				<a asp-controller="Admin" asp-action="AdminDashBoard" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
+				<a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
+			</div>
 
-                @*<footer class="border-top footer text-muted">
-                        <div class="container">
-                            &copy; 2022 - ServiceDesk_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </div>
-                    </footer>*@
-                <script src="~/lib/jquery/dist/jquery.min.js"></script>
-                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="~/js/site.js" asp-append-version="true"></script>
-                <script src="~/js/common.js" asp-append-version="true"></script>
-                <script src="~/js/Login.js" asp-append-version="true"></script>
-                <script src="~/js/Vendor.js" asp-append-version="true"></script>
-                <script src="~/js/DashBoard.js" asp-append-version="true"></script>
-                <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
-                <script src="~/js/datatables.min.js" asp-append-version="true"></script>
-                <script src="~/js/site.js" asp-append-version="true"></script>
-                @await Component.InvokeAsync("Notyf") 
-                @RenderSection("Scripts", required: false) 
-    </body>
+		</div>
+
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light  shadow-md">
+				<div class="container-fluid">
+					<button class="btn btn-primary" id="sidebarToggle"><i class="fa-solid fa-sliders"></i> </button>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+							<!--  <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>-->
+							<li class="nav-item dropdown">
+								<a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
+								<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" href="#!"><i class="fa-solid fa-user-large"></i>@User.GetName()</a>
+									<a data-bs-toggle="modal" class="dropdown-item logout-btn" data-bs-target="#myModal">
+										<i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+									</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</nav>
+					<div class="container-view">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+		</div>
+	
+	</div>
+
+	
+
+
+	<!-- The Modal -->
+	<div class="modal fade" id="myModal" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<h3 class="modal-title text-center ">Are you sure to logout</h3>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<a asp-action="LogOut" asp-controller="Account" class="btn btn-secondary"> <i class="fa-solid fa-user-large"></i> Logout</a>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	@*<footer class="border-top footer text-muted">
+		<div class="container">
+		&copy; 2022 - ServiceDesk_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+		</footer>*@
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/datatables.min.js" asp-append-version="true"></script>
+	<script src="/js/popper.min.js" asp-append-version="true"></script>
+	<script src="~/js/common.js" asp-append-version="true"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/Login.js" asp-append-version="true"></script>
+	<script src="~/js/Vendor.js" asp-append-version="true"></script>
+	<script src="~/js/DashBoard.js" asp-append-version="true"></script>
+		<script src="~/js/AddVendor.js" asp-append-version="true"></script>
+
+	@await Component.InvokeAsync("Notyf")
+	@RenderSection("Scripts", required: false)
+</body>
 </html>

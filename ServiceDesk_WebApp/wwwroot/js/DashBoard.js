@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', event => {
     }
   
 });
-function ShowModal() {
-    debugger
-    $('#exampleModalCenter').modal('show');
-}
+//function ShowModal() {
+//    debugger
+//    $('#exampleModalCenter').modal('show');
+//}

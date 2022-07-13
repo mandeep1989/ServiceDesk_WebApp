@@ -1,21 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ServiceDesk_WebApp.Models
 {
-    public class Vendor
+    public partial class Vendor
     {
-        public long Id { get; set; }
+        public long UserId { get; set; }
         public string VendorNo { get; set; }
         public string VendorName { get; set; }
-
-        [Display(Name ="Residency Status")]
         public string ResidencyStatus { get; set; }
-
-        [Display(Name = "PO Remarks")]
-        public string PORemarks { get; set; }
-
+        public string Poremarks { get; set; }
         public string Currency { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public long CreatedBy { get; set; }
+        public long ModifiedBy { get; set; }
+        public string CreatedOn { get; set; }
+        public string ModifiedOn { get; set; }
+        public long IsDeleted { get; set; }
     }
 }

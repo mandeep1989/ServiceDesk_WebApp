@@ -16,4 +16,5 @@ namespace ServiceDesk_WebApp.Models
     }
 
     public partial class User : IAudit { }
+    public partial class Vendor : IAudit { }
 }

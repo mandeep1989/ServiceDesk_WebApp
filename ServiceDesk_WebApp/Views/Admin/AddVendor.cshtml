@@ -1,75 +1,12 @@
-﻿@model ServiceDesk_WebApp.Models.Vendor
-
+﻿@*
 @{
     ViewData["Title"] = "ADDVendor";
 }
 
- <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
-            <div class="border-end bg-white ml-0" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i> SD-Admin</div>
-                <div class="list-group list-group-flush">
-                    <a asp-controller="Admin" asp-action="AdminDashBoard" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-                    <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i> Vendors</a>
-                    <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
-                </div>
-            </div>
+
             <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light  shadow-md">
-                    <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle"><i class="fa-solid fa-sliders"></i> </button>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                               <!--  <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>-->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                      <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary" onclick="ShowModal()">
-                                          Logout
-                                        </button>
-
-                                        <!-- Modal -->
-                                        <div class="modal-backdrop show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                          <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">LogOut</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                <h2>Are You Sure You Want LogOut !</h2>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                <a asp-controller="Account" asp-action="Logout" class="btn btn-secondary"><i class="fa-solid fa-user-large"></i>LogOut</a>
-
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                       
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin <span class="user"><i class="fa-solid fa-user-large"></i></span></a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">LogOut</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> -->
-                    </div>
-                </nav>
+      
+               
                 <div class="container-fluid">
                     <div class="">
                         <div class="form-add-vendor ">
@@ -146,9 +83,9 @@
                         </div>
                     </div>
                  </div>
-            </div>
-</div>
+       
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}*@

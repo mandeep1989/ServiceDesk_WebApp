@@ -50,18 +50,18 @@ namespace ServiceDesk_WebApp.Controllers
                 //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 
-                if (data.UserRole == 0)
+                if (data.UserRole == (int)UserRole.Admin)
                 {
-                    _notyf.Success(loginResponse.Message,10);
-                    return Json(new { isSuccess = true, url = "Admin/AdminDashBoard", message = loginResponse.Message });
+                   
+                    return Json(new { isSuccess = true, url = "/Admin/AdminDashBoard", message = loginResponse.Message });
                 }
 
                 else if (data.UserRole == (int)UserRole.Vendor)
                 {
-                    _notyf.Success(loginResponse.Message);
-                    return Json(new { isSuccess = true, url = "Vendor/VendorDashboard", message = loginResponse.Message });
+                   
+                    return Json(new { isSuccess = true, url = "/Vendor/VendorDashboard", message = loginResponse.Message });
                 }
-                return Json(new { isSuccess = true, url = "Home/Index", message = loginResponse.Message });
+                return Json(new { isSuccess = false,  message = loginResponse.Message });
 
 
             }
@@ -76,11 +76,9 @@ namespace ServiceDesk_WebApp.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-            //SignOutAsync is Extension method for SignOut    
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //Redirect to home page    
-            _notyf.Success("Logout !");
-            return RedirectToAction("Login", "Account");
+            return Redirect("/");
+           
         }
 
         public IActionResult ForgetPassWord()

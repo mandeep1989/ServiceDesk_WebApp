@@ -340,25 +340,25 @@ class SportaForms {
 
     //Showing validation messages: (must use div with ".invalid-input-feedback" class beside inputs/controls)
     static FormValidationStatus(formId) {
-        $(formId + ' input.form-control, ' + formId + ' textarea.form-control').addClass('valid-input');
-        $(formId + ' select').siblings('button').addClass('valid-input');
-        $('.invalid-input').siblings('.invalid-input-feedback').show();
-        $('.invalid-input').parent().siblings('.invalid-input-feedback').show();
+        $(formId + ' input.form-control, ' + formId + ' textarea.form-control').addClass('is-valid');
+        $(formId + ' select').siblings('button').addClass('is-valid');
+        $('.is-invalid').siblings('.invalid-input-feedback').show();
+        $('.is-invalid').parent().siblings('.invalid-input-feedback').show();
 
 
-        if ($(formId + ' .form-control, ' + formId + ' button').hasClass('invalid-input'))
+        if ($(formId + ' .form-control, ' + formId + ' button').hasClass('is-invalid'))
             $(formId + ' button[type="submit"]').prop('disabled', true);
         else
             $(formId + ' button[type="submit"]').prop('disabled', false)
 
 
-        return !$(formId + ' .form-control, ' + formId + ' button').hasClass('invalid-input');
+        return !$(formId + ' .form-control, ' + formId + ' button').hasClass('is-invalid');
 
     }
 
     static ClearValidataionErrors(formId) {
-        $('select').siblings('button').removeClass('invalid-input valid-input');
-        $('.form-control').removeClass('invalid-input valid-input');
+        $('select').siblings('button').removeClass('is-invalid is-valid');
+        $('.form-control').removeClass('is-invalid is-valid');
         $(formId + ' .invalid-input-feedback').html('');
     }
 
@@ -396,11 +396,11 @@ class SportaForms {
 
     static AddValidation(inputId, message) {
         if ($(inputId).is('select')) {
-            $(inputId).siblings('button').addClass('invalid-input').removeClass('valid-input')
+            $(inputId).siblings('button').addClass('is-invalid').removeClass('is-valid')
             $(inputId).parent().siblings('div.invalid-input-feedback').html(message);
         }
         else {
-            $(inputId).addClass('invalid-input').removeClass('valid-input')
+            $(inputId).addClass('is-invalid').removeClass('is-valid')
             $(inputId).siblings('div.invalid-input-feedback').html(message);
         }
 
@@ -408,9 +408,9 @@ class SportaForms {
 
     static RemoveValidation(inputId) {
         if ($(inputId).is('select'))
-            $(inputId).siblings('button').removeClass('invalid-input').addClass('valid-input');
+            $(inputId).siblings('button').removeClass('is-invalid').addClass('is-valid');
         else
-            $(inputId).removeClass('invalid-input').addClass('valid-input');
+            $(inputId).removeClass('is-invalid').addClass('is-valid');
 
         $(inputId).siblings('div.invalid-input-feedback').html('');
     }
@@ -491,7 +491,7 @@ class SportaUtil {
                 if (!globalSettings.heading_icon)
                     globalSettings.heading_icon = "<i class='text-red fas fa-times-circle'></i> ";
 
-                btnClass = 'btn-outline-red';
+                btnClass = 'btn btn-outline-danger';
                 icon = "<h4>" + globalSettings.heading_icon + "&nbsp; " + globalSettings.heading + "</h4>";
                 borderClass = 'border-red';
                 break;

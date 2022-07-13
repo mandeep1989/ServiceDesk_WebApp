@@ -6072,23 +6072,7 @@ textarea.form-control-lg {
     outline: 0;
 }
 
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1050;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000;
-}
 
-    .modal-backdrop.fade {
-        opacity: 0;
-    }
-
-    .modal-backdrop.show {
-        opacity: 0.8;
-    }
 
 .modal-header {
     display: flex;
@@ -11971,6 +11955,10 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     }
 }
 
+.invalid-input-feedback.mt-1.ml-4 {
+    color: red;
+}
+
 span.user {
     background: #dadada;
     border-radius: 50%;
@@ -12033,4 +12021,8 @@ div.dataTables_wrapper div.dataTables_length label {
     margin-top: 7px;
     border-radius: 3px;
     color: #fff;
+}
+
+.logout-btn{
+    cursor: pointer;
 }

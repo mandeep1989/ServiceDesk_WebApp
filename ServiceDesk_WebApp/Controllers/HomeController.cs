@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceDesk_WebApp.Common;
 using ServiceDesk_WebApp.Models;
 using System.Diagnostics;
 
@@ -13,9 +14,19 @@ namespace ServiceDesk_WebApp.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.GetUserRole() == (int)UserRole.Admin )
+                    return RedirectToAction("AdminDashBoard", "Admin");
+
+                else if (User.GetUserRole() == (int)UserRole.Vendor)
+                    return RedirectToAction("VendorDashBoard", "Vendor");
+
+                else
+                    return View();
+            }
             return View();
         }
 
