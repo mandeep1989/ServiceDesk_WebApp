@@ -48,7 +48,7 @@ function openUserForm(id) {
     }
     else {
         $(txt_id).val(0);
-        $(txt_Password).show();
+        $(txt_Password).parent('.Pgroup').show();
         openSidebar();
         SportaForms.InitializeFormStyle(form_id);
     }
@@ -61,6 +61,7 @@ function closeUserForm() {
     SportaForms.ResetForm(form_id);
     $(txt_id).val(0);
     $(txt_email).prop('readonly', false);
+    $(txt_Password).parent('.Pgroup').show();
     $(btn_submit).text('Save')
     $(form_id).fadeOut();
     $(btn_create_new).show();
