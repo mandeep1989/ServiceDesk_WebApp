@@ -25,7 +25,7 @@ namespace ServiceDesk_WebApp.Common
         /// <summary>
         /// User Name / Email
         /// </summary>
-        public const string UserName = nameof(UserName);
+        public const string Email = nameof(Email);
 
     }
 }

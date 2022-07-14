@@ -1,88 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Vendors";
+	ViewData["Title"] = "Vendors";
 }
 
 <div class="page-content">
 
-    <h3 class="text-theme text-black">
-        Vendors
-        <button class="btn btn-sm btn-theme border-10 create_btn float-right" id="btn-create-new" onclick="openUserForm()">Create New <i class="fas fa-plus"></i></button>
-    </h3>
-    <hr class="border-theme" />
-    <form id="vendor-form" style="display:none">
-        <input type="hidden" name="Id" id="txt-id" />
+	<h1>Welcome to  Admin Dashboard</h1>
+	</div>
 
-        <div class="form-row">
-            <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-VendorName">Vendor Name</label>
-                <input type="text" name="VendorName" id="txt-VendorName" class="form-control" />
-                <div class="invalid-input-feedback">This can not be blank!</div>
-            </div>
 
-            <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-email-id">Email</label>
-                <input type="email" name="Email" id="txt-email-id" class="form-control" />
-                <div class="invalid-input-feedback"></div>
-            </div>
-             <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-VendorNo">VendorNo</label>
-                <input type="text" name="VendorNo" id="txt-VendorNo" class="form-control" />
-                <div class="invalid-input-feedback"></div>
-            </div>
-                <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-ResidencyStatus">ResidencyStatus</label>
-                <input type="text" name="ResidencyStatus" id="txt-ResidencyStatus" class="form-control" />
-                <div class="invalid-input-feedback"></div>
-            </div>
-                 <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-Poremarks">PORemarks</label>
-                <input type="text" name="Poremarks" id="txt-Poremarks" class="form-control" />
-                <div class="invalid-input-feedback"></div>
-            </div>
-                    <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-Currency">Currency</label>
-                <input type="text" name="Currency" id="txt-Currency" class="form-control" />
-                <div class="invalid-input-feedback"></div>
-            </div>
-                   <div class="col-sm-2 form-group">
-                <label class="floating-label" for="txt-Password">Password</label>
-                <input type="text" name="Password" id="txt-Password" class="form-control" />
-                <div class="invalid-input-feedback"></div>
-            </div>
+@section Scripts{
+<script src="~/js/AddVendor.js" asp-append-version="true"></script>
 
-            <div class="col-sm-3">
-                <button type="submit" class="btn btn-theme mr-2" id="btn-submit"> Submit</button>
-                <button type="button" class="btn btn-danger" id="btn-cancel" onclick="closeVendorForm()">Cancel</button>
-            </div>
-        </div>
-    </form>
-
-   
-    <div class="row">
-        <div class="col-sm-12">
-            <!-- Users List -->
-            <table id="application-user-list" class="table table-sm w-100 table-responsive-md">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th class="doNotExport">Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th class="doNotExport">Action</th>
-                    </tr>
-                </tfoot>
-            </table>
-            <!-- Users List End -->
-        </div>
-    </div>
-</div>
-
+}
 
 

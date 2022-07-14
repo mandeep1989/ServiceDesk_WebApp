@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ServiceDesk_WebApp.Common;
 using ServiceDesk_WebApp.Models;
@@ -22,13 +23,28 @@ namespace ServiceDesk_WebApp.Controllers
          
         }
 
-        [HttpGet]
+    
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
-            return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId()));
+            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "Home/Index");
+            return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId(),link));
         }
-
-
+        public async Task<JsonResult> GetAllVendors()
+        {
+            return GetResult(await _applicationUserService.GetAllVendors());
+        }
+        public async Task<JsonResult> GetVendorById(int id)
+        {
+            return GetResult(await _applicationUserService.GetVendorById(id));
+        }
+        public async Task<JsonResult> UpdateVendor(VendorViewModel vendorViewModel)
+        {
+            return GetResult(await _applicationUserService.UpdateVendor(vendorViewModel, User.GetUserId()));
+        }
+        public async Task<JsonResult> RemoveVendor(int Id)
+        {
+            return GetResult(await _applicationUserService.RemoveVendor(Id, User.GetUserId()));
+        }
         public IActionResult Vendor()
         {
             return View();

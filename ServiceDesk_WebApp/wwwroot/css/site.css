@@ -1,21 +1,22 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
 @charset "UTF-8";
 /*!
 * Start Bootstrap - Simple Sidebar v6.0.5 (https://startbootstrap.com/template/simple-sidebar)
@@ -11913,6 +11914,36 @@ textarea.form-control-lg {
     }
 }
 
+.sidebar {
+    display: none;
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    width: 40%;
+    min-width: 250px;
+    background: #fff;
+    box-shadow: 10px 10px 10px 10px;
+    border-top-left-radius: 10px;
+    padding: 20px;
+    z-index: 999;
+}
+
+.sidebar-title {
+    font-size: 1.5rem;
+    text-align: center;
+    padding-bottom: 10px;
+    color: #0199d4;
+    border-bottom: solid 1px #0199d4;
+}
+
+.sidebar-body {
+    margin-top: 20px;
+    padding: 10px;
+}
+
 #wrapper {
     overflow-x: hidden;
 }
@@ -11978,6 +12009,7 @@ table#Vendor {
     border: 1px solid #646a70;
     border-collapse: collapse;
 }
+
     table#Vendor tr > th {
         background: #646a70;
         border: 0px solid #000 !important;
@@ -11985,9 +12017,11 @@ table#Vendor {
         font-size: 14px;
         font-weight: 500;
     }
+
     table#Vendor tr.odd > td {
         background: #fff;
     }
+
     table#Vendor tr > td {
         background: #f5f5f5;
         border: 0px solid #000 !important;
@@ -11997,21 +12031,26 @@ table#Vendor {
         padding: 4px 10px;
         line-height: normal;
     }
-.form-add-vendor  .form-control {
+
+.form-add-vendor .form-control {
     padding: 3px 8px;
     font-weight: 400;
     border: 1px solid #4368d39e;
 }
-.form-add-vendor  .form-group {
+
+.form-add-vendor .form-group {
     margin-top: 10px;
 }
-.form-add-vendor  label {
+
+.form-add-vendor label {
     margin-top: 10px;
     font-size: 14px;
 }
+
 .form-add-vendor {
     padding: 12px 20px;
 }
+
 div.dataTables_wrapper div.dataTables_length label {
     font-weight: normal;
     text-align: left;
@@ -12023,6 +12062,12 @@ div.dataTables_wrapper div.dataTables_length label {
     color: #fff;
 }
 
-.logout-btn{
+.logout-btn {
     cursor: pointer;
+}
+.admin-user-dropdown {
+    right: -18px;
+    left: auto;
+    top: 39px;
+    border-radius: 5px;
 }

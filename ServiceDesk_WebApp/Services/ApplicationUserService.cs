@@ -50,7 +50,7 @@ namespace ServiceDesk_WebApp.Services
             }
         }
 
-        public async Task<ServiceResult<User>> AddVendor(VendorViewModel vendorViewModel, int createdBy)
+        public async Task<ServiceResult<User>> AddVendor(VendorViewModel vendorViewModel, int createdBy, string link)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace ServiceDesk_WebApp.Services
                 await _applictionUserRepo.AddAsync(contextModel, createdBy);
                 var vendorModel = new Vendor
                 {
-                    UserId=contextModel.Id,
+                    UserId = contextModel.Id,
                     VendorName = vendorViewModel.VendorName,
                     VendorNo = vendorViewModel.VendorNo,
                     ResidencyStatus = vendorViewModel.ResidencyStatus,
@@ -78,7 +78,7 @@ namespace ServiceDesk_WebApp.Services
                     Currency = vendorViewModel.Currency,
                 };
                 await _applictionUserRepo.AddAsync(vendorModel, createdBy);
-
+                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link);
 
                 return new ServiceResult<User>(contextModel, "Vendor added!");
             }
@@ -86,6 +86,116 @@ namespace ServiceDesk_WebApp.Services
             {
                 return new ServiceResult<User>(ex, ex.Message);
             }
+        }
+
+        public async Task<ServiceResult<IEnumerable<VendorViewModel>>> GetAllVendors()
+        {
+            try
+            {
+                var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
+               // var applicationUsers = list.Select(x => new VendorViewModel
+                //{
+                //     var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(y => y.UserId == x.Id);
+                //     Id = x.Id,
+                //    VendorName = x.Name,
+                //    Email = x.Email,
+                //    VendorNo=x.vend
+                //});
+                var applicationUsers=new List<VendorViewModel>();
+                foreach (var user in list)
+				{
+                    var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(y => y.UserId == user.Id);
+                    applicationUsers.Add(new VendorViewModel
+                    {
+                        Id = user.Id,
+                        VendorName = user.Name,
+                        Email = user.Email,
+                        VendorNo = UserDetail.VendorNo,
+                        ResidencyStatus = UserDetail.ResidencyStatus
+                    });
+				}
+
+                return new ServiceResult<IEnumerable<VendorViewModel>>(applicationUsers, "Vendor List!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<IEnumerable<VendorViewModel>>(ex, ex.Message);
+            }
+        }
+        public async Task<ServiceResult<VendorViewModel>> GetVendorById(int Id)
+        {
+            try
+            {
+                var User = await _applictionUserRepo.GetAsync<User>(x => x.Id == Id);
+                var applicationVendors = new VendorViewModel();
+
+                if (User != null)
+                {
+                    applicationVendors.Id = User.Id;
+                    applicationVendors.Email = User.Email;
+                    applicationVendors.VendorName = User.Name;
+                    applicationVendors.Password = User.Password;
+                    var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(x => x.UserId == Id);
+                    applicationVendors.VendorNo = UserDetail.VendorNo;
+                    applicationVendors.ResidencyStatus = UserDetail.ResidencyStatus;
+                    applicationVendors.PORemarks = UserDetail.Poremarks;
+                    applicationVendors.Currency = UserDetail.Currency;
+                    return new ServiceResult<VendorViewModel>(applicationVendors, "Vendor List!");
+                }
+                else
+                {
+                    return new ServiceResult<VendorViewModel>(null, "No Vendor Found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<VendorViewModel>(ex, ex.Message);
+            }
+        }
+
+        public async Task<ServiceResult<bool>> UpdateVendor(VendorViewModel vendorViewModel, int modifiedBy)
+        {
+            try
+            {
+                var User = await _applictionUserRepo.GetAsync<User>(x => x.Id == vendorViewModel.Id);
+                if (User != null)
+                {
+
+                    User.Name = vendorViewModel.VendorName;
+                    await _applictionUserRepo.UpdateAsync(User, modifiedBy);
+                    var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(x => x.UserId == vendorViewModel.Id);
+                    UserDetail.VendorNo = vendorViewModel.VendorNo;
+                    UserDetail.ResidencyStatus = vendorViewModel.ResidencyStatus;
+                    UserDetail.Poremarks = vendorViewModel.PORemarks;
+                    UserDetail.Currency = vendorViewModel.Currency;
+
+                    return new ServiceResult<bool>(await _applictionUserRepo.UpdateAsync(UserDetail, modifiedBy) != null, "Vendor updated!");
+                }
+
+                return new ServiceResult<bool>(false, "No record found!", true);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<bool>(ex, ex.Message);
+            }
+
+        }
+
+        public async Task<ServiceResult<bool>> RemoveVendor(int Id, int modifiedBy)
+        {
+            try
+            {
+                var User = await _applictionUserRepo.GetAsync<User>(x => x.Id == Id);
+                await _applictionUserRepo.RemoveAsync(User, modifiedBy);
+                var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(x => x.UserId == Id);
+                await _applictionUserRepo.RemoveAsync(UserDetail, modifiedBy);
+                return new ServiceResult<bool>(true, "Vendor deleted Successfully!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<bool>(ex, ex.Message);
+            }
+
         }
 
     }

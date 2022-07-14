@@ -197,7 +197,7 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         #region Soft Delete
         public async Task<bool> RemoveAsync<T>(T entity, int updatedBy) where T : class, IAudit
         {
-            entity.IsDeleted = 0;
+            entity.IsDeleted = 1;
             entity.ModifiedBy = updatedBy;
             entity.ModifiedOn = DateTime.Now.ToString();
 
@@ -209,7 +209,7 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         {
             foreach (var entity in entities)
             {
-                entity.IsDeleted = 0;
+                entity.IsDeleted = 1;
                 entity.ModifiedBy = updatedBy;
                 entity.ModifiedOn = DateTime.Now.ToString();
                 _context.Update(entity);

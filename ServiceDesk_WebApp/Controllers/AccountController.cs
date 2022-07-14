@@ -14,7 +14,7 @@ namespace ServiceDesk_WebApp.Controllers
     {
         private readonly IApplicationUserService _applicationUserService;
         private readonly INotyfService _notyf;
-        
+
         public AccountController(IApplicationUserService applicationUserService, INotyfService notyf)
         {
             _applicationUserService = applicationUserService;
@@ -22,7 +22,7 @@ namespace ServiceDesk_WebApp.Controllers
         }
         public IActionResult Login()
         {
-             return View();
+            return View();
         }
 
         [HttpPost]
@@ -35,33 +35,24 @@ namespace ServiceDesk_WebApp.Controllers
                 var data = loginResponse.Data;
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identity.AddClaim(new Claim(AppClaimTypes.UserId, data.Id.ToString()));
-                identity.AddClaim(new Claim(AppClaimTypes.UserName, data.Email));
+                identity.AddClaim(new Claim(AppClaimTypes.Email, data.Email));
                 identity.AddClaim(new Claim(AppClaimTypes.Role, data.UserRole.ToString()));
                 identity.AddClaim(new Claim(AppClaimTypes.Name, data.Name));
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                //identity.AddClaim(new Claim(AppClaimTypes.UserId, data.Id.ToString()));
-                //identity.AddClaim(new Claim(AppClaimTypes.UserName, data.Name));
-                //identity.AddClaim(new Claim(AppClaimTypes.Role, data.UserRole.ToString()));
-                //identity.AddClaim(new Claim(AppClaimTypes.Name, data.Name));
-                //var principal = new ClaimsPrincipal(identity);
-                //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-
                 if (data.UserRole == (int)UserRole.Admin)
                 {
-                   
+
                     return Json(new { isSuccess = true, url = "/Admin/AdminDashBoard", message = loginResponse.Message });
                 }
 
                 else if (data.UserRole == (int)UserRole.Vendor)
                 {
-                   
+
                     return Json(new { isSuccess = true, url = "/Vendor/VendorDashboard", message = loginResponse.Message });
                 }
-                return Json(new { isSuccess = false,  message = loginResponse.Message });
+                return Json(new { isSuccess = false, message = loginResponse.Message });
 
 
             }
@@ -69,7 +60,7 @@ namespace ServiceDesk_WebApp.Controllers
             {
                 _notyf.Error(loginResponse.Message);
                 return Json(new { isSuccess = false, message = loginResponse.Message });
-  
+
             }
 
         }
@@ -78,7 +69,7 @@ namespace ServiceDesk_WebApp.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/");
-           
+
         }
 
         public IActionResult ForgetPassWord()

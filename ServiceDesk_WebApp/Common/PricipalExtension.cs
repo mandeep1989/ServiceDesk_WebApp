@@ -46,6 +46,11 @@ namespace ServiceDesk_WebApp.Common
         public static string GetName(this ClaimsPrincipal principal)
         {
             return principal?.Claims?.FirstOrDefault(x => x.Type == AppClaimTypes.Name)?.Value;
+        } 
+        
+        public static string GetEmail(this ClaimsPrincipal principal)
+        {
+            return principal?.Claims?.FirstOrDefault(x => x.Type == AppClaimTypes.Email)?.Value;
         }
     }
 }
