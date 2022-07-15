@@ -1,15 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using ServiceDesk_WebApp.Data;
-using ServiceDesk_WebApp.Services;
-using ServiceDesk_WebApp.Services.Interface;
-using ServiceDesk_WebApp.RepositoryLayer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using AspNetCoreHero.ToastNotification;
-using AspNetCoreHero.ToastNotification.Extensions;
-using Microsoft.AspNetCore.CookiePolicy;
-using ServiceDesk_WebApp.Models;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("MailSettings"));
@@ -29,6 +17,16 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 5; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    await next();
+    if (context.Response.StatusCode == 404)
+    {
+        context.Request.Path = "/NotFound";
+        await next();
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

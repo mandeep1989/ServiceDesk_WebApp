@@ -2,7 +2,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+	<style>
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   color: black;
+   text-align: center;
+}
+</style>
 	<meta charset="utf-8" />
+	<link rel="icon" type="image/x-icon" href="login.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - ServiceDesk_WebApp</title>
 	<link rel="stylesheet" href="~/css/bootstrap.min.css" />
@@ -114,11 +126,10 @@
 
 
 
-	@*<footer class="border-top footer text-muted">
-		<div class="container">
-		&copy; 2022 - ServiceDesk_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-		</footer>*@
+	<div class="footer">
+  <p>&copy; @DateTime.Now.Year IT Pillars All rights reserved.</p>
+</div>   
+
 	<script src="~/js/jquery-3.5.1.min.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
 	<script src="/js/popper.min.js" asp-append-version="true"></script>

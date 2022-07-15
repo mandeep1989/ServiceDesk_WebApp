@@ -1,0 +1,12 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using ServiceDesk_WebApp.Data;
+global using ServiceDesk_WebApp.Services;
+global using ServiceDesk_WebApp.Services.Interface;
+ global using ServiceDesk_WebApp.RepositoryLayer;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Authentication.Cookies;
+global using AspNetCoreHero.ToastNotification;
+global using AspNetCoreHero.ToastNotification.Extensions;
+global using Microsoft.AspNetCore.CookiePolicy;
+global using ServiceDesk_WebApp.Models;
+global using Microsoft.Extensions.DependencyInjection;
