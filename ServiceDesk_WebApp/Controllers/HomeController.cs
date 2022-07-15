@@ -22,7 +22,7 @@ namespace ServiceDesk_WebApp.Controllers
                     return RedirectToAction("AdminDashBoard", "Admin");
 
                 else if (User.GetUserRole() == (int)UserRole.Vendor)
-                    return RedirectToAction("VendorDashBoard", "Vendor");
+                    return RedirectToAction("Index", "Vendor");
 
                 else
                     return View();

@@ -12071,3 +12071,114 @@ div.dataTables_wrapper div.dataTables_length label {
     top: 39px;
     border-radius: 5px;
 }
+.preloader-main-div {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    z-index: 9999;
+    position: fixed;
+    cursor: wait;
+}
+
+    .preloader-main-div .preloader-center-div {
+        width: 15rem;
+        height: 15rem;
+        position: relative;
+    }
+
+    .preloader-main-div .rotor {
+        width: 15rem;
+        height: 15rem;
+        position: absolute;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        border-radius: 50%;
+        animation: rotate 2s linear infinite;
+    }
+    /************************ cards *******************************/
+
+.cust_blue {
+    background: #26c6da;
+}
+
+.cust_gold {
+    background: #ffba57;
+}
+
+.cust_green {
+    background: #9ccc65;
+}
+
+.cust_red {
+    background: #ff727f;
+}
+
+card-body i {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #475F7B;
+}
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.card table thead {
+    background: #fff;
+    color: #000;
+}
+
+    .card table thead th {
+        color: #000;
+        font-size: 14px;
+        text-align: center;
+        background: #ecf0f5;
+    }
+.card.table_card {
+    min-height: 190px;
+}
+
+    .card.table_card .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+main {
+    background: #eef5f9;
+}
+.card table tbody td {
+    color: #000;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+
+.card_table .card .card-header {
+    border-bottom: 0px solid #e2e5e8;
+}
+.card {
+     
+    border-radius: 10px;
+    padding: 10px 0 0 !important;
+    box-shadow: 0 2px 10px -1px rgba(69,90,100,.3) !important;
+    margin-bottom: 30px !important;
+    transition: box-shadow .2s ease-in-out;
+    margin-top: 0 !important;
+}
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+}
+.card_btn_row {
+    border: 2px dotted #0d6efd;
+}
+.pt-8{
+    padding-top:8%;
+}

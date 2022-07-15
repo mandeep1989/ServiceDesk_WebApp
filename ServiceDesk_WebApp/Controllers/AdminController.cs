@@ -26,7 +26,7 @@ namespace ServiceDesk_WebApp.Controllers
         [Authorize(Roles = "1,2")]
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
-            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "Home/Index");
+            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "/Home/Index");
             return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId(),link));
         }
         [Authorize(Roles = "1")]
@@ -43,6 +43,11 @@ namespace ServiceDesk_WebApp.Controllers
         public async Task<JsonResult> UpdateVendor(VendorViewModel vendorViewModel)
         {
             return GetResult(await _applicationUserService.UpdateVendor(vendorViewModel, User.GetUserId()));
+        }
+        [Authorize(Roles = "1")]
+        public async Task<JsonResult> GetVendorCountByDate()
+        {
+            return GetResult(await _applicationUserService.GetVendorsCountByDate());
         }
         [Authorize(Roles = "1")]
         public async Task<JsonResult> RemoveVendor(int Id)

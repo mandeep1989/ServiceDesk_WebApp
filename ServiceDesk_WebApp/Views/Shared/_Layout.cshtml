@@ -16,6 +16,15 @@
 
 </head>
 <body>
+	  <!--Loader-->
+    <div class="preloader-main-div" id="preloader">
+        <div class="preloader-center-div">
+            <div class="rotor"></div>
+            <h1>
+                <img src="~/images/pre-loader.gif" class="img-fluid" asp-append-version="true" width="100" alt="Alternate Text" />
+            </h1>
+        </div>
+    </div>
 
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
@@ -118,9 +127,6 @@
 	<script src="~/js/datatables.min.js" asp-append-version="true"></script>
 	<script src="~/js/common.js" asp-append-version="true"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
-	<script src="~/js/Vendor.js" asp-append-version="true"></script>
-	<script src="~/js/DashBoard.js" asp-append-version="true"></script>
-
 	<script>
 		var userRole;
 		if(@User.GetUserRole()==1)
@@ -136,6 +142,23 @@
                 location.href = '/Account/logout';
             })
         }
+		       //Loader timeout
+        var globalTimers = window.setTimeout(function () {
+            var timer;
+            $(document).ajaxStart(function () {
+                timer = setTimeout(function () { $('#preloader').show(); }, 1000);
+
+            }).ajaxStop(function () {
+                clearTimeout(timer);
+                $('#preloader').hide();
+            });
+        }, 0)
+
+        while (globalTimers--) {
+            clearTimeout(globalTimers);
+            $('#preloader').hide();
+        }
+        //Loader timeout end
 	</script>
 
 

@@ -1,4 +1,11 @@
 ﻿
+let vendor_count_by_date = '/Admin/GetVendorCountByDate',
+    get_total_vendor_count = '/Admin/GetAllVendors';
+$(document).ready(function () {
+    VendorCounts();
+    totalVendorCount();
+});
+
 window.addEventListener('DOMContentLoaded', event => {
     $('.navbar-toggler').dropdown();
     // Toggle the side navigation
@@ -16,7 +23,28 @@ window.addEventListener('DOMContentLoaded', event => {
     }
   
 });
-//function ShowModal() {
-//    debugger
-//    $('#exampleModalCenter').modal('show');
-//}
+//Total Vendor Count By Date
+function VendorCounts() {
+    $.get(vendor_count_by_date, function (response) {
+
+        if (response) {
+            var result = "";
+            $("#tableBody").empty();
+            result = "";
+            result = result + "<td>" + response.data.todayCount + "</td>";
+            result = result + "<td>" + response.data.yesterDayCount + "</td>";
+            result = result + "<td>" + response.data.last7DaysCount + "</td>";
+            result = result + "<td>" + response.data.last30DaysCount + "</td>";
+            result = result + "<td>" + response.data.last90DaysCount + "</td>";
+            $("#tableBody").append(result);
+        }
+    });
+}
+//Total Vendor Count
+function totalVendorCount() {
+    
+    $("#VendorCount").empty();
+    $.get(get_total_vendor_count, function (response) {
+        $("#VendorCount").append("<h5>" + response.data.length + "</h5>");
+    });
+}

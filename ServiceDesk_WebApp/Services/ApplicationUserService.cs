@@ -9,9 +9,19 @@ namespace ServiceDesk_WebApp.Services
     public class ApplicationUserService : IApplicationUserService
     {
         private readonly IRepository _applictionUserRepo;
-        public ApplicationUserService(IRepository applictionUserRepo)
+        private readonly string From;
+        private readonly string UserName;
+        private readonly string SenderPassword;
+        private readonly string Host;
+        private readonly int Port;
+        public ApplicationUserService(IRepository applictionUserRepo, IConfiguration configuration)
         {
             _applictionUserRepo = applictionUserRepo;
+            From = configuration.GetValue<string>("EmailSettings:From");
+            UserName = configuration.GetValue<string>("EmailSettings:UserName");
+            SenderPassword = configuration.GetValue<string>("EmailSettings:Password");
+            Host = configuration.GetValue<string>("EmailSettings:Host");
+            Port = configuration.GetValue<int>("EmailSettings:Port");
         }
         public async Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest)
         {
@@ -78,7 +88,7 @@ namespace ServiceDesk_WebApp.Services
                     Currency = vendorViewModel.Currency,
                 };
                 await _applictionUserRepo.AddAsync(vendorModel, createdBy);
-                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link);
+                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link,From,SenderPassword,Host,Port);
 
                 return new ServiceResult<User>(contextModel, "Vendor added!");
             }
@@ -93,7 +103,7 @@ namespace ServiceDesk_WebApp.Services
             try
             {
                 var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
-               // var applicationUsers = list.Select(x => new VendorViewModel
+                // var applicationUsers = list.Select(x => new VendorViewModel
                 //{
                 //     var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(y => y.UserId == x.Id);
                 //     Id = x.Id,
@@ -101,9 +111,9 @@ namespace ServiceDesk_WebApp.Services
                 //    Email = x.Email,
                 //    VendorNo=x.vend
                 //});
-                var applicationUsers=new List<VendorViewModel>();
+                var applicationUsers = new List<VendorViewModel>();
                 foreach (var user in list)
-				{
+                {
                     var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(y => y.UserId == user.Id);
                     applicationUsers.Add(new VendorViewModel
                     {
@@ -113,7 +123,7 @@ namespace ServiceDesk_WebApp.Services
                         VendorNo = UserDetail.VendorNo,
                         ResidencyStatus = UserDetail.ResidencyStatus
                     });
-				}
+                }
 
                 return new ServiceResult<IEnumerable<VendorViewModel>>(applicationUsers, "Vendor List!");
             }
@@ -197,6 +207,28 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
+
+        public async Task<ServiceResult<GetVendorCount>> GetVendorsCountByDate()
+        {
+            try
+            {
+                var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
+                GetVendorCount getVendorCount = new GetVendorCount();
+                getVendorCount.TodayCount= list.Where(x => Convert.ToDateTime(x.CreatedOn).Date == DateTime.Now.Date).Count();
+                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays ==1).Count();
+                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays <= 7).Count();
+                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays <= 30).Count();
+                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays <= 90).Count();
+
+                return new ServiceResult<GetVendorCount>(getVendorCount, "Vendor count!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<GetVendorCount>(ex, ex.Message);
+            }
+        }
+
+
 
     }
 }

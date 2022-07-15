@@ -5,12 +5,13 @@ namespace ServiceDesk_WebApp.Common
 {
     public static  class EmailHandler
     {
-        private const string senderEmail = "bhatmohsin312@gmail.com";
-        private const string senderPassword = "ppnicnotxqgjhlhn";
+        //private const string senderEmail = "bhatmohsin312@gmail.com";
+       // private const string senderPassword = "ppnicnotxqgjhlhn";
+     
 
-        public static async Task SendUserDetails( string password, string Email, string link)
+        public static async Task SendUserDetails( string password, string Email, string link,string From,string SenderPassword,string host,int port)
         {
-            MailMessage mail = new MailMessage(senderEmail, Email);
+            MailMessage mail = new MailMessage(From, Email);
             mail.Subject = "Your user details with ServiceDesk APP is specified below";
             StringBuilder sbBody = new StringBuilder();
             sbBody.Append("Your Account Details with ServiceDesk APP is mention below <br/><br/>");
@@ -25,9 +26,9 @@ namespace ServiceDesk_WebApp.Common
             mail.IsBodyHtml = true;
 
 
-            SmtpClient client = new SmtpClient("smtp.googlemail.com", 587);
+            SmtpClient client = new SmtpClient(host, port);
             client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
+            client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
             client.EnableSsl = true;
             await client.SendMailAsync(mail);
 

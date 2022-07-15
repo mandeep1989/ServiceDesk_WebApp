@@ -49,6 +49,7 @@ function openUserForm(id) {
     else {
         $(txt_id).val(0);
         $(txt_Password).parent('.Pgroup').show();
+        $(txt_email).prop('readonly', false);
         openSidebar();
         SportaForms.InitializeFormStyle(form_id);
     }

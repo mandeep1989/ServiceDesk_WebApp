@@ -12,5 +12,6 @@ namespace ServiceDesk_WebApp.Services.Interface
         Task<ServiceResult<VendorViewModel>> GetVendorById(int Id);
         Task<ServiceResult<bool>> UpdateVendor(VendorViewModel vendorViewModel, int modifiedBy);
         Task<ServiceResult<bool>> RemoveVendor(int Id, int modifiedBy);
+        Task<ServiceResult<GetVendorCount>> GetVendorsCountByDate();
     }
 }

@@ -4,6 +4,9 @@ let login_form_id = '#loginForm',
     txt_login_emailID = '#Email',
     txt_login_password = '#Password'
 
+$(document).ready(function () {
+    $('#preloader').hide();
+});
 // validating login user form blank checks
 function validateLoginUser() {
     SportaForms.ClearValidataionErrors(login_form_id);
@@ -38,6 +41,7 @@ function Login(data) {
         url: '/Account/Login',
         data: data,
         type: 'POST',
+        beforeSend: function () { $('#preloader').show(); },
         success: function (response) {
             debugger
             if (response.isSuccess) {
@@ -50,6 +54,7 @@ function Login(data) {
         error: function (xhr, error, errorMessage) {
             SportaUtil.MessageBoxDanger(errorMessage);
         },
+        complete: function () { $('#preloader').hide(); }
     });
 }
 
