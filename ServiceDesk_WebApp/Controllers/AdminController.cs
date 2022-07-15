@@ -16,35 +16,40 @@ namespace ServiceDesk_WebApp.Controllers
         {
             _applicationUserService = applicationUserService;
         }
-
+      //  [Authorize(Roles ="1")]
         public IActionResult AdminDashBoard()
         {
           return View();
          
         }
 
-    
+        [Authorize(Roles = "1,2")]
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
             string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "Home/Index");
             return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId(),link));
         }
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> GetAllVendors()
         {
             return GetResult(await _applicationUserService.GetAllVendors());
         }
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> GetVendorById(int id)
         {
             return GetResult(await _applicationUserService.GetVendorById(id));
         }
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> UpdateVendor(VendorViewModel vendorViewModel)
         {
             return GetResult(await _applicationUserService.UpdateVendor(vendorViewModel, User.GetUserId()));
         }
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> RemoveVendor(int Id)
         {
             return GetResult(await _applicationUserService.RemoveVendor(Id, User.GetUserId()));
         }
+        [Authorize(Roles = "1")]
         public IActionResult Vendor()
         {
             return View();

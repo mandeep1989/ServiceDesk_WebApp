@@ -20,11 +20,22 @@
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
 		<div class="border-end bg-white ml-0" id="sidebar-wrapper">
-			<div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i> SD-Admin</div>
+				@if (User.GetUserRole() == 1)
+			{
+				<div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i>  SD - Admin</div>
+			}
+			@if (User.GetUserRole() == 2)
+			{
+				<div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i>  SD - Vendor</div>
+			}
 			<div class="list-group list-group-flush">
-				<a asp-controller="Admin" asp-action="AdminDashBoard" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-				<a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
-				<a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
+				@if(User.GetUserRole()==1)
+				{
+					<a asp-controller="Admin" asp-action="AdminDashBoard" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+				    <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
+				    <a href="#!" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
+				}
+				
 			</div>
 
 		</div>
@@ -111,7 +122,15 @@
 	<script src="~/js/DashBoard.js" asp-append-version="true"></script>
 
 	<script>
-		var userRole='@User.GetUserRole()';
+		var userRole;
+		if(@User.GetUserRole()==1)
+		{
+			userRole='Admin';
+		}
+		else
+		{
+           userRole='Vendor';
+		}
 		 function logout() {
             SportaUtil.ConfirmDialogue("Are you sure to logout?", null, function () {
                 location.href = '/Account/logout';
