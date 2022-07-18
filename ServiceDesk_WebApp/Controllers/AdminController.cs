@@ -26,7 +26,7 @@ namespace ServiceDesk_WebApp.Controllers
         [Authorize(Roles = "1,2")]
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
-            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "/Home/Index");
+            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(),"");
             return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId(),link));
         }
         [Authorize(Roles = "1")]
