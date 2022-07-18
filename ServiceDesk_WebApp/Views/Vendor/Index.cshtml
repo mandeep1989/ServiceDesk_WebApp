@@ -7,7 +7,7 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-					  <button class="btn btn-outline-primary"> Payment Request </button>	
+					  <button class="btn btn-outline-primary"   data-toggle="modal" data-target="#payment_req_form"> Payment Request </button>	
 					</div>
 				</div>
 				
@@ -33,7 +33,8 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-					  <button class="btn btn-outline-primary"> Escalation Form</button>	
+					  <button class="btn btn-outline-primary" data-toggle="modal" data-target="#ecalation_form"> Escalation Form</button>	
+
 					</div>
 				</div>
 				
@@ -41,3 +42,377 @@
 		</div>
 	</div>
 </div>
+
+
+  <!-- The Modal 1 -->
+  <div class="modal fade back" data-backdrop="static" id="ecalation_form">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Escalation Matrix Form</h4>
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="ecalation" action="#">
+			  <div class="row">
+				  <div class="col-md-6">
+					  <h3>Company CEO </h3>
+					   <div class="row form_row">
+				       <div class="col-md-4"><label for="name">Name:</label> </div>
+					   <div class="col-md-8"> <input type="text" class="form-control" id="name"  name="name"></div>
+			           </div>
+					   <div class="row form_row">
+				       <div class="col-md-4"><label for="email">Email:</label> </div>
+					   <div class="col-md-8"> <input type="email" class="form-control" id="email"  name="email"></div>
+			           </div>
+					   <div class="row">
+				       <div class="col-md-4"><label for="mob">Phone:</label> </div>
+					   <div class="col-md-8"><input type="text" class="form-control" id="Phone"  name="Phone"> </div>
+			           </div>
+				  </div>
+			      <div class="col-md-6">
+					  <h3>Point of Contact </h3>
+					   <div class="row form_row">
+				       <div class="col-md-4"><label for="name">Name:</label> </div>
+					   <div class="col-md-8"> <input type="text" class="form-control" id="name"  name="name"></div>
+			           </div>
+					   <div class="row form_row">
+				       <div class="col-md-4"><label for="email">Email:</label> </div>
+					   <div class="col-md-8"> <input type="email" class="form-control" id="email"  name="email"></div>
+			           </div>
+					   <div class="row form_row">
+				       <div class="col-md-4"><label for="mob">Phone:</label> </div>
+					   <div class="col-md-8"><input type="text" class="form-control" id="Phone"  name="Phone"> </div>
+			           </div>
+				  </div>
+			</div>
+			
+		  </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+   <!-- The Modal -->
+  <div class="modal fade back" data-backdrop="static" id="payment_req_form">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+      
+        <!-- Modal Header
+        <div class="modal-header">
+          <h4 class="modal-title">Escalation Matrix Form</h4> -->
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> 
+        </div>-->
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="ecalation" action="#">
+			  <fieldset>
+  <legend>Please enter your request detaisl:</legend>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Conatct</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <select class="form-control" id="sel1">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+            </div>
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <h3>Conatct Tittle</h3>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" id="usr">
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">Start Date</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="date" class="form-control" id="usr">
+              </div>
+            </div>
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Department</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" placeholder="IT Services" id="usr">
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">End Date</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="date" class="form-control" id="usr" placeholder="30-01-2022">
+              </div>
+            </div>
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Classification</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" placeholder="software" id="usr">
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">Application Name</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" placeholder="NA" id="usr">
+              </div>
+            </div>
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Conatct Ref Type</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" placholder="6609/12" id="usr">
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">Project Name</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" placeholder="Digital Transformation" id="usr">
+              </div>
+            </div>
+        </div>
+  </div>
+
+<h3>Invoice Details</h3>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Invoice Number</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">Invoice Date</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="date" class="form-control" >
+              </div>
+            </div>
+        </div>
+  </div>
+    <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Invoice Amount </label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+            
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Details of Goods and Services provided </label>
+          </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                 <textarea class="form-control" rows="3" id="comment"></textarea>
+              </div>
+            </div>
+            
+        </div>
+  </div>
+     <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Orignal Invoice  </label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <i class="fa-solid fa-search"></i>
+                 <input type="text" class="form-control roubd-50" >
+              </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                 <input type="file" class="form-control" >
+              </div>
+            </div>
+            
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Service Confirmation</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <i class="fa-solid fa-search"></i>
+                 <input type="text" class="form-control roubd-50" >
+              </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                 <input type="file" class="form-control" >
+              </div>
+            </div>
+            
+        </div>
+  </div>
+  <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Copy of Signed assignment  and approval  </label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <i class="fa-solid fa-search"></i>
+                 <input type="text" class="form-control roubd-50" >
+              </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                 <input type="file" class="form-control" >
+              </div>
+            </div>
+            
+        </div>
+  </div>
+     <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="mode">Payment Mode</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                <select class="form-control" id="sel1">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+            </div>
+            
+        </div>
+  </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Bank Name</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">IBAN</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+        </div>
+  </div>
+    <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Account Name</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">Swift Code</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+        </div>
+  </div>
+    <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="email">Account Number</label>
+          </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+             <div class="col-md-2">
+            <label for="email">Branch</label>
+             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                 <input type="text" class="form-control" >
+              </div>
+            </div>
+        </div>
+  </div>
+
+ 
+ </fieldset>
+			
+		  </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>

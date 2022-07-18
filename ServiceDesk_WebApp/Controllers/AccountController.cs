@@ -73,11 +73,7 @@ namespace ServiceDesk_WebApp.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult ForgetPassWord(LoginRequest loginRequest)
-        {
-            return View();
-        }
+     
 
     }
 }

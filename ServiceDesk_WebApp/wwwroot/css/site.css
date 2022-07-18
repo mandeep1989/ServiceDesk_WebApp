@@ -12182,3 +12182,84 @@ main {
 .pt-8{
     padding-top:8%;
 }
+.ecalation .form_row{
+    margin-bottom: 10px;
+}
+div#ecalation_form {
+    padding-top: 4%;
+}
+.ecalation legend {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+    width: auto;
+}
+.ecalation .form-control.roubd-50 {
+    border-radius: 50px;
+    position: relative;
+    padding-left: 35px;
+}
+.ecalation  .form-group.icon-search {
+    position: relative;
+}
+.ecalation  i.fa-search {
+    position: absolute;
+    left: 23px;
+    top: 8px;
+    z-index: 9;
+}
+.ecalation legend {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+    width: auto;
+    margin-top: -24px;
+    background: #fff;
+    padding: 0 8px;
+}
+fieldset {
+    border: 2px solid #000;
+    padding: 9px 7px;
+}
+.ecalation .form-group {
+    margin-bottom: 5px;
+}
+.ecalation select.form-control {
+    height: 30px;
+    font-size: 14px;
+    line-height: 15px;
+
+}
+.modal.show .modal-dialog {
+    padding-left: 4%;
+}
+.ecalation input.form-control {
+    height: 30px;
+    font-size: 14px;
+}
+.ecalation h3 {
+   
+    font-size: 16px;
+    font-weight: 600;
+}
+#ecalation_form .modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 18px;
+}
+.ecalation .form-control[type=file]:after {
+    content: "Upload";
+    color: black;
+    position: absolute;
+    width: 150px;
+    height: 32px;
+    background: #fff;
+    top: 0;
+    left: 0;
+    text-align: center;
+    padding-top: 2px;
+}
+.form-control[type=file] {
+    overflow: hidden;
+    position: relative;
+}

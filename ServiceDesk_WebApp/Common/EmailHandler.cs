@@ -34,5 +34,28 @@ namespace ServiceDesk_WebApp.Common
 
         }
 
+        public static async Task PasswordRequestMail(string TicketId ,string Email, string From, string SenderPassword, string host, int port)
+        {
+            MailMessage mail = new MailMessage(From, Email);
+            mail.Subject = $" Request For Reset Password With ID -- { TicketId } Generated";
+            StringBuilder sbBody = new StringBuilder();
+            sbBody.Append("Your user Passowrd Change request with id { TicketId } has been sent to Admin <br/><br/>");
+            sbBody.Append("Your Password Will Be Generated Shortly <br/><br/>");
+
+            sbBody.Append("Best Regarding Admin ServiceDesk APP");
+
+            mail.Body = sbBody.ToString();
+            mail.IsBodyHtml = true;
+
+
+            SmtpClient client = new SmtpClient(host, port);
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
+            client.EnableSsl = true;
+            await client.SendMailAsync(mail);
+
+        }
+
+
     }
 }

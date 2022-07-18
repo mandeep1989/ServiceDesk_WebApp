@@ -17,11 +17,21 @@ namespace ServiceDesk_WebApp.Data
         {
         }
 
+        public virtual DbSet<ChangePasswordRequest> ChangePasswordRequests { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ChangePasswordRequest>(entity =>
+            {
+                entity.ToTable("ChangePasswordRequest");
+
+                entity.Property(e => e.CreatedOn).IsRequired();
+
+                entity.Property(e => e.ModifiedOn).IsRequired();
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");

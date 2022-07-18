@@ -88,7 +88,7 @@ namespace ServiceDesk_WebApp.Services
                     Currency = vendorViewModel.Currency,
                 };
                 await _applictionUserRepo.AddAsync(vendorModel, createdBy);
-                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link,From,SenderPassword,Host,Port);
+                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link, From, SenderPassword, Host, Port);
 
                 return new ServiceResult<User>(contextModel, "Vendor added!");
             }
@@ -214,11 +214,11 @@ namespace ServiceDesk_WebApp.Services
             {
                 var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
                 GetVendorCount getVendorCount = new GetVendorCount();
-                getVendorCount.TodayCount= list.Where(x => Convert.ToDateTime(x.CreatedOn).Date == DateTime.Now.Date).Count();
-                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays ==1).Count();
-                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays <= 7).Count();
-                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays <= 30).Count();
-                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date-Convert.ToDateTime(x.CreatedOn).Date ).TotalDays <= 90).Count();
+                getVendorCount.TodayCount = list.Where(x => Convert.ToDateTime(x.CreatedOn).Date == DateTime.Now.Date).Count();
+                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays == 1).Count();
+                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays <= 7).Count();
+                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays <= 30).Count();
+                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays <= 90).Count();
 
                 return new ServiceResult<GetVendorCount>(getVendorCount, "Vendor count!");
             }
@@ -227,8 +227,45 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<GetVendorCount>(ex, ex.Message);
             }
         }
+        public async Task<ServiceResult<bool>> ChangePasswordRequest(string Email)
+        {
+            try
+            {
+                var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email);
+            
+                if (User!=null)
+                {
+                    var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
+                    var contextModel = new ChangePasswordRequest
+                    {
+                        Id = GenerateId("PW-", count),
+                        UserId = User.Id,
+                        Email = User.Email,
+                        Status = 0,
+                        IsDeleted = 0
+                    };
+                    await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
+                    await EmailHandler.PasswordRequestMail(contextModel.Id, Email, From, SenderPassword, Host, Port);
+                    return new ServiceResult<bool>(true, "Password Rest Request Sent!",false);
+
+                }
+                else
+                {
+                    return new ServiceResult<bool>(false, "No Vendor With this Email Found!",true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<bool>(ex, ex.Message);
+            }
+
+        }
 
 
 
+        private string GenerateId(string prefix, long count)
+        {
+            return $"{prefix}{count + 1:D3}"; //For count 0 it will return the code as SP00001
+        }
     }
 }

@@ -13,5 +13,7 @@ namespace ServiceDesk_WebApp.Services.Interface
         Task<ServiceResult<bool>> UpdateVendor(VendorViewModel vendorViewModel, int modifiedBy);
         Task<ServiceResult<bool>> RemoveVendor(int Id, int modifiedBy);
         Task<ServiceResult<GetVendorCount>> GetVendorsCountByDate();
+        Task<ServiceResult<bool>> ChangePasswordRequest(string Email);
+
     }
 }

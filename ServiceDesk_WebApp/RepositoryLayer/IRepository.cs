@@ -49,7 +49,7 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         #region Extensions or Miscellaneous Methods
         Task<bool> IsExistsAsync<T>(Expression<Func<T, bool>> filter, bool includeDeleted = false) where T : class, IAudit;
 
-        Task<int> CountAsync<T>(Expression<Func<T, bool>> filter, bool includeDeleted = false) where T : class, IAudit;
+        Task<int> CountAsync<T>( bool includeDeleted = false) where T : class, IAudit;
 
         #endregion
     }

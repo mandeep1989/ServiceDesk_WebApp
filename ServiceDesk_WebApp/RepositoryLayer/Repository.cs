@@ -233,12 +233,12 @@ namespace ServiceDesk_WebApp.RepositoryLayer
                 return await _context.Set<T>().Where(x => x.IsDeleted==0).Where(filter).AnyAsync();
         }
 
-        public async Task<int> CountAsync<T>(Expression<Func<T, bool>> filter, bool includeDeleted = false) where T : class, IAudit
+        public async Task<int> CountAsync<T>( bool includeDeleted = false) where T : class, IAudit
         {
             if (includeDeleted)
-                return await _context.Set<T>().Where(filter).CountAsync();
+                return await _context.Set<T>().CountAsync();
             else
-                return await _context.Set<T>().Where(x => x.IsDeleted==0).Where(filter).CountAsync();
+                return await _context.Set<T>().Where(x => x.IsDeleted==0).CountAsync();
         }
 
         #endregion
