@@ -67,10 +67,6 @@ namespace ServiceDesk_WebApp.Controllers
         {
             return View();
         }
-        public async Task<JsonResult> ChangePasswordRequest(string Email)
-        {
-            return GetResult(await _applicationUserService.ChangePasswordRequest(Email));
-        }
         public async Task<JsonResult> PasswordRequestList()
         {
             return GetResult(await _applicationUserService.GetPasswordRequests());
