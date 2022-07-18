@@ -5,6 +5,7 @@
 
 $(document).ready(function () {
     $('#preloader').hide();
+    SportaForms.ResetForm(form_id);
 });
 // validating login user form blank checks
 function validateForgetPassword() {
@@ -22,7 +23,7 @@ function validateForgetPassword() {
 }
 
 
-// Login Submit
+// Forget Submit
 $(form_id).unbind().bind('submit', function (e) {
     SportaForms.InitializeFormStyle(form_id);
     e.preventDefault();
@@ -30,6 +31,8 @@ $(form_id).unbind().bind('submit', function (e) {
     var data = $(this).serialize();
     if (validateForgetPassword(form_id)) {
         ForgetPassword(data);
+        $(form_id)[0].reset()
+        SportaForms.ClearValidataionErrors(form_id);
     }
 })
 
@@ -43,6 +46,8 @@ function ForgetPassword(data) {
         success: function (response) {
             if (response.isSuccess) {
                 SportaUtil.MessageBoxSuccess(response.message);
+             
+                
             }
             else {
                 SportaUtil.MessageBoxDanger(response.message);

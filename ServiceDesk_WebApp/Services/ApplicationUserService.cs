@@ -231,28 +231,37 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email);
-
-                if (User != null)
+                var  checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x=>x.Status==1 && x.Email==Email);
+                if(checkEmail==null)
                 {
-                    var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
-                    var contextModel = new ChangePasswordRequest
-                    {
-                        Id = GenerateId("PW-", count),
-                        UserId = User.Id,
-                        Email = User.Email,
-                        Status = 0,
-                        IsDeleted = 0
-                    };
-                    await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
-                    await EmailHandler.PasswordRequestMail(contextModel.Id, Email, From, SenderPassword, Host, Port);
-                    return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
+                    var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email);
 
+                    if (User != null)
+                    {
+                        var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
+                        var contextModel = new ChangePasswordRequest
+                        {
+                            Id = GenerateId("PW-", count),
+                            UserId = User.Id,
+                            Email = User.Email,
+                            Status = 0,
+                            IsDeleted = 0
+                        };
+                        await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
+                        await EmailHandler.PasswordRequestMail(contextModel.Id, Email, From, SenderPassword, Host, Port);
+                        return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
+
+                    }
+                    else
+                    {
+                        return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
+                    }
                 }
                 else
                 {
-                    return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
+                    return new ServiceResult<bool>(false, "Reset Request Already sent!", true);
                 }
+           
             }
             catch (Exception ex)
             {
