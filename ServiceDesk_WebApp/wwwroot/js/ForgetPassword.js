@@ -1,5 +1,5 @@
 ﻿let form_id = "#forgetPassWordForm",
-    password_url = '/Admin/changePasswordRequest',
+    password_url = '/Admin/ChangePasswordRequest',
     txt_email = "#Email";
 
 
@@ -36,7 +36,7 @@ $(form_id).unbind().bind('submit', function (e) {
 // Login Function
 function ForgetPassword(data) {
     $.ajax({
-        url: '/Admin/ChangePasswordRequest',
+        url: password_url,
         data: data,
         type: 'POST',
         beforeSend: function () { $('#preloader').show(); },

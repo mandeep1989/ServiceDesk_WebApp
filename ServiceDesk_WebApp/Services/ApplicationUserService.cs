@@ -232,8 +232,8 @@ namespace ServiceDesk_WebApp.Services
             try
             {
                 var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email);
-            
-                if (User!=null)
+
+                if (User != null)
                 {
                     var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
                     var contextModel = new ChangePasswordRequest
@@ -246,12 +246,12 @@ namespace ServiceDesk_WebApp.Services
                     };
                     await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
                     await EmailHandler.PasswordRequestMail(contextModel.Id, Email, From, SenderPassword, Host, Port);
-                    return new ServiceResult<bool>(true, "Password Rest Request Sent!",false);
+                    return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
 
                 }
                 else
                 {
-                    return new ServiceResult<bool>(false, "No Vendor With this Email Found!",true);
+                    return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
                 }
             }
             catch (Exception ex)
@@ -259,6 +259,38 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<bool>(ex, ex.Message);
             }
 
+        }
+
+
+        public async Task<ServiceResult<IEnumerable<PasswordResetRequest>>> GetPasswordRequests()
+        {
+            try
+            {
+                var list = await _applictionUserRepo.GetAllAsync<ChangePasswordRequest>();
+                var passwordRequest = new List<PasswordResetRequest>();
+                foreach (var request in list)
+                {
+                    var UserDetail = await _applictionUserRepo.GetAsync<User>(y => y.Id == request.UserId);
+
+                    if (UserDetail != null)
+                    {
+                        passwordRequest.Add(new PasswordResetRequest
+                        {
+                            TicketId = request.Id,
+                            Name = UserDetail.Name,
+                            Email = UserDetail.Email,
+                            UserId = UserDetail.Id,
+                            Status = request.Status
+                        });
+                    }                    
+                }  
+
+                return new ServiceResult<IEnumerable<PasswordResetRequest>>(passwordRequest, "Request List!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<IEnumerable<PasswordResetRequest>>(ex, ex.Message);
+            }
         }
 
 

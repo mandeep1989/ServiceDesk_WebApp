@@ -14,6 +14,7 @@ namespace ServiceDesk_WebApp.Services.Interface
         Task<ServiceResult<bool>> RemoveVendor(int Id, int modifiedBy);
         Task<ServiceResult<GetVendorCount>> GetVendorsCountByDate();
         Task<ServiceResult<bool>> ChangePasswordRequest(string Email);
+        Task<ServiceResult<IEnumerable<PasswordResetRequest>>> GetPasswordRequests();
 
     }
 }
