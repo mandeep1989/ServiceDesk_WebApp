@@ -1,5 +1,15 @@
 ﻿let getAllRequestUrl = '/Admin/PasswordRequestList',
-    forget_pw_list = "#forget-pw-list";
+    forget_pw_list = "#forget-pw-list",
+    txt_email = "#email",
+    txt_ticketId = "#ticketId",
+    userId = "#userId",
+    txt_apiTicketId = "#apiTicketId",
+    password = "#password",
+    Password_change_form = "#Password_change_form",
+    Password_change_model = "#Password_change_model";
+    
+
+
 $(document).ready(function () {
     loadPasswordRequests();
 
@@ -18,13 +28,12 @@ function loadPasswordRequests() {
                     var value;
                     if (data.status == 0) {
                         bsClass = "text-warning"
-                        value="Initaited"
+                        value = "Initaited"
                     }
-                    else 
-                    {
-                        bsClass = "text-warning"
+                    else {
+                        bsClass = "text-success"
                         value = "Resolved"
-                    }                    
+                    }
                     return `<strong><span class='${bsClass}'>${value}</span></strong>`
                 }
             },
@@ -37,7 +46,54 @@ function loadPasswordRequests() {
 // Buttons Added to Grid
 function usersActionButtons(data, type, column) {
     var _buttons = '<div class="btn-group">'
-        + `<button class="btn btn-sm btn-outline-grey"   title="Edit" onclick="openUserForm('${data.id}')"><i class="fa-solid fa-key"></i></button>`
+        + `<button class="btn btn-sm btn-outline-grey"  ${data.status == '1' ? 'disabled' : ''} title="Edit" onclick="openPasswordForm('${data.userId}','${data.status}','${data.email}','${data.ticketId}','${data.apiTicketId}')"><i class="fa-solid fa-key"></i></button>`
         + `</div>`;
     return _buttons;
 }
+
+function openPasswordForm(Id, status, email, ticketId, apiTicketId) {
+    if (status == 0) {
+        SportaForms.ResetForm(Password_change_form);
+        $(userId).val(Id);
+        $(txt_email).val(email);
+        $(txt_ticketId).val(ticketId);
+        $(txt_apiTicketId).val(apiTicketId);
+        SportaForms.InitializeFormStyle(Password_change_form);
+        $(Password_change_model).modal("show");
+
+    } else {
+
+        SportaUtil.MessageBoxDanger("Already Resolved");
+    }
+}
+$(Password_change_form).unbind().bind('submit', function (e) {
+    var actionUrl = '/Admin/UpdatePassword';
+    e.preventDefault();
+    SportaForms.EnableLiveValidation(Password_change_form, validatePassword)
+    if (validatePassword()) {
+        $.ajax({
+            url: actionUrl,
+            data: $(this).serialize(),
+            type: 'POST',
+            success: function (response) {
+                if (response.isSuccess) {
+
+                    SportaUtil.MessageBoxSuccess(response.message);
+                    loadPasswordRequests();
+                }
+                else {
+                    SportaUtil.MessageBoxDanger(response.message);
+                }
+            }
+        });
+    }
+});
+
+function validatePassword() {
+    SportaForms.ClearValidataionErrors(Password_change_form);
+
+    var blankChecks = [password];
+    SportaForms.BlankInputChecks(blankChecks);
+    return SportaForms.FormValidationStatus(Password_change_form);
+}
+

@@ -1,8 +1,11 @@
-﻿using ServiceDesk_WebApp.Common;
+﻿using Newtonsoft.Json;
+using RestSharp;
+using ServiceDesk_WebApp.Common;
 using ServiceDesk_WebApp.Models;
 using ServiceDesk_WebApp.RepositoryLayer;
 using ServiceDesk_WebApp.Services.Interface;
 using ServiceDesk_WebApp.ViewModel;
+
 
 namespace ServiceDesk_WebApp.Services
 {
@@ -14,6 +17,7 @@ namespace ServiceDesk_WebApp.Services
         private readonly string SenderPassword;
         private readonly string Host;
         private readonly int Port;
+        private readonly string authToken;
         public ApplicationUserService(IRepository applictionUserRepo, IConfiguration configuration)
         {
             _applictionUserRepo = applictionUserRepo;
@@ -22,6 +26,7 @@ namespace ServiceDesk_WebApp.Services
             SenderPassword = configuration.GetValue<string>("EmailSettings:Password");
             Host = configuration.GetValue<string>("EmailSettings:Host");
             Port = configuration.GetValue<int>("EmailSettings:Port");
+            authToken = configuration.GetValue<string>("Authtoken");
         }
         public async Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest)
         {
@@ -231,13 +236,24 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var  checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x=>x.Status==1 && x.Email==Email);
-                if(checkEmail==null)
+                var checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Status == 0 && x.Email == Email);
+                if (checkEmail == null)
                 {
                     var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email);
 
-                    if (User != null)
+                if (User != null)
+                {
+                    
+                    var client = new RestClient(ApiUrl.RequestAddUrl);
+                    var request = new RestRequest { Method = Method.Post };
+                    request.AddHeader("Authtoken", $"{authToken}");
+                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Chnage Password11\",\"group\": {\"name\": \"network\"},\"requester\": {\"name\": \"" + User.Name + " \" , \"email_id\":\""+Email + "\"},\"priority\": {\"name\": \"High\"}}}");
+                    var response = client.ExecuteAsync(request).Result;
+                    if (response.StatusCode == System.Net.HttpStatusCode.Created)
                     {
+                        dynamic apiResponse = JsonConvert.DeserializeObject<object>(response.Content);
+                        string id = apiResponse["request"]["id"];
+                         id.Split('{', '}');
                         var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
                         var contextModel = new ChangePasswordRequest
                         {
@@ -245,23 +261,29 @@ namespace ServiceDesk_WebApp.Services
                             UserId = User.Id,
                             Email = User.Email,
                             Status = 0,
-                            IsDeleted = 0
+                            IsDeleted = 0,
+                            ApiTicketId = id
                         };
                         await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
                         await EmailHandler.PasswordRequestMail(contextModel.Id, Email, From, SenderPassword, Host, Port);
                         return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
-
                     }
                     else
                     {
-                        return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
+                        return new ServiceResult<bool>(false, "There Some Issue With Service Desk Plus");
                     }
+                    
+                }
+                else
+                {
+                    return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
+                }
                 }
                 else
                 {
                     return new ServiceResult<bool>(false, "Reset Request Already sent!", true);
                 }
-           
+
             }
             catch (Exception ex)
             {
@@ -275,7 +297,7 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var list = await _applictionUserRepo.GetAllAsync<ChangePasswordRequest>();
+                var list = (await _applictionUserRepo.GetAllAsync<ChangePasswordRequest>()).OrderBy(x=>x.Status);
                 var passwordRequest = new List<PasswordResetRequest>();
                 foreach (var request in list)
                 {
@@ -289,10 +311,12 @@ namespace ServiceDesk_WebApp.Services
                             Name = UserDetail.Name,
                             Email = UserDetail.Email,
                             UserId = UserDetail.Id,
-                            Status = request.Status
+                            Status = request.Status,
+                            ApiTicketId=request.ApiTicketId
+
                         });
-                    }                    
-                }  
+                    }
+                }
 
                 return new ServiceResult<IEnumerable<PasswordResetRequest>>(passwordRequest, "Request List!");
             }
@@ -300,6 +324,32 @@ namespace ServiceDesk_WebApp.Services
             {
                 return new ServiceResult<IEnumerable<PasswordResetRequest>>(ex, ex.Message);
             }
+        }
+
+        public async Task<ServiceResult<bool>> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel, int modifiedBy,string link)
+        {
+            try
+            {
+                var User = await _applictionUserRepo.GetAsync<User>(x => x.Id == changePasswordRequestModel.UserId);
+                if (User != null)
+                {
+
+                    User.Password = changePasswordRequestModel.Password;
+                    await _applictionUserRepo.UpdateAsync(User, modifiedBy);
+                    var details = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Id== changePasswordRequestModel.TicketId);
+                    details.Status = 1;
+                    await _applictionUserRepo.UpdateAsync(details, modifiedBy);
+                    await EmailHandler.PasswordResolveMail(changePasswordRequestModel.Password, changePasswordRequestModel.TicketId, changePasswordRequestModel.ApiTicketId, details.Email, From, SenderPassword, Host, Port,link);
+                    return new ServiceResult<bool>(null, "Password updated!");
+                }
+
+                return new ServiceResult<bool>(false, "Email Disabled!", true);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<bool>(ex, ex.Message);
+            }
+
         }
 
 

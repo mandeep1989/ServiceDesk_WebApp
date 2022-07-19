@@ -14,5 +14,6 @@ namespace ServiceDesk_WebApp.Models
         public long ModifiedBy { get; set; }
         public long IsDeleted { get; set; }
         public long? Status { get; set; }
+        public string ApiTicketId { get; set; }
     }
 }

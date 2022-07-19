@@ -26,7 +26,7 @@ namespace ServiceDesk_WebApp.Controllers
         [Authorize(Roles = "1,2")]
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
-            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(),"");
+            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(),"/");
             return GetResult(await _applicationUserService.AddVendor(vendorViewModel, User.GetUserId(),link));
         }
         [Authorize(Roles = "1")]
@@ -71,6 +71,10 @@ namespace ServiceDesk_WebApp.Controllers
         {
             return GetResult(await _applicationUserService.GetPasswordRequests());
         }
-
+        public async Task<JsonResult> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel)
+        {
+            string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "/");
+            return GetResult(await _applicationUserService.UpdatePassword(changePasswordRequestModel,User.GetUserId(),link));
+        }
     }
 }
