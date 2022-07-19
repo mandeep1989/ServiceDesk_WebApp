@@ -247,7 +247,7 @@ namespace ServiceDesk_WebApp.Services
                     var client = new RestClient(ApiUrl.RequestAddUrl);
                     var request = new RestRequest { Method = Method.Post };
                     request.AddHeader("Authtoken", $"{authToken}");
-                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Chnage Password11\",\"group\": {\"name\": \"network\"},\"requester\": {\"name\": \"" + User.Name + " \" , \"email_id\":\""+Email + "\"},\"priority\": {\"name\": \"High\"}}}");
+                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Change Password request\",\"group\": {\"name\": \"network\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": {\"name\": \"" + User.Name + " \" , \"email_id\":\""+Email + "\"},\"priority\": {\"name\": \"High\"}}}");
                     var response = client.ExecuteAsync(request).Result;
                     if (response.StatusCode == System.Net.HttpStatusCode.Created)
                     {
