@@ -19,7 +19,7 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         #region GET Methods
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class,IAudit
         {
-            return await _context.Set<T>().AsNoTracking().ToListAsync();
+            return await _context.Set<T>().AsNoTracking().Where(x => x.IsDeleted == 0).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> filters) where T : class, IAudit

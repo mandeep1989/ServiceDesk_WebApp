@@ -1,4 +1,5 @@
 ﻿let getAllRequestUrl = '/Admin/PasswordRequestList',
+    deleteRequestUrl='/Admin/RemoveRequest' ,
     forget_pw_list = "#forget-pw-list",
     txt_email = "#email",
     txt_ticketId = "#ticketId",
@@ -22,6 +23,7 @@ function loadPasswordRequests() {
         var tableColumns = [
             { data: "name" },
             { data: "email" },
+            { data: "apiTicketId" },
             {
                 data: null, render: function (data) {
                     var bsClass;
@@ -47,6 +49,7 @@ function loadPasswordRequests() {
 function usersActionButtons(data, type, column) {
     var _buttons = '<div class="btn-group">'
         + `<button class="btn btn-sm btn-outline-grey"  ${data.status == '1' ? 'disabled' : ''} title="Edit" onclick="openPasswordForm('${data.userId}','${data.status}','${data.email}','${data.ticketId}','${data.apiTicketId}')"><i class="fa-solid fa-key"></i></button>`
+        + `<button class="btn btn-sm btn-outline-grey"  title="Delete" onclick="deleteRequest('${data.ticketId}','${data.apiTicketId}')"><i class="far fa-trash-alt"></i></button>`
         + `</div>`;
     return _buttons;
 }
@@ -95,5 +98,19 @@ function validatePassword() {
     var blankChecks = [password];
     SportaForms.BlankInputChecks(blankChecks);
     return SportaForms.FormValidationStatus(Password_change_form);
+}
+
+function deleteRequest(ticketId, apiTicketId) {
+    SportaUtil.ConfirmDialogue(`Are you sure  to delete Ticket : ${apiTicketId}?`, null, function () {
+
+        $.get(deleteRequestUrl, { 'Id': ticketId }, function (response) {
+            if (response.isSuccess)
+                SportaUtil.MessageBoxSuccess(response.message);
+            else
+                SportaUtil.MessageBoxDanger(response.message);
+
+            loadPasswordRequests();
+        })
+    })
 }
 

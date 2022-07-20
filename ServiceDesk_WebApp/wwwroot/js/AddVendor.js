@@ -133,7 +133,6 @@ function usersActionButtons(data, type, column) {
     return _buttons;
 }
 function deleteVendor(id, vendorName) {
-    debugger
     SportaUtil.ConfirmDialogue(`Are you sure  to delete ${vendorName}?`, null, function () {
     
         $.get(deleteVendorUrl, { 'Id': id}, function (response) {

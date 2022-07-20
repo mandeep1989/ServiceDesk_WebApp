@@ -236,10 +236,10 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Status == 0 && x.Email == Email);
+                var checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Status == 0 && x.Email == Email );
                 if (checkEmail == null)
                 {
-                    var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email);
+                    var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email && x.UserRole==2);
 
                 if (User != null)
                 {
@@ -270,7 +270,7 @@ namespace ServiceDesk_WebApp.Services
                     }
                     else
                     {
-                        return new ServiceResult<bool>(false, "There Some Issue With Service Desk Plus");
+                        return new ServiceResult<bool>(false, "There is Some Issue With Service Desk Plus",true);
                     }
                     
                 }
@@ -351,7 +351,22 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
+        public async Task<ServiceResult<bool>> RemoveRequest(string Id, int modifiedBy)
+        {
+            try
+            {
+                var Request = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Id == Id);
+                Request.Status = 1;
+                await _applictionUserRepo.UpdateAsync(Request, modifiedBy);
+                await _applictionUserRepo.RemoveAsync(Request, modifiedBy);
+                return new ServiceResult<bool>(true, "Ticket deleted Successfully!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<bool>(ex, ex.Message);
+            }
 
+        }
 
 
         private string GenerateId(string prefix, long count)

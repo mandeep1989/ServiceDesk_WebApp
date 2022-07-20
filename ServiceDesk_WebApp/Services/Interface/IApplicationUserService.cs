@@ -16,6 +16,7 @@ namespace ServiceDesk_WebApp.Services.Interface
         Task<ServiceResult<bool>> ChangePasswordRequest(string Email);
         Task<ServiceResult<IEnumerable<PasswordResetRequest>>> GetPasswordRequests();
         Task<ServiceResult<bool>> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel, int modifiedBy, string link);
+        Task<ServiceResult<bool>> RemoveRequest(string Id, int modifiedBy);
 
     }
 }

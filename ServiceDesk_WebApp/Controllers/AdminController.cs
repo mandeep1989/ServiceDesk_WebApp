@@ -76,5 +76,9 @@ namespace ServiceDesk_WebApp.Controllers
             string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "/");
             return GetResult(await _applicationUserService.UpdatePassword(changePasswordRequestModel,User.GetUserId(),link));
         }
+        public async Task<JsonResult> RemoveRequest(string Id)
+        {
+            return GetResult(await _applicationUserService.RemoveRequest(Id, User.GetUserId()));
+        }
     }
 }
