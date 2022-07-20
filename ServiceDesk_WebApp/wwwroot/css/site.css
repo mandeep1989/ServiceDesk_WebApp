@@ -12263,3 +12263,10 @@ fieldset {
     overflow: hidden;
     position: relative;
 }
+.ecalation input.form-control{
+    width:auto
+}
+.ecalation .invalid-input-feedback.mt-1.ml-4 {
+    text-align: center;
+    font-size: 12px;
+}

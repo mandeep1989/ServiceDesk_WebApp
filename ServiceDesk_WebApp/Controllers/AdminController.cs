@@ -16,14 +16,14 @@ namespace ServiceDesk_WebApp.Controllers
         {
             _applicationUserService = applicationUserService;
         }
-      //  [Authorize(Roles ="1")]
+        [Authorize(Roles ="1")]
         public IActionResult AdminDashBoard()
         {
           return View();
          
         }
 
-        [Authorize(Roles = "1,2")]
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
         {
             string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(),"/");
@@ -67,6 +67,7 @@ namespace ServiceDesk_WebApp.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> PasswordRequestList()
         {
             return GetResult(await _applicationUserService.GetPasswordRequests());
@@ -76,6 +77,7 @@ namespace ServiceDesk_WebApp.Controllers
             string link = Request.GetEncodedUrl().Replace(Request.Path.ToUriComponent(), "/");
             return GetResult(await _applicationUserService.UpdatePassword(changePasswordRequestModel,User.GetUserId(),link));
         }
+        [Authorize(Roles = "1")]
         public async Task<JsonResult> RemoveRequest(string Id)
         {
             return GetResult(await _applicationUserService.RemoveRequest(Id, User.GetUserId()));

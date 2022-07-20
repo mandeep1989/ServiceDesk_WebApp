@@ -40,13 +40,13 @@ namespace ServiceDesk_WebApp.Controllers
                 if (data.UserRole == (int)UserRole.Admin)
                 {
 
-                    return Json(new { isSuccess = true, url = "Admin/AdminDashBoard", message = loginResponse.Message });
+                    return Json(new { isSuccess = true, url = "/Admin/AdminDashBoard", message = loginResponse.Message });
                 }
 
                 else if (data.UserRole == (int)UserRole.Vendor)
                 {
 
-                    return Json(new { isSuccess = true, url = "Vendor/Index", message = loginResponse.Message });
+                    return Json(new { isSuccess = true, url = "/Vendor/Index", message = loginResponse.Message });
                 }
                 return Json(new { isSuccess = false, message = loginResponse.Message });
 

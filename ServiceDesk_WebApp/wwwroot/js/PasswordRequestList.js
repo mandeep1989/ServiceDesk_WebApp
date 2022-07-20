@@ -80,7 +80,7 @@ $(Password_change_form).unbind().bind('submit', function (e) {
             type: 'POST',
             success: function (response) {
                 if (response.isSuccess) {
-
+                    $(Password_change_model).modal("hide");
                     SportaUtil.MessageBoxSuccess(response.message);
                     loadPasswordRequests();
                 }

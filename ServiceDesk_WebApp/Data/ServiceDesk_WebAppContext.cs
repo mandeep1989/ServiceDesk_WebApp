@@ -18,6 +18,7 @@ namespace ServiceDesk_WebApp.Data
         }
 
         public virtual DbSet<ChangePasswordRequest> ChangePasswordRequests { get; set; }
+        public virtual DbSet<EscalationMatrix> EscalationMatrices { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
 
@@ -26,6 +27,27 @@ namespace ServiceDesk_WebApp.Data
             modelBuilder.Entity<ChangePasswordRequest>(entity =>
             {
                 entity.ToTable("ChangePasswordRequest");
+
+                entity.Property(e => e.CreatedOn).IsRequired();
+
+                entity.Property(e => e.ModifiedOn).IsRequired();
+            });
+
+            modelBuilder.Entity<EscalationMatrix>(entity =>
+            {
+                entity.ToTable("EscalationMatrix");
+
+                entity.Property(e => e.CompanyEmail).IsRequired();
+
+                entity.Property(e => e.CompanyName).IsRequired();
+
+                entity.Property(e => e.CompanyPhone).IsRequired();
+
+                entity.Property(e => e.ContactEmail).IsRequired();
+
+                entity.Property(e => e.ContactName).IsRequired();
+
+                entity.Property(e => e.ContactPhone).IsRequired();
 
                 entity.Property(e => e.CreatedOn).IsRequired();
 

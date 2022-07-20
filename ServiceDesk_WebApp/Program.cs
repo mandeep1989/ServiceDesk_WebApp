@@ -5,6 +5,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Mail
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ServiceDesk_WebAppContext>(opt => opt.UseSqlite("Name=ServiceDeskDB"));
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
+builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped(typeof(IRepository), typeof(Repository));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
