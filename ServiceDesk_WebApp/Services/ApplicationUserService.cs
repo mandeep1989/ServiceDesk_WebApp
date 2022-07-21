@@ -107,6 +107,8 @@ namespace ServiceDesk_WebApp.Services
                     UserId = 1,
                     Time = DateTime.Now.Date.ToString("dd,MM,yyyy")
             };
+                LogService log = new LogService();
+                log.AddLogError(ex.Message + " " + ex.Message);
 
                 await _context.AddAsync(errorLog);
                 await _context.SaveChangesAsync();

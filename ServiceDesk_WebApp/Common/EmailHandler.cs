@@ -20,24 +20,53 @@ namespace ServiceDesk_WebApp.Common
 
             mail.Body = sbBody.ToString();
             mail.IsBodyHtml = true;
+            //SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp    
+            //System.Net.NetworkCredential basicCredential1 = new
+            //System.Net.NetworkCredential(From, SenderPassword);
+            //client.EnableSsl = true;
+            //client.UseDefaultCredentials = false;
+            //client.Credentials = basicCredential1;
+            //    client.Send(mail);
 
+
+            //var smtp = new SmtpClient
+            //{
+            //    Host = host,
+            //    Port = port,
+            //    EnableSsl = false,
+            //    UseDefaultCredentials = true,
+            //    DeliveryMethod = SmtpDeliveryMethod.Network,
+            //    Credentials = new NetworkCredential(From, SenderPassword),
+            //    Timeout = 20000
+            //};
 
             var smtp = new SmtpClient
             {
-                Host = host,
-                Port = port,
-                EnableSsl = false,
-                UseDefaultCredentials = true,
+                Host = "smtp.gmail.com",
+                Port = 587,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true,
+                UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(From, SenderPassword),
                 Timeout = 20000
             };
+            try
+            {
+                await smtp.SendMailAsync(mail);
+            }
+            catch (Exception ex)
 
-            await smtp.SendMailAsync(mail);
+            {
+                LogService log=new LogService();
+                log.AddLogError(ex.Message + " " + ex.Message);
+                
+            }
+
+
 
         }
 
-        public static async Task PasswordRequestMail(string TicketId , string ApiTicketId,string Email, string From, string SenderPassword, string host, int port)
+            public static async Task PasswordRequestMail(string TicketId , string ApiTicketId,string Email, string From, string SenderPassword, string host, int port)
         {
             MailMessage mail = new MailMessage(From, Email);
             mail.Subject = $" Request For Reset Password With App ID -- { TicketId  } and Service Desk Id --{ApiTicketId} Generated";
