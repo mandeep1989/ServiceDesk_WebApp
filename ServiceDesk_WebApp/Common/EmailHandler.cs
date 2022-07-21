@@ -28,26 +28,14 @@ namespace ServiceDesk_WebApp.Common
             //client.Credentials = basicCredential1;
             //    client.Send(mail);
 
-
-            //var smtp = new SmtpClient
-            //{
-            //    Host = host,
-            //    Port = port,
-            //    EnableSsl = false,
-            //    UseDefaultCredentials = true,
-            //    DeliveryMethod = SmtpDeliveryMethod.Network,
-            //    Credentials = new NetworkCredential(From, SenderPassword),
-            //    Timeout = 20000
-            //};
-
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true,
-                UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(From, SenderPassword),
+                UseDefaultCredentials = false,
                 Timeout = 20000
             };
             try
