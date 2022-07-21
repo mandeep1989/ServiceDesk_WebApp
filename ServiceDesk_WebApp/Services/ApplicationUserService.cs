@@ -5,7 +5,7 @@ using ServiceDesk_WebApp.Models;
 using ServiceDesk_WebApp.RepositoryLayer;
 using ServiceDesk_WebApp.Services.Interface;
 using ServiceDesk_WebApp.ViewModel;
-
+using System.Globalization;
 
 namespace ServiceDesk_WebApp.Services
 {
@@ -18,7 +18,8 @@ namespace ServiceDesk_WebApp.Services
         private readonly string Host;
         private readonly int Port;
         private readonly string authToken;
-        public ApplicationUserService(IRepository applictionUserRepo, IConfiguration configuration)
+        private readonly ServiceDesk_WebAppContext _context;
+        public ApplicationUserService(IRepository applictionUserRepo, IConfiguration configuration, ServiceDesk_WebAppContext context)
         {
             _applictionUserRepo = applictionUserRepo;
             From = configuration.GetValue<string>("EmailSettings:From");
@@ -27,6 +28,7 @@ namespace ServiceDesk_WebApp.Services
             Host = configuration.GetValue<string>("EmailSettings:Host");
             Port = configuration.GetValue<int>("EmailSettings:Port");
             authToken = configuration.GetValue<string>("Authtoken");
+            _context = context;
         }
         public async Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest)
         {
@@ -99,6 +101,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy")
+            };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<User>(ex, ex.Message);
             }
         }
@@ -186,7 +197,7 @@ namespace ServiceDesk_WebApp.Services
 
                     return new ServiceResult<bool>(await _applictionUserRepo.UpdateAsync(UserDetail, modifiedBy) != null, "Vendor updated!");
                 }
-
+                
                 return new ServiceResult<bool>(false, "No record found!", true);
             }
             catch (Exception ex)
@@ -204,6 +215,7 @@ namespace ServiceDesk_WebApp.Services
                 await _applictionUserRepo.RemoveAsync(User, modifiedBy);
                 var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(x => x.UserId == Id);
                 await _applictionUserRepo.RemoveAsync(UserDetail, modifiedBy);
+               
                 return new ServiceResult<bool>(true, "Vendor deleted Successfully!");
             }
             catch (Exception ex)
@@ -219,16 +231,25 @@ namespace ServiceDesk_WebApp.Services
             {
                 var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
                 GetVendorCount getVendorCount = new GetVendorCount();
-                getVendorCount.TodayCount = list.Where(x => Convert.ToDateTime(x.CreatedOn).Date == DateTime.Now.Date).Count();
-                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays == 1).Count();
-                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays <= 7).Count();
-                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays <= 30).Count();
-                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - Convert.ToDateTime(x.CreatedOn).Date).TotalDays <= 90).Count();
+                getVendorCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn,"dd,MM,yyyy",null).Date == DateTime.Now.Date).Count();
+                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays == 1).Count();
+                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 7).Count();
+                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 30).Count();
+                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 90).Count();
 
                 return new ServiceResult<GetVendorCount>(getVendorCount, "Vendor count!");
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<GetVendorCount>(ex, ex.Message);
             }
         }
@@ -367,7 +388,27 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
+        public async Task<ServiceResult<long>> CreateErrorLog(ErrorRequest errorRequest)
+        {
+            try
+            {
+                LogError errorLog = new()
+                {
+                    Information = errorRequest.Information,
+                    UserId = errorRequest.UserId,
+                    Time = DateTime.Now.ToString()
+                };
 
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
+
+                return new ServiceResult<long>(errorLog.Id, "Exception Logged");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<long>(ex, ex.Message);
+            }
+        }
 
         private string GenerateId(string prefix, long count)
         {

@@ -1,4 +1,6 @@
 
+using ServiceDesk_WebApp.Common;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("MailSettings"));
 // Add services to the container.
@@ -7,6 +9,7 @@ builder.Services.AddDbContext<ServiceDesk_WebAppContext>(opt => opt.UseSqlite("N
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped(typeof(IRepository), typeof(Repository));
+builder.Services.AddSingleton(typeof(Utils));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.LoginPath = "/Home/Index";
@@ -19,30 +22,38 @@ builder.Services.AddNotyf(config => { config.DurationInSeconds = 5; config.IsDis
 
 var app = builder.Build();
 
-app.Use(async (context, next) =>
+app.Use(async (ctx, next) =>
 {
     await next();
-    if (context.Response.StatusCode == 404)
+    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
     {
-        context.Request.Path = "/NotFound";
+        //Re-execute the request so the user gets the error page
+        var originalPath = ctx.Request.Path.Value;
+        ctx.Items["originalPath"] = originalPath;
+        ctx.Request.Path = "/Error/PageNotFound";
+        ctx.Response.Redirect(ctx.Request.Path);
         await next();
     }
 });
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Error/Exception");
+   // app.UseStatusCodePagesWithRedirects("/404");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseNotyf();
 app.UseAuthentication();
 app.UseAuthorization();
 

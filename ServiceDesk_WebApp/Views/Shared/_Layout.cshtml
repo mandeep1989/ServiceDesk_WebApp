@@ -1,4 +1,6 @@
 ﻿@using ServiceDesk_WebApp.Common
+@inject Utils util
+@*@inject IWebHostEnvironment env*@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,6 +143,9 @@
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script>
 		var userRole;
+		  var env='@util.GetEnvironment()';
+
+		var enve='';
 		if(@User.GetUserRole()==1)
 		{
 			userRole='Admin';
@@ -171,6 +176,13 @@
             $('#preloader').hide();
         }
         //Loader timeout end
+
+		 $(document).ajaxError(function( event, jqxhr, settings, thrownError ) {
+            if (env != 'Developmsent') {
+                $(document.body).html(jqxhr.responseText);
+            }
+        });
+
 	</script>
 
 

@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System.Net;
+using System.Net.Mail;
 using System.Text;
 
 namespace ServiceDesk_WebApp.Common
@@ -21,11 +22,18 @@ namespace ServiceDesk_WebApp.Common
             mail.IsBodyHtml = true;
 
 
-            SmtpClient client = new SmtpClient(host, port);
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
-            client.EnableSsl = true;
-            await client.SendMailAsync(mail);
+            var smtp = new SmtpClient
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = false,
+                UseDefaultCredentials = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(From, SenderPassword),
+                Timeout = 20000
+            };
+
+            await smtp.SendMailAsync(mail);
 
         }
 
@@ -43,11 +51,26 @@ namespace ServiceDesk_WebApp.Common
             mail.IsBodyHtml = true;
 
 
-            SmtpClient client = new SmtpClient(host, port);
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
-            client.EnableSsl = true;
-            await client.SendMailAsync(mail);
+            var smtp = new SmtpClient
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(From, SenderPassword),
+                Timeout = 20000
+            };
+
+
+
+
+
+            //SmtpClient client = new SmtpClient(host, port);
+            //client.UseDefaultCredentials = false;
+            //client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
+            //client.EnableSsl = true;
+            await smtp.SendMailAsync(mail);
 
         }
         public static async Task PasswordResolveMail(string password, string TicketId,string ApiTicketId, string Email, string From, string SenderPassword, string host, int port,string link)
@@ -63,11 +86,26 @@ namespace ServiceDesk_WebApp.Common
             sbBody.Append("Best Regarding Admin ServiceDesk APP");
             mail.Body = sbBody.ToString();
             mail.IsBodyHtml = true;
-            SmtpClient client = new SmtpClient(host, port);
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
-            client.EnableSsl = true;
-            await client.SendMailAsync(mail);
+            var smtp = new SmtpClient
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(From, SenderPassword),
+                Timeout = 20000
+            };
+
+
+
+
+
+            //SmtpClient client = new SmtpClient(host, port);
+            //client.UseDefaultCredentials = false;
+            //client.Credentials = new System.Net.NetworkCredential(From, SenderPassword);
+            //client.EnableSsl = true;
+            await smtp.SendMailAsync(mail);
 
         }
 

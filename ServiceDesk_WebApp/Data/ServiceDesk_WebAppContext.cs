@@ -19,6 +19,7 @@ namespace ServiceDesk_WebApp.Data
 
         public virtual DbSet<ChangePasswordRequest> ChangePasswordRequests { get; set; }
         public virtual DbSet<EscalationMatrix> EscalationMatrices { get; set; }
+        public virtual DbSet<LogError> LogErrors { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
 
@@ -52,6 +53,15 @@ namespace ServiceDesk_WebApp.Data
                 entity.Property(e => e.CreatedOn).IsRequired();
 
                 entity.Property(e => e.ModifiedOn).IsRequired();
+            });
+
+            modelBuilder.Entity<LogError>(entity =>
+            {
+                entity.ToTable("LogError");
+
+                entity.Property(e => e.Information).IsRequired();
+
+                entity.Property(e => e.Time).IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>

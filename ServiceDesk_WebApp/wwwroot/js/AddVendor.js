@@ -3,7 +3,7 @@ let form_id = "#vendor-form",
     create_url = '/Admin/AddVendor',
     get_url = '/Admin/GetVendorById',
     getAllVendorUrl = '/Admin/GetAllVendors',
-    deleteVendorUrl='/Admin/RemoveVendor',
+    deleteVendorUrl = '/Admin/RemoveVendor',
     update_url = "/Admin/UpdateVendor",
     application_vendor_list = '#application-vendor-list';
 
@@ -134,15 +134,18 @@ function usersActionButtons(data, type, column) {
 }
 function deleteVendor(id, vendorName) {
     SportaUtil.ConfirmDialogue(`Are you sure  to delete ${vendorName}?`, null, function () {
-    
-        $.get(deleteVendorUrl, { 'Id': id}, function (response) {
+
+        $.get(deleteVendorUrl, { 'Id': id }, function (response) {
             if (response.isSuccess)
                 SportaUtil.MessageBoxSuccess(response.message);
             else
                 SportaUtil.MessageBoxDanger(response.message);
 
             loadApplicationVendors();
-        })
+        }).fail(function (xhr, error, errorMessage) {
+            debugger
+            SportaUtil.MessageBoxDanger(xhr.responseText.split('Path:')[0]);
+        });
     })
 }
 

@@ -137,9 +137,9 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         public async Task<T> AddAsync<T>(T entity, int createdBy) where T : class, IAudit
         {
             entity.CreatedBy = createdBy;
-            entity.CreatedOn = DateTime.Now.ToString();
+            entity.CreatedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
             entity.ModifiedBy = createdBy;
-            entity.ModifiedOn = DateTime.Now.ToString();
+            entity.ModifiedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
 
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -170,7 +170,7 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         public async Task<T> UpdateAsync<T>(T entity, int updatedBy) where T : class, IAudit
         {
             entity.ModifiedBy = updatedBy;
-            entity.ModifiedOn = DateTime.Now.ToString();
+            entity.ModifiedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
 
             _context.Update(entity);
             await _context.SaveChangesAsync();
@@ -199,7 +199,7 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         {
             entity.IsDeleted = 1;
             entity.ModifiedBy = updatedBy;
-            entity.ModifiedOn = DateTime.Now.ToString();
+            entity.ModifiedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
 
             _context.Update(entity);
             return await _context.SaveChangesAsync() > 0;

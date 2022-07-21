@@ -1,6 +1,7 @@
 ﻿
 let vendor_count_by_date = '/Admin/GetVendorCountByDate',
     get_total_vendor_count = '/Admin/GetAllVendors';
+
 $(document).ready(function () {
     VendorCounts();
     totalVendorCount();
