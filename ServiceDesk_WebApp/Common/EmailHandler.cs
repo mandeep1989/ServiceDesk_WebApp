@@ -23,7 +23,6 @@ namespace ServiceDesk_WebApp.Common
             sbBody.Append("This password is insecure please change your password when ever you login <br/><br/>");
             sbBody.Append($"Click on the following link to login with <a href='{link}'  >ServiceDesk </a> <br/><br/>");
             sbBody.Append("Best Regarding Admin ServiceDesk APP");
-
             //  mail.Body = sbBody.ToString();
             //   mail.IsBodyHtml = true;
             //SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp    
@@ -44,45 +43,33 @@ namespace ServiceDesk_WebApp.Common
             //    UseDefaultCredentials = false,
             //    Timeout = 20000
             //};
-
-
-            //using (var client = new MailKit.Net.Smtp.SmtpClient())
-            //{
-            //    try
-            //    {
-            //        await client.ConnectAsync("smtp.gmail.com", 465, true);
-            //        client.AuthenticationMechanisms.Remove("XOAUTH2");
-            //        await client.AuthenticateAsync("dtx.softprodigy@gmail.com", "pnylgqlgauhqoaso");
-            //        await client.SendAsync((MimeKit.MimeMessage)mail);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw;
-            //    }
-            //    finally
-            //    {
-            //        await client.DisconnectAsync(true);
-            //        client.Dispose();
-            //    }
-            //}
-
-
-
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse(From));
             email.To.Add(MailboxAddress.Parse(Email));
-            email.Subject = "Hi";
+            email.Subject = "Account Details";
             email.Body = new TextPart(TextFormat.Html) { Text = sbBody.ToString() };
-
-
             // send email
-            using var smtp = new MailKit.Net.Smtp.SmtpClient();
-            smtp.Connect(host, port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(From, SenderPassword);
-            smtp.Send(email);
-            smtp.Disconnect(true);
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                try
+                {
+                    client.Connect(host, port,SecureSocketOptions.StartTls);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    await client.AuthenticateAsync(From, SenderPassword);
+                    await client.SendAsync((MimeKit.MimeMessage)email);
+                }
+                catch (Exception ex)
+                {
 
+                    throw;
+                }
+                finally
+                {
+                    await client.DisconnectAsync(true);
+                    client.Dispose();
+                }
 
+            }
             //try
             //{
             //    await smtp.SendMailAsync(mail);
@@ -124,25 +111,6 @@ namespace ServiceDesk_WebApp.Common
             //        ex2 = ex2.InnerException;
             //    }
             //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
             public static async Task PasswordRequestMail(string TicketId , string ApiTicketId,string Email, string From, string SenderPassword, string host, int port)
