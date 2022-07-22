@@ -17,6 +17,7 @@ namespace ServiceDesk_WebApp.Services
         private readonly string SenderPassword;
         private readonly string Host;
         private readonly int Port;
+        private readonly bool SSlEnable;
         private readonly string authToken;
         private readonly ServiceDesk_WebAppContext _context;
         public ApplicationUserService(IRepository applictionUserRepo, IConfiguration configuration, ServiceDesk_WebAppContext context)
@@ -27,6 +28,7 @@ namespace ServiceDesk_WebApp.Services
             SenderPassword = configuration.GetValue<string>("EmailSettings:Password");
             Host = configuration.GetValue<string>("EmailSettings:Host");
             Port = configuration.GetValue<int>("EmailSettings:Port");
+            SSlEnable = configuration.GetValue<bool>("EmailSettings:SSlEnable");
             authToken = configuration.GetValue<string>("Authtoken");
             _context = context;
         }
@@ -95,7 +97,7 @@ namespace ServiceDesk_WebApp.Services
                     Currency = vendorViewModel.Currency,
                 };
                 await _applictionUserRepo.AddAsync(vendorModel, createdBy);
-                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link, From, SenderPassword, Host, Port);
+                await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link, From, SenderPassword, Host, Port, SSlEnable);
 
                 return new ServiceResult<User>(contextModel, "Vendor added!");
             }
