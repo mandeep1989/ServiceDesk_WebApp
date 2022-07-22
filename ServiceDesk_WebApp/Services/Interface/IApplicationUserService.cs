@@ -17,7 +17,7 @@ namespace ServiceDesk_WebApp.Services.Interface
         Task<ServiceResult<IEnumerable<PasswordResetRequest>>> GetPasswordRequests();
         Task<ServiceResult<bool>> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel, int modifiedBy, string link);
         Task<ServiceResult<bool>> RemoveRequest(string Id, int modifiedBy);
-        Task<ServiceResult<long>> CreateErrorLog(ErrorRequest errorRequest);
+        Task<ServiceResult<string>> CreateErrorLog(ErrorRequest errorRequest);
 
     }
 }

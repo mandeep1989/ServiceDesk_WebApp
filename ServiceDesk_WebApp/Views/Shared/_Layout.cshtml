@@ -42,10 +42,10 @@
 
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
-		<div class="border-end bg-white ml-0" id="sidebar-wrapper">
+		<div class="border-end bg-white ml-0 text-center" id="sidebar-wrapper">
 				@if (User.GetUserRole() == 1)
 			{
-				<div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i>  SD - Admin</div>
+				<div class="sidebar-heading border-bottom border-warning text-white"><i class="fa-solid fa-user-large rotate_335"></i><span class="admin-tittle">  SD - Admin</span></div>
 			}
 			@if (User.GetUserRole() == 2)
 			{
@@ -61,6 +61,8 @@
 				}
 				
 			</div>
+
+			<button class="btn btn-primary" id="sidebarToggle"><i class="fa fa-chevron-left text-white"></i> </button>
 
 		</div>
 

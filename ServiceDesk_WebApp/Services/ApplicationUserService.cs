@@ -392,7 +392,7 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
-        public async Task<ServiceResult<long>> CreateErrorLog(ErrorRequest errorRequest)
+        public async Task<ServiceResult<string>> CreateErrorLog(ErrorRequest errorRequest)
         {
             try
             {
@@ -406,11 +406,11 @@ namespace ServiceDesk_WebApp.Services
                 await _context.AddAsync(errorLog);
                 await _context.SaveChangesAsync();
 
-                return new ServiceResult<long>(errorLog.Id, "Exception Logged");
+                return new ServiceResult<string>(errorLog.Information, "Exception Logged");
             }
             catch (Exception ex)
             {
-                return new ServiceResult<long>(ex, ex.Message);
+                return new ServiceResult<string>(ex, ex.Message);
             }
         }
 

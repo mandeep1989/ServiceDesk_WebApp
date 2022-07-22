@@ -46,7 +46,7 @@ namespace ServiceDesk_WebApp.Controllers
                 _ => View("InternalServerPage")
             };
         }
-        public async Task<long> LogErrorAsync(Exception error = null)
+        public async Task<string> LogErrorAsync(Exception error = null)
         {
             ErrorRequest request = new()
             {
