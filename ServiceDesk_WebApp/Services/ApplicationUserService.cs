@@ -290,7 +290,7 @@ namespace ServiceDesk_WebApp.Services
                             ApiTicketId = id
                         };
                         await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
-                        await EmailHandler.PasswordRequestMail(contextModel.Id, Email, contextModel.ApiTicketId, From, SenderPassword, Host, Port);
+                        await EmailHandler.PasswordRequestMail(contextModel.Id, contextModel.ApiTicketId, Email,  From, SenderPassword, Host, Port);
                         return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
                     }
                     else

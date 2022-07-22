@@ -54,18 +54,16 @@ namespace ServiceDesk_WebApp.Common
 
         public static async Task PasswordRequestMail(string TicketId, string ApiTicketId, string Email, string From, string SenderPassword, string host, int port)
         {
+            StringBuilder sbBody = new StringBuilder();
+            sbBody.Append($"Your user Passowrd Change request with id { TicketId } has been sent to Admin <br/><br/>");
+            sbBody.Append("Your Password Will Be Generated Shortly <br/><br/>");
+            sbBody.Append("Best Regarding Admin ServiceDesk APP");
+
+
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse(From));
             email.To.Add(MailboxAddress.Parse(Email));
             email.Subject = $" Request For Reset Password With App ID -- { TicketId  } and Service Desk Id --{ApiTicketId} Generated";
-            StringBuilder sbBody = new StringBuilder();
-            sbBody.Append($"Your user Passowrd Change request with id { TicketId } has been sent to Admin <br/><br/>");
-            sbBody.Append("Your Password Will Be Generated Shortly <br/><br/>");
-
-            sbBody.Append("Best Regarding Admin ServiceDesk APP");
-
-
-
             email.Body = new TextPart(TextFormat.Html) { Text = sbBody.ToString() };
             // send email
             using (var client = new MailKit.Net.Smtp.SmtpClient())
@@ -95,10 +93,7 @@ namespace ServiceDesk_WebApp.Common
         }
         public static async Task PasswordResolveMail(string password, string TicketId, string ApiTicketId, string Email, string From, string SenderPassword, string host, int port, string link)
         {
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(From));
-            email.To.Add(MailboxAddress.Parse(Email));
-            email.Subject = $" Reset Password With ID -- { TicketId } Resolved";
+
             StringBuilder sbBody = new StringBuilder();
             sbBody.Append($"Your user Passowrd Change request with id { TicketId } and Sevice Desk Plus Ticket no:{ApiTicketId} has been Resolved  <br/><br/>");
             sbBody.Append("Please Find Below Your Password <br/><br/>");
@@ -109,6 +104,10 @@ namespace ServiceDesk_WebApp.Common
             sbBody.Append($"Your user Passowrd Change request with id { TicketId } has been sent to Admin <br/><br/>");
             sbBody.Append("Your Password Will Be Generated Shortly <br/><br/>");
             sbBody.Append("Best Regarding Admin ServiceDesk APP");
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(From));
+            email.To.Add(MailboxAddress.Parse(Email));
+            email.Subject = $" Reset Password With ID -- { TicketId } Resolved";
 
             email.Body = new TextPart(TextFormat.Html) { Text = sbBody.ToString() };
             // send email
