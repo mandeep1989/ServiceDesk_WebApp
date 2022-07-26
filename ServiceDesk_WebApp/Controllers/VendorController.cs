@@ -11,33 +11,63 @@ namespace ServiceDesk_WebApp.Controllers
     {
 
         private readonly IVendorService _vendorService;
-       
-        public VendorController(IVendorService vendorService)
+        private readonly Microsoft.Extensions.Hosting.IHostingEnvironment _hostingEnvironment;
+
+        /// <summary>
+        /// VendorController
+        /// </summary>
+        /// <param name="vendorService"></param>
+        public VendorController(IVendorService vendorService, Microsoft.Extensions.Hosting.IHostingEnvironment hostingEnvironment)
         {
             _vendorService = vendorService;
+            _hostingEnvironment = hostingEnvironment;
         }
-    
+        /// <summary>
+        /// Index
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
         }
-
+        /// <summary>
+        /// PaymentRequest
+        /// </summary>
+        /// <returns></returns>
         public IActionResult PaymentRequest()
         {
             return View();
         }
+        /// <summary>
+        /// GetPaymentRequest
+        /// </summary>
+        /// <returns></returns>
         public async Task<JsonResult> GetPaymentRequest()
         {
             return GetResult(await _vendorService.GetPaymentRequests(User.GetUserId()));
         }
+        /// <summary>
+        /// AddEscalationForm
+        /// </summary>
+        /// <param name="escalationFormRequest"></param>
+        /// <returns></returns>
         public async Task<JsonResult> AddEscalationForm(EscalationFormRequest escalationFormRequest)
         {
             return GetResult(await _vendorService.AddEscalationForm(escalationFormRequest, User.GetUserId()));
         }
+        /// <summary>
+        /// CheckEscalationForm
+        /// </summary>
+        /// <returns></returns>
         public async Task<JsonResult> CheckEscalationForm()
         {
             return GetResult(await _vendorService.CheckEscalationForm( User.GetUserId()));
         }
+        /// <summary>
+        /// AddRequestForm
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> AddRequestForm(IFormCollection data/*PaymentRequestModel paymentRequest*/)
         
@@ -115,6 +145,13 @@ namespace ServiceDesk_WebApp.Controllers
             return GetResult(await _vendorService.AddPaymentForm(model,User.GetUserId()));
 
             
+        }
+        [HttpGet]
+        public ActionResult GetCsv()
+        {
+            var fileName = "Book1.csv";
+            string contentRootPath = _hostingEnvironment.ContentRootPath+"\\wwwroot\\CSVFile\\";
+            return PhysicalFile(Path.Combine(contentRootPath, fileName), "application/csv", fileName);
         }
     }
 }

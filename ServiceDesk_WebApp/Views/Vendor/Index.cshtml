@@ -133,13 +133,11 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<select class="form-control" id="Contract">
-											<option>Contract 1</option>
-											<option> Contract2</option>
-											<option> Contract 3</option>
-											<option>Contract 4</option>
+										<select class="form-control selectpicker "  title="Choose Contract" id="Contract">
 										</select>
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
+
 								</div>
 							</div>
 						</div>
@@ -151,6 +149,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" name="ContractTitle" class="form-control" id="ContractTitle">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -159,6 +158,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="date" name="StartDate" class="form-control" id="StartDate">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -171,6 +171,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="Department" placeholder="IT Services" id="Department">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -179,6 +180,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="date" class="form-control" name="EndDate" id="EndDate" placeholder="30-01-2022">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -191,6 +193,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" name="Classification" class="form-control" placeholder="software" id="Classification">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -199,6 +202,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="ApplicationName" placeholder="NA" id="ApplicationName">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -211,6 +215,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="ContractRefType" placholder="6609/12" id="ContractRefType">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -219,6 +224,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="ProjectName" placeholder="Digital Transformation" id="ProjectName">
+									<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -233,6 +239,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" name="InvoiceNumber" class="form-control" id="InvoiceNumber">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -241,6 +248,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="date" class="form-control" id="InvoiceDate" name="InvoiceDate">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -253,6 +261,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="InvoiceAmount" id ="InvoiceAmount">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 
@@ -266,6 +275,7 @@
 								<div class="col-md-5">
 									<div class="form-group">
 										<textarea class="form-control" name="Details" rows="3" id="Details"></textarea>
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 
@@ -335,12 +345,13 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<select class="form-control" id="PaymentMode" name="PaymentMode">
+										<select class="form-control selectpicker" id="PaymentMode" title="Choose Mode" name="PaymentMode">
 											<option value="P1">P1</option>
 											<option value="P2">P2</option>
 											<option value="P3"> P3</option>
 											<option value="P4"> P4</option>
 										</select>
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 
@@ -354,6 +365,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="BankName" id="BankName">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -362,6 +374,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" id="IBAN" name="Iban">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -374,6 +387,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="AccountName" id="AccountName">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -382,6 +396,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="SwiftCode" id="SwiftCode">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>
@@ -394,6 +409,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="AccountNo" id="AccountNumber">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -402,6 +418,7 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<input type="text" class="form-control" name="Branch" id="Branch">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
 							</div>

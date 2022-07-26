@@ -16,6 +16,10 @@ namespace ServiceDesk_WebApp.Controllers
 		{
             _applicationUserService = applicationUserService;
         }
+        /// <summary>
+        /// PageNotFound
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         
         public IActionResult PageNotFound()
@@ -23,6 +27,10 @@ namespace ServiceDesk_WebApp.Controllers
             HttpContext.Response.StatusCode = 404;
             return View();
         }
+        /// <summary>
+        /// Exception
+        /// </summary>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         [AllowAnonymous]
         [Route("Exception")]
@@ -46,6 +54,11 @@ namespace ServiceDesk_WebApp.Controllers
                 _ => View("InternalServerPage")
             };
         }
+        /// <summary>
+        /// LogErrorAsync
+        /// </summary>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public async Task<string> LogErrorAsync(Exception error = null)
         {
             ErrorRequest request = new()

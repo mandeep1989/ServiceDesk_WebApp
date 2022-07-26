@@ -14,6 +14,10 @@ namespace ServiceDesk_WebApp.Controllers
         {
             _logger = logger;
         }
+        /// <summary>
+        /// Index
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -29,11 +33,18 @@ namespace ServiceDesk_WebApp.Controllers
             }
             return View();
         }
-
+        /// <summary>
+        /// Privacy
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Privacy()
         {
             return View();
         }
+        /// <summary>
+        /// Error
+        /// </summary>
+        /// <returns></returns>
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

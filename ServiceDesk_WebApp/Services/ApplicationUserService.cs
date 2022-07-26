@@ -32,6 +32,11 @@ namespace ServiceDesk_WebApp.Services
             authToken = configuration.GetValue<string>("Authtoken");
             _context = context;
         }
+        /// <summary>
+        /// LogInAsync
+        /// </summary>
+        /// <param name="loginRequest"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<LoginResponse>> LogInAsync(LoginRequest loginRequest)
         {
             try
@@ -68,7 +73,13 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<LoginResponse>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// AddVendor
+        /// </summary>
+        /// <param name="vendorViewModel"></param>
+        /// <param name="createdBy"></param>
+        /// <param name="link"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<User>> AddVendor(VendorViewModel vendorViewModel, int createdBy, string link)
         {
             try
@@ -117,20 +128,15 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<User>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// GetAllVendors
+        /// </summary>
+        /// <returns></returns>
         public async Task<ServiceResult<IEnumerable<VendorViewModel>>> GetAllVendors()
         {
             try
             {
                 var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
-                // var applicationUsers = list.Select(x => new VendorViewModel
-                //{
-                //     var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(y => y.UserId == x.Id);
-                //     Id = x.Id,
-                //    VendorName = x.Name,
-                //    Email = x.Email,
-                //    VendorNo=x.vend
-                //});
                 var applicationUsers = new List<VendorViewModel>();
                 foreach (var user in list)
                 {
@@ -152,6 +158,11 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<IEnumerable<VendorViewModel>>(ex, ex.Message);
             }
         }
+        /// <summary>
+        /// GetVendorById
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<VendorViewModel>> GetVendorById(int Id)
         {
             try
@@ -182,7 +193,12 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<VendorViewModel>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// UpdateVendor
+        /// </summary>
+        /// <param name="vendorViewModel"></param>
+        /// <param name="modifiedBy"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> UpdateVendor(VendorViewModel vendorViewModel, int modifiedBy)
         {
             try
@@ -210,7 +226,12 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
-
+        /// <summary>
+        /// RemoveVendor
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="modifiedBy"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> RemoveVendor(int Id, int modifiedBy)
         {
             try
@@ -228,7 +249,10 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
-
+        /// <summary>
+        /// GetVendorsCountByDate
+        /// </summary>
+        /// <returns></returns>
         public async Task<ServiceResult<GetVendorCount>> GetVendorsCountByDate()
         {
             try
@@ -257,6 +281,11 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<GetVendorCount>(ex, ex.Message);
             }
         }
+        /// <summary>
+        /// ChangePasswordRequest
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> ChangePasswordRequest(string Email)
         {
             try
@@ -316,7 +345,10 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
-
+        /// <summary>
+        /// GetPasswordRequests
+        /// </summary>
+        /// <returns></returns>
 
         public async Task<ServiceResult<IEnumerable<PasswordResetRequest>>> GetPasswordRequests()
         {
@@ -350,7 +382,13 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<IEnumerable<PasswordResetRequest>>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// UpdatePassword
+        /// </summary>
+        /// <param name="changePasswordRequestModel"></param>
+        /// <param name="modifiedBy"></param>
+        /// <param name="link"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel, int modifiedBy,string link)
         {
             try
@@ -376,6 +414,12 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
+        /// <summary>
+        /// RemoveRequest
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="modifiedBy"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> RemoveRequest(string Id, int modifiedBy)
         {
             try
@@ -392,6 +436,11 @@ namespace ServiceDesk_WebApp.Services
             }
 
         }
+        /// <summary>
+        /// CreateErrorLog
+        /// </summary>
+        /// <param name="errorRequest"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<string>> CreateErrorLog(ErrorRequest errorRequest)
         {
             try
@@ -413,7 +462,10 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<string>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// GetPaymentRequests
+        /// </summary>
+        /// <returns></returns>
         public async Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests()
         {
             try
@@ -446,7 +498,12 @@ namespace ServiceDesk_WebApp.Services
 
 
 
-
+        /// <summary>
+        /// GenerateId
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
 
         private string GenerateId(string prefix, long count)
         {

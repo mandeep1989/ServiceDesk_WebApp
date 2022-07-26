@@ -34,13 +34,34 @@ let req_form_id = "#payment_req_form",
     txt_SwiftCode = "#SwiftCode",
     txt_AccountNumber = "#AccountNumber",
     txt_Branch = "#Branch",
-    payment_url = "/Vendor/AddRequestForm";
+    payment_url = "/Vendor/AddRequestForm",
+    txt_Contract = "#Contract";
 
 
 $(document).ready(function () {
 
     checkEscalationStatus();
+    var csv_path = "./wwwroot/CSVFile/Book1.csv";
+    $.get("/Vendor/GetCsv", function (data) {
+        var csv = CSVToArray(data);
+       renderCSVDropdown(csv);
+    });
+
 });
+
+
+var renderCSVDropdown = function (csv) {
+    let email = userEmail.split("@")[1];
+    var dropdown = $('#Contract');
+    for (var i = 0; i < csv.length; i++) {
+        if (csv[i][1] && email) {
+            if (csv[i][1].toLowerCase() == email.toLowerCase()) {
+                var entry = $('<option>', { value: csv[i][0], text: csv[i][0] })
+                dropdown.append(entry);
+            }
+        }
+    }
+};
 
 function validateEscalationForm() {
     SportaForms.ClearValidataionErrors(form_id);
@@ -209,7 +230,81 @@ $(req_form_id).unbind().bind('submit', function (e) {
 
 function validatePaymentRequestForm() {
     SportaForms.ClearValidataionErrors(req_form_id);
-    var blankChecks = [txt_ContractTitle, txt_StartDate, txt_EndDate, txt_Department, txt_Classification, txt_ApplicationName, txt_ContractRefType, txt_ProjectName, txt_InvoiceNumber, txt_Details, txt_PaymentMode, txt_BankName, txt_IBAN, txt_AccountName, txt_SwiftCode, txt_Branch];
+    var blankChecks = [txt_ContractTitle, txt_StartDate, txt_EndDate, txt_Department, txt_Classification, txt_ApplicationName, txt_ContractRefType, txt_ProjectName, txt_InvoiceNumber, txt_Details, txt_PaymentMode, txt_BankName, txt_IBAN, txt_AccountName, txt_SwiftCode, txt_Branch, txt_InvoiceAmount, txt_AccountNumber, txt_InvoiceDate, txt_Contract];
     SportaForms.BlankInputChecks(blankChecks);
+    //if (!$(txt_Contract).val()) {
+    //    debugger
+    //    SportaForms.ValidateInput(txt_Contract,
+    //        !$(txt_Contract).val(),
+    //        "Please choose contract");
+    //}
     return SportaForms.FormValidationStatus(req_form_id);
 }
+
+function CSVToArray(strData, strDelimiter) {
+
+    strDelimiter = (strDelimiter || ",");
+
+    var objPattern = new RegExp((
+        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+
+        "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+        "([^\"\\" + strDelimiter + "\\r\\n]*))"
+    ), "gi");
+
+
+    var arrData = [
+        []
+    ];
+
+    var arrMatches = null;
+
+    while (arrMatches = objPattern.exec(strData)) {
+
+        var strMatchedDelimiter = arrMatches[1];
+
+        if (strMatchedDelimiter.length && strMatchedDelimiter !== strDelimiter) {
+
+            arrData.push([]);
+
+        }
+
+        var strMatchedValue;
+
+        if (arrMatches[2]) {
+
+            strMatchedValue = arrMatches[2].replace(new RegExp("\"\"", "g"), "\"");
+
+        } else {
+            strMatchedValue = arrMatches[3];
+
+        }
+
+        arrData[arrData.length - 1].push(strMatchedValue);
+    }
+
+    return (arrData);
+}
+
+
+
+//(function () {
+
+//    var csv_path = "~/CSVFile/Book1.csv",
+
+//    var renderCSVDropdown = function (csv) {
+//        var dropdown = $('select#my-dropdown');
+//        for (var i = 0; i < csv.length; i++) {
+//            var record = csv[i];
+//            var entry = $('<option>').attr('value', record.someProperty);
+//            dropdown.append(entry);
+//        }
+//    };
+
+//    $.get(csv_path, function (data) {
+//        var csv = CSVToArray(data);
+//        renderCSVDropdown(csv);
+//    });
+
+//}());

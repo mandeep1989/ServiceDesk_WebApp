@@ -20,8 +20,13 @@ namespace ServiceDesk_WebApp.Controllers
             _applicationUserService = applicationUserService;
             _notyf = notyf;
         }
-
+        /// <summary>
+        /// LogIn Request
+        /// </summary>
+        /// <param name="loginRequest"></param>
+        /// <returns></returns>
         [HttpPost]
+       
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
             var loginResponse = await _applicationUserService.LogInAsync(loginRequest);
@@ -60,14 +65,20 @@ namespace ServiceDesk_WebApp.Controllers
             }
 
         }
-
+        /// <summary>
+        /// Account LogOut
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/");
 
         }
-
+        /// <summary>
+        /// ForgetPassword
+        /// </summary>
+        /// <returns></returns>
         public IActionResult ForgetPassWord()
         {
             return View();
