@@ -414,9 +414,44 @@ namespace ServiceDesk_WebApp.Services
             }
         }
 
+        public async Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests()
+        {
+            try
+            {
+                var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>(x =>true);
+                var paymentRequestModel = new List<PaymentRequestModel>();
+                foreach (var user in list)
+                {
+                    var UserDetail = await _applictionUserRepo.GetAsync<User>(y => y.Id == user.CreatedBy);
+                    paymentRequestModel.Add(new PaymentRequestModel
+                    {
+                        Id = user.Id,
+                        Name = UserDetail.Name,
+                        Email = UserDetail.Email,
+                        ContractTitle = user.ContractTitle,
+                        ProjectName = user.ProjectName,
+                        Department = user.Department,
+                        Classification = user.Classification,
+                        //Created = DateOnly.ParseExact(user.CreatedOn, "dd,MM,yyyy", null)
+                    });
+                }
+
+                return new ServiceResult<IEnumerable<PaymentRequestModel>>(paymentRequestModel, "Payment Request  List!");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<IEnumerable<PaymentRequestModel>>(ex, ex.Message);
+            }
+        }
+
+
+
+
+
         private string GenerateId(string prefix, long count)
         {
             return $"{prefix}{count + 1:D3}"; //For count 0 it will return the code as SP00001
         }
+
     }
 }

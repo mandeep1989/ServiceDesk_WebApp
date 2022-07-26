@@ -1,0 +1,43 @@
+﻿@{
+	ViewData["Title"] = "Payment Request";
+}
+
+<div class="page-content p-4">
+
+	<h3 class="text-theme text-black">
+		Submitted Payment Requests
+	</h3>
+	<hr class="border-theme" />
+
+	<div class="row">
+		<div class="col-sm-12">
+			<!-- Users List -->
+			<table id="request-paymentVendor-list" class="table table-sm w-100 table-responsive-md">
+				<thead>
+					<tr>
+						
+						<th>Contract</th>
+						<th>ProjectName</th>
+						
+						<th>Classification</th>
+						<th>Department</th>
+						@*<th>Created</th>*@
+						@*<th class="doNotExport">Action</th>*@
+					</tr>
+				</thead>
+			</table>
+			<!-- Users List End -->
+		</div>
+	</div>
+</div>
+
+
+
+
+@section Scripts{
+<script src="~/js/paymentRequestVendor.js" asp-append-version="true"></script>
+
+}
+
+
+

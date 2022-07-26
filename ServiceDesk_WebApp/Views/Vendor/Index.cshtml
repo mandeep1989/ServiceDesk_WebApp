@@ -7,7 +7,7 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-outline-primary" id="paymentBtn" data-toggle="modal" data-target="#payment_req_form"> Payment Request </button>
+						<button class="btn btn-outline-primary" id="paymentBtn" onclick="openPaymentForm()"> Payment Request </button>
 					</div>
 				</div>
 
@@ -112,7 +112,7 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal fade back" data-backdrop="static" id="payment_req_form">
+<div class="modal fade back" data-backdrop="static" id="payment_req_modal">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 
@@ -123,21 +123,21 @@
 			</div>-->
 			<!-- Modal body -->
 			<div class="modal-body">
-				<form class="ecalation" action="#">
+				<form class="ecalation" method="post" id="payment_req_form">
 					<fieldset>
 						<legend>Please enter your request detaisl:</legend>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Conatct</label>
+									<label for="Contract">Contract</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<select class="form-control" id="sel1">
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-											<option>4</option>
+										<select class="form-control" id="Contract">
+											<option>Contract 1</option>
+											<option> Contract2</option>
+											<option> Contract 3</option>
+											<option>Contract 4</option>
 										</select>
 									</div>
 								</div>
@@ -146,19 +146,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<h3>Conatct Tittle</h3>
+									<h3>Contract Title</h3>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control" id="usr">
+										<input type="text" name="ContractTitle" class="form-control" id="ContractTitle">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">Start Date</label>
+									<label for="StartDate">Start Date</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="date" class="form-control" id="usr">
+										<input type="date" name="StartDate" class="form-control" id="StartDate">
 									</div>
 								</div>
 							</div>
@@ -166,19 +166,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Department</label>
+									<label for="Department">Department</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="IT Services" id="usr">
+										<input type="text" class="form-control" name="Department" placeholder="IT Services" id="Department">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">End Date</label>
+									<label for="EndDate">End Date</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="date" class="form-control" id="usr" placeholder="30-01-2022">
+										<input type="date" class="form-control" name="EndDate" id="EndDate" placeholder="30-01-2022">
 									</div>
 								</div>
 							</div>
@@ -186,19 +186,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Classification</label>
+									<label for="Classification">Classification</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="software" id="usr">
+										<input type="text" name="Classification" class="form-control" placeholder="software" id="Classification">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">Application Name</label>
+									<label for="ApplicationName">Application Name</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="NA" id="usr">
+										<input type="text" class="form-control" name="ApplicationName" placeholder="NA" id="ApplicationName">
 									</div>
 								</div>
 							</div>
@@ -206,19 +206,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Conatct Ref Type</label>
+									<label for="ContractRefType">Contract Ref Type</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control" placholder="6609/12" id="usr">
+										<input type="text" class="form-control" name="ContractRefType" placholder="6609/12" id="ContractRefType">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">Project Name</label>
+									<label for="ProjectName">Project Name</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="Digital Transformation" id="usr">
+										<input type="text" class="form-control" name="ProjectName" placeholder="Digital Transformation" id="ProjectName">
 									</div>
 								</div>
 							</div>
@@ -228,19 +228,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Invoice Number</label>
+									<label for="InvoiceNumber">Invoice Number</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" name="InvoiceNumber" class="form-control" id="InvoiceNumber">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">Invoice Date</label>
+									<label for="InvoiceDate">Invoice Date</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="date" class="form-control">
+										<input type="date" class="form-control" id="InvoiceDate" name="InvoiceDate">
 									</div>
 								</div>
 							</div>
@@ -248,11 +248,11 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Invoice Amount </label>
+									<label for="InvoiceAmount">Invoice Amount </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" name="InvoiceAmount" id ="InvoiceAmount">
 									</div>
 								</div>
 
@@ -261,11 +261,11 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Details of Goods and Services provided </label>
+									<label for="Details">Details of Goods and Services provided </label>
 								</div>
 								<div class="col-md-5">
 									<div class="form-group">
-										<textarea class="form-control" rows="3" id="comment"></textarea>
+										<textarea class="form-control" name="Details" rows="3" id="Details"></textarea>
 									</div>
 								</div>
 
@@ -274,7 +274,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Orignal Invoice  </label>
+									<label for="OrignalInvoice">Orignal Invoice  </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -284,7 +284,7 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<input type="file" class="form-control">
+										<input type="file" name="OrignalInvoice" class="form-control" id="OrignalInvoice">
 									</div>
 								</div>
 
@@ -293,7 +293,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Service Confirmation</label>
+									<label for="ServiceConfirmation">Service Confirmation</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -303,7 +303,7 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<input type="file" class="form-control">
+										<input type="file" name="ServiceConfirmation" id="ServiceConfirmation" class="form-control">
 									</div>
 								</div>
 
@@ -312,17 +312,17 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Copy of Signed assignment  and approval  </label>
+									<label for="CopyOfApproval">Copy of Signed assignment  and approval  </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<i class="fa-solid fa-search"></i>
-										<input type="text" class="form-control roubd-50">
+										<input type="text" class="form-control roubd-50" >
 									</div>
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<input type="file" class="form-control">
+										<input type="file" class="form-control" id="CopyOfApproval" name="CopyOfApproval">
 									</div>
 								</div>
 
@@ -331,15 +331,15 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="mode">Payment Mode</label>
+									<label for="PaymentMode">Payment Mode</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<select class="form-control" id="sel1">
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-											<option>4</option>
+										<select class="form-control" id="PaymentMode" name="PaymentMode">
+											<option value="P1">P1</option>
+											<option value="P2">P2</option>
+											<option value="P3"> P3</option>
+											<option value="P4"> P4</option>
 										</select>
 									</div>
 								</div>
@@ -349,19 +349,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Bank Name</label>
+									<label for="BankName">Bank Name</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" name="BankName" id="BankName">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">IBAN</label>
+									<label for="IBAN">IBAN</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" id="IBAN" name="Iban">
 									</div>
 								</div>
 							</div>
@@ -369,11 +369,11 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Account Name</label>
+									<label for="AccountName">Account Name</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" name="AccountName" id="AccountName">
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -381,7 +381,7 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" name="SwiftCode" id="SwiftCode">
 									</div>
 								</div>
 							</div>
@@ -389,19 +389,19 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="email">Account Number</label>
+									<label for="AccountNumber">Account Number</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" name="AccountNo" id="AccountNumber">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">Branch</label>
+									<label for="Branch">Branch</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<input type="text" class="form-control">
+										<input type="text" class="form-control" name="Branch" id="Branch">
 									</div>
 								</div>
 							</div>
@@ -410,14 +410,16 @@
 
 					</fieldset>
 
+						<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-warning" onclick="closePaymentForm()" >Close</button>
+			</div>
+
 				</form>
 			</div>
 
-			<!-- Modal footer -->
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary">Submit</button>
-				<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-			</div>
+		
 
 		</div>
 	</div>

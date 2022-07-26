@@ -22,6 +22,12 @@ namespace ServiceDesk_WebApp.Controllers
           return View();
          
         }
+        [Authorize(Roles = "1")]
+        public IActionResult AdminViewRequest()
+        {
+            return View();
+
+        }
 
         [Authorize(Roles = "1")]
         public async Task<JsonResult> AddVendor(VendorViewModel vendorViewModel)
@@ -81,6 +87,11 @@ namespace ServiceDesk_WebApp.Controllers
         public async Task<JsonResult> RemoveRequest(string Id)
         {
             return GetResult(await _applicationUserService.RemoveRequest(Id, User.GetUserId()));
+        }
+
+        public async Task<JsonResult> GetPaymentRequest()
+        {
+            return GetResult(await _applicationUserService.GetPaymentRequests());
         }
     }
 }

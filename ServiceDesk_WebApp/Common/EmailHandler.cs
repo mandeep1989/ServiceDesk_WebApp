@@ -101,9 +101,6 @@ namespace ServiceDesk_WebApp.Common
             sbBody.Append("Password : " + password + "<br/><br/>");
             sbBody.Append($"Click on the following link to login with <a href='{link}'  >ServiceDesk </a> <br/><br/>");
             sbBody.Append("Best Regarding Admin ServiceDesk APP");
-            sbBody.Append($"Your user Passowrd Change request with id { TicketId } has been sent to Admin <br/><br/>");
-            sbBody.Append("Your Password Will Be Generated Shortly <br/><br/>");
-            sbBody.Append("Best Regarding Admin ServiceDesk APP");
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse(From));
             email.To.Add(MailboxAddress.Parse(Email));
@@ -134,6 +131,47 @@ namespace ServiceDesk_WebApp.Common
             }
 
         }
+
+        public static async Task PaymentRequestMail(string TicketId, string Email, string From, string SenderPassword, string host, int port)
+        {
+            StringBuilder sbBody = new StringBuilder();
+            sbBody.Append($"Your Payment Request with id { TicketId } has been sent to Admin <br/><br/>");
+            sbBody.Append("Your Request will be proccessed shortly <br/><br/>");
+            sbBody.Append("Best Regarding Admin ServiceDesk APP");
+
+
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(From));
+            email.To.Add(MailboxAddress.Parse(Email));
+            email.Subject = $" Request For Payment Request with Service Desk Id --{TicketId} Generated";
+            email.Body = new TextPart(TextFormat.Html) { Text = sbBody.ToString() };
+            // send email
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                try
+                {
+                    client.Connect(host, port, SecureSocketOptions.Auto);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    await client.AuthenticateAsync(From, SenderPassword);
+                    await client.SendAsync((MimeKit.MimeMessage)email);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                finally
+                {
+                    await client.DisconnectAsync(true);
+                    client.Dispose();
+                }
+
+            }
+
+
+
+        }
+
 
     }
 }

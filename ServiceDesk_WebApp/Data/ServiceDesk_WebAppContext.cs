@@ -20,6 +20,7 @@ namespace ServiceDesk_WebApp.Data
         public virtual DbSet<ChangePasswordRequest> ChangePasswordRequests { get; set; }
         public virtual DbSet<EscalationMatrix> EscalationMatrices { get; set; }
         public virtual DbSet<LogError> LogErrors { get; set; }
+        public virtual DbSet<PaymentRequest> PaymentRequests { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
 
@@ -62,6 +63,53 @@ namespace ServiceDesk_WebApp.Data
                 entity.Property(e => e.Information).IsRequired();
 
                 entity.Property(e => e.Time).IsRequired();
+            });
+
+            modelBuilder.Entity<PaymentRequest>(entity =>
+            {
+                entity.ToTable("PaymentRequest");
+
+                entity.Property(e => e.AccountName).IsRequired();
+
+                entity.Property(e => e.AccountNo).IsRequired();
+
+                entity.Property(e => e.ApplicationName).IsRequired();
+
+                entity.Property(e => e.BankName).IsRequired();
+
+                entity.Property(e => e.Branch).IsRequired();
+
+                entity.Property(e => e.Classification).IsRequired();
+
+                entity.Property(e => e.ContractRefType).IsRequired();
+
+                entity.Property(e => e.ContractTitle).IsRequired();
+
+                entity.Property(e => e.CreatedOn).IsRequired();
+
+                entity.Property(e => e.Department).IsRequired();
+
+                entity.Property(e => e.Details).IsRequired();
+
+                entity.Property(e => e.EndDate).IsRequired();
+
+                entity.Property(e => e.Iban).IsRequired();
+
+                entity.Property(e => e.InvoiceAmount).IsRequired();
+
+                entity.Property(e => e.InvoiceDate).IsRequired();
+
+                entity.Property(e => e.InvoiceNo).IsRequired();
+
+                entity.Property(e => e.ModifiedOn).IsRequired();
+
+                entity.Property(e => e.PaymentMode).IsRequired();
+
+                entity.Property(e => e.ProjectName).IsRequired();
+
+                entity.Property(e => e.StartDate).IsRequired();
+
+                entity.Property(e => e.SwiftCode).IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>

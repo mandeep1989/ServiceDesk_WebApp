@@ -7,5 +7,7 @@ namespace ServiceDesk_WebApp.Services.Interface
     {
         Task<ServiceResult<bool>> AddEscalationForm(EscalationFormRequest escalationForm, int createdBy);
         Task<ServiceResult<bool>> CheckEscalationForm(int Id);
+        Task<ServiceResult<bool>> AddPaymentForm(PaymentRequestModel model, int createdBy);
+        Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests(int UserId);
     }
 }
