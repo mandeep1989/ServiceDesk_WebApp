@@ -17,7 +17,7 @@ function loadPaymentRequests() {
             { data: "projectName" },
             { data: "classification" },
             { data: "department" },
-            /*{ data: "created" },*/
+            { data: 'created', render: function (date) { return moment(date).format('DD-MM-YYYY') } },
            
            // { data: null, render: usersActionButtons }
 

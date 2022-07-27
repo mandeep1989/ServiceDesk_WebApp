@@ -142,7 +142,7 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>(x => x.CreatedBy == UserId);
+                var list = (await _applictionUserRepo.GetAllAsync<PaymentRequest>(x => x.CreatedBy == UserId)).OrderByDescending(x=>x.Id);
                 IEnumerable<PaymentRequestModel> data = new List<PaymentRequestModel>();
                 if (list.Any())
                 {
@@ -152,9 +152,10 @@ namespace ServiceDesk_WebApp.Services
                         ContractTitle = x.ContractTitle,
                         ProjectName = x.ProjectName,
                         Department = x.Department,
-                        Classification = x.Classification
+                        Classification = x.Classification,
+                       Created = DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date
 
-                    });
+                   });
                     return new ServiceResult<IEnumerable<PaymentRequestModel>>(result, "Payment Request  List!");
 
                 }

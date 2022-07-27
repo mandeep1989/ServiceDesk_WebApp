@@ -484,7 +484,7 @@ namespace ServiceDesk_WebApp.Services
                         ProjectName = user.ProjectName,
                         Department = user.Department,
                         Classification = user.Classification,
-                        //Created = DateOnly.ParseExact(user.CreatedOn, "dd,MM,yyyy", null)
+                        Created = DateTime.ParseExact(user.CreatedOn, "dd,MM,yyyy", null).Date
                     });
                 }
 

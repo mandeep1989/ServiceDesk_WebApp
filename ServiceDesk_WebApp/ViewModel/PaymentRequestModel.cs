@@ -104,5 +104,6 @@
         public string PaymentMode { get; set; }
 
         //public DateOnly Created { get; set; }
+        public DateTime Created { get; set; }
     }
 }

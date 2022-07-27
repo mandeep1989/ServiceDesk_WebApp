@@ -289,22 +289,3 @@ function CSVToArray(strData, strDelimiter) {
 
 
 
-//(function () {
-
-//    var csv_path = "~/CSVFile/Book1.csv",
-
-//    var renderCSVDropdown = function (csv) {
-//        var dropdown = $('select#my-dropdown');
-//        for (var i = 0; i < csv.length; i++) {
-//            var record = csv[i];
-//            var entry = $('<option>').attr('value', record.someProperty);
-//            dropdown.append(entry);
-//        }
-//    };
-
-//    $.get(csv_path, function (data) {
-//        var csv = CSVToArray(data);
-//        renderCSVDropdown(csv);
-//    });
-
-//}());
