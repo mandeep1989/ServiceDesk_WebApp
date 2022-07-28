@@ -94,6 +94,7 @@ namespace ServiceDesk_WebApp.Controllers
             data.TryGetValue("AccountNumber", out var AccountNumber); 
             data.TryGetValue("SwiftCode", out var SwiftCode); 
             data.TryGetValue("Branch", out var Branch);
+            data.TryGetValue("Contract", out var Contract);
             model.ContractTitle = ContractTitle;
             model.StartDate = Convert.ToDateTime(StartDate).ToString("dd,MM,yyyy");
             model.EndDate = Convert.ToDateTime(EndDate).ToString("dd,MM,yyyy");       
@@ -113,7 +114,8 @@ namespace ServiceDesk_WebApp.Controllers
             model.AccountNumber = AccountNumber;
             model.SwiftCode = SwiftCode;
             model.Branch = Branch;
-          
+            model.Contract = Contract;
+
             var files = data.Files;
            
                 foreach (var file in files)

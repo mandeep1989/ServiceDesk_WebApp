@@ -41,8 +41,8 @@ namespace ServiceDesk_WebApp.Services
                 };
 
                 // Checks email for duplicate
-                if (await _applictionUserRepo.IsExistsAsync<EscalationMatrix>(au => au.CompanyName.Equals(escalationForm.CompanyName) || au.ContactEmail.Equals(escalationForm.ContactEmail)))
-                    return new ServiceResult<bool>(true, "Email Already Exist!", true);
+                //if (await _applictionUserRepo.IsExistsAsync<EscalationMatrix>(au => au.CompanyName.Equals(escalationForm.CompanyName) || au.ContactEmail.Equals(escalationForm.ContactEmail)))
+                //    return new ServiceResult<bool>(true, "Email Already Exist!", true);
 
                 await _applictionUserRepo.AddAsync(contextModel, createdBy);
 
@@ -100,6 +100,7 @@ namespace ServiceDesk_WebApp.Services
                     SwiftCode = model.SwiftCode,
                     Branch = model.Branch,
                     PaymentMode = model.PaymentMode,
+                    Contract=model.Contract,
                     IsDeleted = 0
                 };
 

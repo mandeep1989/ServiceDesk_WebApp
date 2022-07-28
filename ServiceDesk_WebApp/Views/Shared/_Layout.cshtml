@@ -193,7 +193,11 @@
                 $(document.body).html(jqxhr.responseText);
             }
         });
+		// toggle add remove
 
+		$('#sidebarToggle').click(function() {
+			$('body').toggleClass('sb-sidenav-toggled')
+         })
 	</script>
 
 

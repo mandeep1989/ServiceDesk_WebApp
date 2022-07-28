@@ -86,6 +86,15 @@ namespace ServiceDesk_WebApp.Controllers
             return GetResult(await _applicationUserService.GetVendorsCountByDate());
         }
         /// <summary>
+        /// GetRequestCountByDate
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "1")]
+        public async Task<JsonResult> GetRequestCountByDate()
+        {
+            return GetResult(await _applicationUserService.GetRequestCountByDate());
+        }
+        /// <summary>
         /// RemoveVendor
         /// </summary>
         /// <param name="Id"></param>

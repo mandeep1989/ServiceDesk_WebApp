@@ -12307,5 +12307,8 @@ fieldset {
     text-align: center;
     font-size: 12px;
 }
+#escalationRequest_form .form-group.form_row {
+    margin: 0 0px;
+}
 
 

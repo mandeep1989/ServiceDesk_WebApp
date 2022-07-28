@@ -496,7 +496,34 @@ namespace ServiceDesk_WebApp.Services
             }
         }
 
+        public async Task<ServiceResult<GetVendorCount>> GetRequestCountByDate()
+        {
+            try
+            {
+                var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>();
+                GetVendorCount getRequestCount = new GetVendorCount();
+                getRequestCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date == DateTime.Now.Date).Count();
+                getRequestCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays == 1).Count();
+                getRequestCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 7).Count();
+                getRequestCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 30).Count();
+                getRequestCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 90).Count();
 
+                return new ServiceResult<GetVendorCount>(getRequestCount, "Request count!");
+            }
+            catch (Exception ex)
+            {
+                LogError errorLog = new()
+                {
+                    Information = ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
+                return new ServiceResult<GetVendorCount>(ex, ex.Message);
+            }
+        }
 
         /// <summary>
         /// GenerateId

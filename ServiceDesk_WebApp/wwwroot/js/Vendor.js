@@ -184,7 +184,7 @@ $(req_form_id).unbind().bind('submit', function (e) {
         for (var i = 0; i < ServiceConfirmationfiles.length; i++) {
             fileData.append('ServiceConfirmation', ServiceConfirmationfiles[i], ServiceConfirmationfiles[i].name);
         }
-        //Adding one more key to FormData object 
+        //Adding  more key to FormData object 
         fileData.append('ContractTitle', $(txt_ContractTitle).val());
         fileData.append('StartDate', $(txt_StartDate).val());
         fileData.append('EndDate', $(txt_EndDate).val());
@@ -204,6 +204,11 @@ $(req_form_id).unbind().bind('submit', function (e) {
         fileData.append('AccountNumber', $(txt_AccountNumber).val());
         fileData.append('SwiftCode', $(txt_SwiftCode).val());
         fileData.append('Branch', $(txt_Branch).val());
+        fileData.append('Contract', $(txt_Contract).val());
+        console.log(fileData);
+        console.log($(txt_Contract).val());
+        console.log($(txt_PaymentMode).val());
+
         $.ajax({
             url: payment_url,
             type: "POST",

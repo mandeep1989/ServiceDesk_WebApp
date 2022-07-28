@@ -87,5 +87,10 @@ namespace ServiceDesk_WebApp.Services.Interface
         /// </summary>
         /// <returns></returns>
         Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests();
+        /// <summary>
+        /// GetRequestCountByDate
+        /// </summary>
+        /// <returns></returns>
+        Task<ServiceResult<GetVendorCount>> GetRequestCountByDate();
     }
 }

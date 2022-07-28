@@ -105,5 +105,9 @@
 
         //public DateOnly Created { get; set; }
         public DateTime Created { get; set; }
+        /// <summary>
+        /// Contract
+        /// </summary>
+        public string Contract { get; set; }
     }
 }
