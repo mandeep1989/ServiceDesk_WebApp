@@ -172,6 +172,46 @@ namespace ServiceDesk_WebApp.Common
 
         }
 
+        public static async Task PaymentRequestFailMail(string Email, string From, string SenderPassword, string host, int port)
+        {
+            StringBuilder sbBody = new StringBuilder();
+            sbBody.Append($"Your Payment  Request  was Failed <br/><br/>");
+            sbBody.Append("There was some issue with the Service Desk Please try After some time <br/><br/>");
+            sbBody.Append("Best Regarding Admin ServiceDesk APP");
+
+
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(From));
+            email.To.Add(MailboxAddress.Parse(Email));
+            email.Subject = $"Failed Payment Request ";
+            email.Body = new TextPart(TextFormat.Html) { Text = sbBody.ToString() };
+            // send email
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                try
+                {
+                    client.Connect(host, port, SecureSocketOptions.Auto);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    await client.AuthenticateAsync(From, SenderPassword);
+                    await client.SendAsync((MimeKit.MimeMessage)email);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                finally
+                {
+                    await client.DisconnectAsync(true);
+                    client.Dispose();
+                }
+
+            }
+
+
+
+        }
+
 
     }
 }

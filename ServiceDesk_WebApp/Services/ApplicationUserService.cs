@@ -6,6 +6,7 @@ using ServiceDesk_WebApp.RepositoryLayer;
 using ServiceDesk_WebApp.Services.Interface;
 using ServiceDesk_WebApp.ViewModel;
 using System.Globalization;
+using System.Net;
 
 namespace ServiceDesk_WebApp.Services
 {
@@ -17,6 +18,7 @@ namespace ServiceDesk_WebApp.Services
         private readonly string SenderPassword;
         private readonly string Host;
         private readonly int Port;
+        private readonly int PORTALID;
         private readonly bool SSlEnable;
         private readonly string authToken;
         private readonly ServiceDesk_WebAppContext _context;
@@ -30,6 +32,7 @@ namespace ServiceDesk_WebApp.Services
             Port = configuration.GetValue<int>("EmailSettings:Port");
             SSlEnable = configuration.GetValue<bool>("EmailSettings:SSlEnable");
             authToken = configuration.GetValue<string>("Authtoken");
+            PORTALID = configuration.GetValue<int>("PORTALID");
             _context = context;
         }
         /// <summary>
@@ -70,6 +73,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<LoginResponse>(ex, ex.Message);
             }
         }
@@ -119,7 +131,7 @@ namespace ServiceDesk_WebApp.Services
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
                     Time = DateTime.Now.Date.ToString("dd,MM,yyyy")
-            };
+                };
                 LogService log = new LogService();
                 log.AddLogError(ex.Message + " " + ex.Message);
 
@@ -155,6 +167,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<IEnumerable<VendorViewModel>>(ex, ex.Message);
             }
         }
@@ -190,6 +211,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<VendorViewModel>(ex, ex.Message);
             }
         }
@@ -217,11 +247,20 @@ namespace ServiceDesk_WebApp.Services
 
                     return new ServiceResult<bool>(await _applictionUserRepo.UpdateAsync(UserDetail, modifiedBy) != null, "Vendor updated!");
                 }
-                
+
                 return new ServiceResult<bool>(false, "No record found!", true);
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
 
@@ -240,11 +279,20 @@ namespace ServiceDesk_WebApp.Services
                 await _applictionUserRepo.RemoveAsync(User, modifiedBy);
                 var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(x => x.UserId == Id);
                 await _applictionUserRepo.RemoveAsync(UserDetail, modifiedBy);
-               
+
                 return new ServiceResult<bool>(true, "Vendor deleted Successfully!");
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
 
@@ -259,7 +307,7 @@ namespace ServiceDesk_WebApp.Services
             {
                 var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
                 GetVendorCount getVendorCount = new GetVendorCount();
-                getVendorCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn,"dd,MM,yyyy",null).Date == DateTime.Now.Date).Count();
+                getVendorCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date == DateTime.Now.Date).Count();
                 getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays == 1).Count();
                 getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 7).Count();
                 getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 30).Count();
@@ -271,7 +319,7 @@ namespace ServiceDesk_WebApp.Services
             {
                 LogError errorLog = new()
                 {
-                    Information = ex.StackTrace,
+                    Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
                     Time = DateTime.Now.ToString()
                 };
@@ -290,48 +338,54 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Status == 0 && x.Email == Email );
+                var checkEmail = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Status == 0 && x.Email == Email);
                 if (checkEmail == null)
                 {
-                    var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email && x.UserRole==2);
+                    var User = await _applictionUserRepo.GetAsync<User>(x => x.Email == Email && x.UserRole == 2);
 
-                if (User != null)
-                {
-                    
-                    var client = new RestClient(ApiUrl.RequestAddUrl);
-                    var request = new RestRequest { Method = Method.Post };
-                    request.AddHeader("Authtoken", $"{authToken}");
-                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Change Password request\",\"group\": {\"name\": \"network\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": {\"name\": \"" + User.Name + " \" , \"email_id\":\""+Email + "\"},\"priority\": {\"name\": \"High\"}}}");
-                    var response = client.ExecuteAsync(request).Result;
-                    if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                    if (User != null)
                     {
-                        dynamic apiResponse = JsonConvert.DeserializeObject<object>(response.Content);
-                        string id = apiResponse["request"]["id"];
-                         id.Split('{', '}');
-                        var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
-                        var contextModel = new ChangePasswordRequest
+                        //  ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+                        var options = new RestClientOptions(ApiUrl.RequestAddUrl + $"?PORTALID={PORTALID}")
                         {
-                            Id = GenerateId("PW-", count),
-                            UserId = User.Id,
-                            Email = User.Email,
-                            Status = 0,
-                            IsDeleted = 0,
-                            ApiTicketId = id
+                            RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
                         };
-                        await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
-                        await EmailHandler.PasswordRequestMail(contextModel.Id, contextModel.ApiTicketId, Email,  From, SenderPassword, Host, Port);
-                        return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
+                        var client = new RestClient(options);
+                        //  var client = new RestClient(ApiUrl.RequestAddUrl+$"?PORTALID=4202");
+                        var request = new RestRequest { Method = Method.Post };
+                        request.AddHeader("Authtoken", $"{authToken}");
+                        request.AlwaysMultipartFormData = true;
+                        request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Change Password request\",\"group\": {\"name\": \"ITFM\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": {\"email_id\":\"AAlMatari@anb.com.sa\"},\"priority\": {\"name\": \"High\"}}}");
+                        var response = client.ExecuteAsync(request).Result;
+                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                        {
+                            dynamic apiResponse = JsonConvert.DeserializeObject<object>(response.Content);
+                            string id = apiResponse["request"]["id"];
+                            id.Split('{', '}');
+                            var count = await _applictionUserRepo.CountAsync<ChangePasswordRequest>(true);
+                            var contextModel = new ChangePasswordRequest
+                            {
+                                Id = GenerateId("PW-", count),
+                                UserId = User.Id,
+                                Email = User.Email,
+                                Status = 0,
+                                IsDeleted = 0,
+                                ApiTicketId = id
+                            };
+                            await _applictionUserRepo.AddAsync(contextModel, Convert.ToInt32(User.Id));
+                            await EmailHandler.PasswordRequestMail(contextModel.Id, contextModel.ApiTicketId, Email, From, SenderPassword, Host, Port);
+                            return new ServiceResult<bool>(true, "Password Rest Request Sent!", false);
+                        }
+                        else
+                        {
+                            return new ServiceResult<bool>(false, "There is Some Issue With Service Desk Plus", true);
+                        }
+
                     }
                     else
                     {
-                        return new ServiceResult<bool>(false, "There is Some Issue With Service Desk Plus",true);
+                        return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
                     }
-                    
-                }
-                else
-                {
-                    return new ServiceResult<bool>(false, "No Vendor With this Email Found!", true);
-                }
                 }
                 else
                 {
@@ -341,6 +395,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
 
@@ -354,7 +417,7 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var list = (await _applictionUserRepo.GetAllAsync<ChangePasswordRequest>()).OrderBy(x=>x.Status);
+                var list = (await _applictionUserRepo.GetAllAsync<ChangePasswordRequest>()).OrderBy(x => x.Status);
                 var passwordRequest = new List<PasswordResetRequest>();
                 foreach (var request in list)
                 {
@@ -369,7 +432,7 @@ namespace ServiceDesk_WebApp.Services
                             Email = UserDetail.Email,
                             UserId = UserDetail.Id,
                             Status = request.Status,
-                            ApiTicketId=request.ApiTicketId
+                            ApiTicketId = request.ApiTicketId
 
                         });
                     }
@@ -379,6 +442,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<IEnumerable<PasswordResetRequest>>(ex, ex.Message);
             }
         }
@@ -389,7 +461,7 @@ namespace ServiceDesk_WebApp.Services
         /// <param name="modifiedBy"></param>
         /// <param name="link"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<bool>> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel, int modifiedBy,string link)
+        public async Task<ServiceResult<bool>> UpdatePassword(ChangePasswordRequestModel changePasswordRequestModel, int modifiedBy, string link)
         {
             try
             {
@@ -399,10 +471,10 @@ namespace ServiceDesk_WebApp.Services
 
                     User.Password = changePasswordRequestModel.Password;
                     await _applictionUserRepo.UpdateAsync(User, modifiedBy);
-                    var details = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Id== changePasswordRequestModel.TicketId);
+                    var details = await _applictionUserRepo.GetAsync<ChangePasswordRequest>(x => x.Id == changePasswordRequestModel.TicketId);
                     details.Status = 1;
                     await _applictionUserRepo.UpdateAsync(details, modifiedBy);
-                    await EmailHandler.PasswordResolveMail(changePasswordRequestModel.Password, changePasswordRequestModel.TicketId, changePasswordRequestModel.ApiTicketId, details.Email, From, SenderPassword, Host, Port,link);
+                    await EmailHandler.PasswordResolveMail(changePasswordRequestModel.Password, changePasswordRequestModel.TicketId, changePasswordRequestModel.ApiTicketId, details.Email, From, SenderPassword, Host, Port, link);
                     return new ServiceResult<bool>(null, "Password updated!");
                 }
 
@@ -410,6 +482,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
 
@@ -432,6 +513,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
 
@@ -470,7 +560,7 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>(x =>true);
+                var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>(x => true);
                 var paymentRequestModel = new List<PaymentRequestModel>();
                 foreach (var user in list)
                 {
@@ -492,6 +582,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<IEnumerable<PaymentRequestModel>>(ex, ex.Message);
             }
         }

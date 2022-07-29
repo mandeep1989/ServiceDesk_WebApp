@@ -218,7 +218,8 @@ $(req_form_id).unbind().bind('submit', function (e) {
             success: function (response) {
                 if (response.isSuccess) {
                     SportaUtil.MessageBoxSuccess(response.message);
-
+                    SportaForms.ResetForm(req_form_id);
+                    $("#payment_req_modal").modal("hide");
 
                 }
                 else {

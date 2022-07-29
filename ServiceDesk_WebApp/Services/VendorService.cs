@@ -13,7 +13,9 @@ namespace ServiceDesk_WebApp.Services
         private readonly string SenderPassword;
         private readonly string Host;
         private readonly int Port;
-        public VendorService(IRepository applictionUserRepo, IConfiguration configuration)
+        private readonly int PORTALID;
+        private readonly ServiceDesk_WebAppContext _context;
+        public VendorService(IRepository applictionUserRepo, IConfiguration configuration, ServiceDesk_WebAppContext context)
         {
             _applictionUserRepo = applictionUserRepo;
             authToken = configuration.GetValue<string>("Authtoken");
@@ -21,6 +23,8 @@ namespace ServiceDesk_WebApp.Services
             SenderPassword = configuration.GetValue<string>("EmailSettings:Password");
             Host = configuration.GetValue<string>("EmailSettings:Host");
             Port = configuration.GetValue<int>("EmailSettings:Port");
+            PORTALID = configuration.GetValue<int>("PORTALID");
+            _context = context;
 
         }
 
@@ -50,6 +54,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
         }
@@ -68,6 +81,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
         }
@@ -108,10 +130,14 @@ namespace ServiceDesk_WebApp.Services
                 if (result != null)
                 {
                     var UserDetail = await _applictionUserRepo.GetAsync<User>(y => y.Id == createdBy);
-                    var client = new RestClient(ApiUrl.RequestAddUrl);
+                    var options = new RestClientOptions(ApiUrl.RequestAddUrl + $"?PORTALID={PORTALID}")
+                    {
+                        RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
+                    };
+                    var client = new RestClient(options);
                     var request = new RestRequest { Method = Method.Post };
                     request.AddHeader("Authtoken", $"{authToken}");
-                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Payment request\",\"group\": {\"name\": \"network\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": {\"name\": \"" + UserDetail.Name + " \" , \"email_id\":\"" + UserDetail.Email + "\"},\"priority\": {\"name\": \"High\"}}}");
+                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Payment request\",\"group\": {\"name\": \"ITFM\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": { \"email_id\":\"AlMatari@anb.com.sa\"},\"priority\": {\"name\": \"High\"}}}");
                     var response = client.ExecuteAsync(request).Result;
                     if (response.StatusCode == System.Net.HttpStatusCode.Created)
                     {
@@ -126,6 +152,8 @@ namespace ServiceDesk_WebApp.Services
                     }
                     else
                     {
+
+                        await EmailHandler.PaymentRequestFailMail(UserDetail.Email, From, SenderPassword, Host, Port);
                         return new ServiceResult<bool>(false, "There is Some Issue With Service Desk Plus", true);
                     }
 
@@ -135,6 +163,15 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<bool>(ex, ex.Message);
             }
         }
@@ -168,11 +205,17 @@ namespace ServiceDesk_WebApp.Services
             }
             catch (Exception ex)
             {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.ToString()
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
                 return new ServiceResult<IEnumerable<PaymentRequestModel>>(ex, ex.Message);
             }
-
-
-
         }
     }
 }
