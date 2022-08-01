@@ -191,6 +191,7 @@ namespace ServiceDesk_WebApp.Services
                         ProjectName = x.ProjectName,
                         Department = x.Department,
                         Classification = x.Classification,
+                        Ticketid=x.Ticketid,
                        Created = DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date
 
                    });

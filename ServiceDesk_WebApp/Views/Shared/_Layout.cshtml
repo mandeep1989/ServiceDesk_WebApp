@@ -1,8 +1,9 @@
-﻿@using ServiceDesk_WebApp.Common
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using ServiceDesk_WebApp.Common
 @inject Utils util
 @*@inject IWebHostEnvironment env*@
 <!DOCTYPE html>
-<html lang="en">
+<html  lang="en">
 <head>
 
 	<style>
@@ -55,15 +56,15 @@
 			<div class="list-group list-group-flush">
 				@if(User.GetUserRole()==1)
 				{
-					<a asp-controller="Admin" asp-action="AdminDashBoard" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-				    <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>Vendors</a>
-				    <a asp-controller="Admin" asp-action="AdminViewRequest" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
-					 <a asp-controller="Admin" asp-action="PasswordRequest" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> Change Password Request</a>
+					<a asp-controller="Admin" asp-action="AdminDashBoard" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> @localizer["Dashboard"]</a>
+				    <a asp-controller="Admin" asp-action="Vendor" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-user-large"></i>@localizer["Vendors"]</a>
+				    <a asp-controller="Admin" asp-action="AdminViewRequest" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> @localizer["ViewRequest"]</a>
+					 <a asp-controller="Admin" asp-action="PasswordRequest" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> @localizer["ChangePasswordRequest"]</a>
 				}
 				@if(User.GetUserRole()==2)
 				{
-					<a asp-controller="Vendor" asp-action="Index" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-				    <a asp-controller="Vendor" asp-action="PaymentRequest" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> View Request</a>
+					<a asp-controller="Vendor" asp-action="Index" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-gauge"></i>@localizer["Dashboard"] </a>
+				    <a asp-controller="Vendor" asp-action="PaymentRequest" class="list-group-item list-group-item-action list-group-item-light p-3"><i class="fa-solid fa-rectangle-list"></i> @localizer["ViewRequest"]</a>
 				}
 				
 			</div>
@@ -79,7 +80,7 @@
 				<div class="container-fluid justify-content-sm-end p-2">
 					@*<button class="btn btn-primary" id="sidebarToggle"><i class="fa-solid fa-sliders"></i> </button>*@
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-
+					 @await Html.PartialAsync("_CulturePartial")
 
 					<div class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown">
@@ -87,7 +88,7 @@
 						</a>
 						<div class="dropdown-menu  admin-user-dropdown">
 							<a class="dropdown-item logout-btn" href="#!"><i class="fa-solid fa-user-large"></i>&nbsp; @User.GetEmail()</a>
-							 <a  class="dropdown-item logout-btn "title="Logout" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout </a>
+							 <a  class="dropdown-item logout-btn "title="Logout" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> @localizer["Logout"] </a>
 
 @*
 							<a data-bs-toggle="modal" class="dropdown-item logout-btn" data-bs-target="#myModal">
@@ -125,8 +126,8 @@
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-					<a asp-action="LogOut" asp-controller="Account" class="btn btn-secondary"> <i class="fa-solid fa-user-large"></i> Logout</a>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">@localizer["Close"]</button>
+					<a asp-action="LogOut" asp-controller="Account" class="btn btn-secondary"> <i class="fa-solid fa-user-large"></i> @localizer["Logout"]</a>
 
 				</div>
 

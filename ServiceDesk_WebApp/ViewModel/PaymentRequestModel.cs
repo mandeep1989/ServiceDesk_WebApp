@@ -109,5 +109,6 @@
         /// Contract
         /// </summary>
         public string Contract { get; set; }
+        public string Ticketid { get; set; }
     }
 }

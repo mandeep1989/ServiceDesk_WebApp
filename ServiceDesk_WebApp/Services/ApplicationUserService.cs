@@ -574,6 +574,7 @@ namespace ServiceDesk_WebApp.Services
                         ProjectName = user.ProjectName,
                         Department = user.Department,
                         Classification = user.Classification,
+                        Ticketid = user.Ticketid,
                         Created = DateTime.ParseExact(user.CreatedOn, "dd,MM,yyyy", null).Date
                     });
                 }

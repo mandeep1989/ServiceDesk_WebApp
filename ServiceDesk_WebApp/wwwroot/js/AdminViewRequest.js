@@ -13,6 +13,7 @@ function loadPaymentRequests() {
         var tableColumns = [
             { data: "name" },
             { data: "email" },
+            { data: "ticketid" },
             { data: "contractTitle" },
             { data: "projectName" },
             { data: "classification" },

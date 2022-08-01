@@ -14,6 +14,7 @@ function loadPaymentVendorRequests() {
             //{ data: "name" },
             //{ data: "email" },
             { data: "contractTitle" },
+            { data: "ticketid" },
             { data: "projectName" },
             { data: "classification" },
             { data: "department" },

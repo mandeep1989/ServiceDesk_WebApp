@@ -1,18 +1,19 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
 	ViewData["Title"] = "Vendors";
 }
 
 <div class="page-content p-4">
 
 	<h3 class="text-theme text-black">
-		Vendors
-		<button class="btn btn-sm btn-primary border-10 create_btn float-right" id="btn-create-new" onclick="openUserForm()">Create New <i class="fas fa-plus"></i></button>
+		@localizer["Vendors"]
+		<button class="btn btn-sm btn-primary border-10 create_btn float-right" id="btn-create-new" onclick="openUserForm()">@localizer["CreateNew"] <i class="fas fa-plus"></i></button>
 	</h3>
 	<hr class="border-theme" />
 
 	<div class="sidebar">
 		<div class="sidebar-title">
-			Vendor Form
+			@localizer["VendorForm"]
 			<button type="button" class="close" aria-label="Close" data-dismiss="sidebar">
 				<span aria-hidden="true">&times;</span>
 			</button>
@@ -24,23 +25,23 @@
 
 				<div class="form-row">
 					<div class="col-sm-6 form-group">
-						<label class="floating-label" for="txt-VendorName">Vendor Name</label>
+						<label class="floating-label" for="txt-VendorName">	@localizer["VendorName"]</label>
 						<input type="text" name="VendorName" id="txt-VendorName" class="form-control" />
 						<div class="invalid-input-feedback">This can not be blank!</div>
 					</div>
 
 					<div class="col-sm-6 form-group">
-						<label class="floating-label" for="txt-email-id">Email</label>
+						<label class="floating-label" for="txt-email-id">@localizer["Email"]</label>
 						<input type="email" name="Email" id="txt-email-id" class="form-control" />
 						<div class="invalid-input-feedback"></div>
 					</div>
 					<div class="col-sm-6 form-group">
-						<label class="floating-label" for="txt-VendorNo">VendorNo</label>
+						<label class="floating-label" for="txt-VendorNo">@localizer["VendorNo"]</label>
 						<input type="text" name="VendorNo" id="txt-VendorNo" class="form-control" />
 						<div class="invalid-input-feedback"></div>
 					</div>
 					<div class="col-sm-6 form-group">
-						<label class="floating-label" for="txt-ResidencyStatus">ResidencyStatus</label>
+						<label class="floating-label" for="txt-ResidencyStatus">@localizer["ResidencyStatus"]</label>
 						<input type="text" name="ResidencyStatus" id="txt-ResidencyStatus" class="form-control" />
 						<div class="invalid-input-feedback"></div>
 					</div>
@@ -50,19 +51,19 @@
 						<div class="invalid-input-feedback"></div>
 					</div>
 					<div class="col-sm-6 form-group">
-						<label class="floating-label" for="txt-Currency">Currency</label>
+						<label class="floating-label" for="txt-Currency">@localizer["Currency"]</label>
 						<input type="text" name="Currency" id="txt-Currency" class="form-control" />
 						<div class="invalid-input-feedback"></div>
 					</div>
 					<div class="col-sm-6 form-group Pgroup">
-						<label class="floating-label" for="txt-Password">Password</label>
+						<label class="floating-label" for="txt-Password">@localizer["Password"]</label>
 						<input type="text" name="Password" id="txt-Password" class="form-control" />
 						<div class="invalid-input-feedback"></div>
 					</div>
 
 					<div class="col-sm-12">
-						<button type="submit" class="btn btn-primary mr-2" id="btn-submit"> Submit</button>
-						<button type="button" class="btn btn-danger" id="btn-cancel" onclick="closeVendorForm()">Cancel</button>
+						<button type="submit" class="btn btn-primary mr-2" id="btn-submit"> @localizer["Submit"]</button>
+						<button type="button" class="btn btn-danger" id="btn-cancel" onclick="closeVendorForm()"> @localizer["Cancel"]</button>
 					</div>
 				</div>
 			</form>
@@ -75,20 +76,13 @@
 			<table id="application-vendor-list" class="table table-sm w-100 table-responsive-md">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Vendor No</th>
-						<th>Status</th>
-						<th class="doNotExport">Action</th>
+						<th>@localizer["Name"]</th>
+						<th>@localizer["Email"]</th>
+						<th>@localizer["VendorNo"]</th>
+						<th>@localizer["Status"]</th>
+						<th class="doNotExport">@localizer["Action"]</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<th>Name</th>
-						<th>Email</th>
-						<th class="doNotExport">Action</th>
-					</tr>
-				</tfoot>
 			</table>
 			<!-- Users List End -->
 		</div>
