@@ -1,8 +1,4 @@
 
-using Microsoft.Extensions.Options;
-using ServiceDesk_WebApp.Common;
-using System.Globalization;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("MailSettings"));
