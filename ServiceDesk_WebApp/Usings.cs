@@ -10,3 +10,7 @@ global using AspNetCoreHero.ToastNotification.Extensions;
 global using Microsoft.AspNetCore.CookiePolicy;
 global using ServiceDesk_WebApp.Models;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;
+global using ServiceDesk_WebApp.Common;
+global using System.Globalization;
+global using System.Reflection;
