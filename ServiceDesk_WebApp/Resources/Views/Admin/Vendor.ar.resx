@@ -147,6 +147,9 @@
   <data name="Submit" xml:space="preserve">
     <value>يُقدِّم</value>
   </data>
+  <data name="update" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
   <data name="VendorForm" xml:space="preserve">
     <value>نموذج البائع</value>
   </data>

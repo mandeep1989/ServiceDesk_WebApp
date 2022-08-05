@@ -77,7 +77,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -130,7 +131,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy")
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
                 LogService log = new LogService();
                 log.AddLogError(ex.Message + " " + ex.Message);
@@ -171,7 +173,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -215,7 +218,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -256,7 +260,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -288,7 +293,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -307,11 +313,11 @@ namespace ServiceDesk_WebApp.Services
             {
                 var list = await _applictionUserRepo.GetAllAsync<User>(x => x.UserRole == (int)UserRole.Vendor);
                 GetVendorCount getVendorCount = new GetVendorCount();
-                getVendorCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date == DateTime.Now.Date).Count();
-                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays == 1).Count();
-                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 7).Count();
-                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 30).Count();
-                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 90).Count();
+                getVendorCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date == DateTime.Now.Date).Count();
+                getVendorCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays == 1).Count();
+                getVendorCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays <= 7).Count();
+                getVendorCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays <= 30).Count();
+                getVendorCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays <= 90).Count();
 
                 return new ServiceResult<GetVendorCount>(getVendorCount, "Vendor count!");
             }
@@ -321,7 +327,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -399,7 +406,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -446,7 +454,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -486,7 +495,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -517,7 +527,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -539,7 +550,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = errorRequest.Information,
                     UserId = errorRequest.UserId,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -560,6 +572,7 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
+                //var cultureInfo = new CultureInfo("en-US");
                 var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>(x => true);
                 var paymentRequestModel = new List<PaymentRequestModel>();
                 foreach (var user in list)
@@ -575,7 +588,8 @@ namespace ServiceDesk_WebApp.Services
                         Department = user.Department,
                         Classification = user.Classification,
                         Ticketid = user.Ticketid,
-                        Created = DateTime.ParseExact(user.CreatedOn, "dd,MM,yyyy", null).Date
+                       // Created = DateTime.Parse(user.CreatedOn, cultureInfo)
+                         Created = DateTime.ParseExact(user.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date
                     });
                 }
 
@@ -587,7 +601,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);
@@ -602,11 +617,11 @@ namespace ServiceDesk_WebApp.Services
             {
                 var list = await _applictionUserRepo.GetAllAsync<PaymentRequest>();
                 GetVendorCount getRequestCount = new GetVendorCount();
-                getRequestCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date == DateTime.Now.Date).Count();
-                getRequestCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays == 1).Count();
-                getRequestCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 7).Count();
-                getRequestCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 30).Count();
-                getRequestCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date).TotalDays <= 90).Count();
+                getRequestCount.TodayCount = list.Where(x => DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date == DateTime.Now.Date).Count();
+                getRequestCount.YesterDayCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays == 1).Count();
+                getRequestCount.Last7DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays <= 7).Count();
+                getRequestCount.Last30DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays <= 30).Count();
+                getRequestCount.Last90DaysCount = list.Where(x => (DateTime.Now.Date - DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date).TotalDays <= 90).Count();
 
                 return new ServiceResult<GetVendorCount>(getRequestCount, "Request count!");
             }
@@ -616,7 +631,8 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+
                 };
 
                 await _context.AddAsync(errorLog);

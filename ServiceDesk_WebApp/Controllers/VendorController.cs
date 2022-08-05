@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ServiceDesk_WebApp.Common;
 using ServiceDesk_WebApp.ViewModel;
+using System.Globalization;
 using System.Net.Http.Headers;
 
 namespace ServiceDesk_WebApp.Controllers
@@ -96,8 +97,12 @@ namespace ServiceDesk_WebApp.Controllers
             data.TryGetValue("Branch", out var Branch);
             data.TryGetValue("Contract", out var Contract);
             model.ContractTitle = ContractTitle;
-            model.StartDate = Convert.ToDateTime(StartDate).ToString("dd,MM,yyyy");
-            model.EndDate = Convert.ToDateTime(EndDate).ToString("dd,MM,yyyy");       
+            //model.StartDate =ConvertDateTimeToDate(StartDate, CultureInfo.CurrentCulture.ToString());
+            model.StartDate = Convert.ToDateTime(StartDate, CultureInfo.CreateSpecificCulture("en-US")).ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+            // model.StartDate = Convert.ToDateTime(StartDate).ToString("dd,MM,yyyy");
+            model.EndDate = Convert.ToDateTime(EndDate, CultureInfo.CreateSpecificCulture("en-US")).ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));       
+           // var bb = aa.ToString("dd-MM-yyyy", CultureInfo.CreateSpecificCulture("en-US"));       
+            //model.EndDate = Convert.ToDateTime(EndDate);       
             model.Department = Department;
             model.InvoiceNo = InvoiceNumber;
             model.InvoiceAmount = InvoiceAmount;
@@ -105,7 +110,8 @@ namespace ServiceDesk_WebApp.Controllers
             model.Classification = Classification;
             model.ContractRefType = ContractRefType;
             model.Details = Details;
-            model.InvoiceDate = Convert.ToDateTime(InvoiceDate).ToString("dd,MM,yyyy"); 
+           //// model.InvoiceDate = Convert.ToDateTime(InvoiceDate).ToString("dd,MM,yyyy");
+            model.InvoiceDate = Convert.ToDateTime(InvoiceDate, CultureInfo.CreateSpecificCulture("en-US")).ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));
             model.ApplicationName = ApplicationName;
             model.BankName = BankName;
             model.PaymentMode = PaymentMode;
@@ -148,6 +154,22 @@ namespace ServiceDesk_WebApp.Controllers
 
             
         }
+        private  string ConvertDateTimeToDate(string dateTimeString, String langCulture)
+        {
+
+            CultureInfo culture = new CultureInfo(langCulture);
+            DateTime dt = DateTime.MinValue;
+
+            if (DateTime.TryParse(dateTimeString, out dt))
+            {
+                return dt.ToString("d", culture);
+            }
+            return dateTimeString;
+        }
+        /// <summary>
+        /// Fetching details from csv file
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult GetCsv()
         {

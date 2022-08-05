@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceDesk_WebApp.Data;
 using ServiceDesk_WebApp.Models;
+using System.Globalization;
 using System.Linq.Expressions;
 
 namespace ServiceDesk_WebApp.RepositoryLayer
@@ -137,10 +138,18 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         public async Task<T> AddAsync<T>(T entity, int createdBy) where T : class, IAudit
         {
             entity.CreatedBy = createdBy;
-            entity.CreatedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
             entity.ModifiedBy = createdBy;
-            entity.ModifiedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
-
+            if (CultureInfo.CurrentCulture.ToString() == "ar-SA")
+            {
+                string strHijdt = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US")) ;
+                entity.CreatedOn = strHijdt;
+                entity.ModifiedOn = strHijdt;
+            }
+            else
+            {
+                entity.CreatedOn = DateTime.Now.ToString("dd,MM,yyyy");
+                entity.ModifiedOn = DateTime.Now.ToString("dd,MM,yyyy");
+            }
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -153,9 +162,19 @@ namespace ServiceDesk_WebApp.RepositoryLayer
             foreach (var entity in entities)
             {
                 entity.CreatedBy = createdBy;
-                entity.CreatedOn = DateTime.Now.ToString();
                 entity.ModifiedBy = createdBy;
-                entity.ModifiedOn = DateTime.Now.ToString();
+                if (CultureInfo.CurrentCulture.ToString() == "ar-SA")
+                {
+                    string strHijdt = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    entity.CreatedOn = strHijdt;
+                    entity.ModifiedOn = strHijdt;
+                }
+                else
+                {
+                    entity.CreatedOn = DateTime.Now.ToString("dd,MM,yyyy");
+                    entity.ModifiedOn = DateTime.Now.ToString("dd,MM,yyyy");
+                }
+
             }
 
             await _context.AddRangeAsync(entities);
@@ -170,7 +189,15 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         public async Task<T> UpdateAsync<T>(T entity, int updatedBy) where T : class, IAudit
         {
             entity.ModifiedBy = updatedBy;
-            entity.ModifiedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
+            if (CultureInfo.CurrentCulture.ToString() == "ar-SA")
+            {
+                string strHijdt = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                entity.ModifiedOn = strHijdt;
+            }
+            else
+            {
+                entity.ModifiedOn = DateTime.Now.ToString("dd,MM,yyyy");
+            }
 
             _context.Update(entity);
             await _context.SaveChangesAsync();
@@ -199,7 +226,15 @@ namespace ServiceDesk_WebApp.RepositoryLayer
         {
             entity.IsDeleted = 1;
             entity.ModifiedBy = updatedBy;
-            entity.ModifiedOn = DateTime.Now.Date.ToString("dd,MM,yyyy");
+            if (CultureInfo.CurrentCulture.ToString() == "ar-SA")
+            {
+                string strHijdt = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                entity.ModifiedOn = strHijdt;
+            }
+            else
+            {
+                entity.ModifiedOn = DateTime.Now.ToString("dd,MM,yyyy");
+            }
 
             _context.Update(entity);
             return await _context.SaveChangesAsync() > 0;
@@ -211,7 +246,15 @@ namespace ServiceDesk_WebApp.RepositoryLayer
             {
                 entity.IsDeleted = 1;
                 entity.ModifiedBy = updatedBy;
-                entity.ModifiedOn = DateTime.Now.ToString();
+                if (CultureInfo.CurrentCulture.ToString() == "ar-SA")
+                {
+                    string strHijdt = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    entity.ModifiedOn = strHijdt;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now.ToString("dd,MM,yyyy");
+                }
                 _context.Update(entity);
             }
 

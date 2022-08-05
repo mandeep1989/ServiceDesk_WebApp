@@ -27,47 +27,6 @@ $(document).ready(function () {
     loadApplicationVendors();
 });
 
-// opening Create User Form Or Edit User Form
-function openUserForm(id) {
-    SportaForms.ResetForm(form_id);
-    if (id) {
-        $.get(get_url, 'id=' + id, function (response) {
-            var data = response.data;
-            $(txt_id).val(data.id);
-            $(txt_VendorName).val(data.vendorName);
-            $(txt_VendorNo).val(data.vendorNo);
-            $(txt_ResidencyStatus).val(data.residencyStatus);
-            $(txt_Poremarks).val(data.poRemarks);
-            $(txt_Currency).val(data.currency);
-            $(txt_email).val(data.email).prop('readonly', true);
-            $(txt_Password).val(data.password).parent('.Pgroup').hide();      // prop('hidden', true);
-            $(btn_submit).text('Update')
-            openSidebar();
-            SportaForms.InitializeFormStyle(form_id);
-        });
-    }
-    else {
-        $(txt_id).val(0);
-        $(txt_Password).parent('.Pgroup').show();
-        $(txt_email).prop('readonly', false);
-        $(btn_submit).text('Save')
-        openSidebar();
-        SportaForms.InitializeFormStyle(form_id);
-    }
-
-}
-
-
-// Closing User Form
-function closeUserForm() {
-    SportaForms.ResetForm(form_id);
-    $(txt_id).val(0);
-    $(txt_email).prop('readonly', false);
-    $(txt_Password).parent('.Pgroup').show();
-    $(btn_submit).text('Save')
-    $(form_id).fadeOut();
-    $(btn_create_new).show();
-}
 
 
 

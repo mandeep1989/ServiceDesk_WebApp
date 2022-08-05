@@ -1,12 +1,10 @@
-
-using Microsoft.Extensions.Options;
 using ServiceDesk_WebApp.Common;
 using System.Globalization;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Services.AddLocalization(option = &gt; options.ResourcesPath = "Resources");
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("MailSettings"));
-//builder.Services.AddLocalization(Options = &gt; options.ResourcesPath = "Resources");
+//builder.Services.AddLocalization(options = &Gt; options.ResourcesPath = "Resources");
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.AddMvc()
@@ -15,13 +13,10 @@ builder.Services.AddMvc()
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var cultures = new List<CultureInfo> {
-        new CultureInfo("en"),
-        new CultureInfo("ar")
-                };
-    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
-    options.SupportedCultures = cultures;
-    options.SupportedUICultures = cultures;
+    var cultures = new [] {"en-US","ar-SA" };
+    options.SetDefaultCulture(cultures[0])
+    .AddSupportedCultures(cultures)
+    .AddSupportedUICultures(cultures);
 });
 
 
@@ -43,6 +38,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 5; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 
 var app = builder.Build();
+
 
 app.Use(async (ctx, next) =>
 {
@@ -73,14 +69,14 @@ else
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-var supportedCultures = new[] { "en-US", "ar" };
+var supportedCultures = new[] { "en-US", "ar-SA" };
 var localizationOptions =
     new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
 
 app.UseRequestLocalization(localizationOptions);
+
 app.UseRouting();
 
 app.UseAuthentication();

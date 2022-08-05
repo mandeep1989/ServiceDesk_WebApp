@@ -1,4 +1,5 @@
-﻿<div class="container">
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+<div class="container">
 	<div class="row pt-8">
 		<div class="col-md-4">
 			<div class="card card_btn_row text-black  o-hidden h-100">
@@ -7,7 +8,7 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-outline-primary" id="paymentBtn" onclick="openPaymentForm()"> Payment Request </button>
+						<button class="btn btn-outline-primary" id="paymentBtn" onclick="openPaymentForm()">@localizer["PaymentRequest"]  </button>
 					</div>
 				</div>
 
@@ -20,7 +21,7 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-outline-primary"> Payment Request for Resources</button>
+						<button class="btn btn-outline-primary">@localizer["PaymentResource"] </button>
 					</div>
 				</div>
 
@@ -33,7 +34,7 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-outline-primary" id="escalationBtn" onclick="openEscalationForm() "> Escalation Form</button>
+						<button class="btn btn-outline-primary" id="escalationBtn" onclick="openEscalationForm() "> @localizer["Escalationform"]</button>
 
 					</div>
 				</div>
@@ -51,7 +52,7 @@
 
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title">Escalation Matrix Form</h4>
+				<h4 class="modal-title">@localizer["EscalationFormTitle"]</h4>
 				<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
 			</div>
 
@@ -60,38 +61,38 @@
 				<form class="ecalation" method="post" id="escalationRequest_form">
 					<div class="row">
 						<div class="col-md-6">
-							<h3>Company CEO </h3>
+							<h3>@localizer["CompanyCEO"] </h3>
 							<div class="row form-group form_row">
-								<label class="col-md-4" for="CompanyName">Name:</label>
+								<label class="col-md-4" for="CompanyName">@localizer["Name"]</label>
 								<input type="text" class="form-control col-md-8" id="CompanyName" name="CompanyName">
 								<div class="invalid-input-feedback mt-1 ml-4"></div>
 							</div>
 							<div class="row form-group form_row">
-								<label class="col-md-4" for="CompanyEmail">Email:</label> 
+								<label class="col-md-4" for="CompanyEmail">@localizer["Email"]</label> 
 								 <input type="email" class="form-control col-md-8" id="CompanyEmail" name="CompanyEmail">
 								<div class="invalid-input-feedback mt-1 ml-4"></div>
 							</div>
 							
 							<div class="row  form_row form-group">
-								<label class="col-md-4">Phone:</label> 
+								<label class="col-md-4">@localizer["Phone"]</label> 
 								<input class="col-md-8 form-control" type="text" id="CompanyPhone" name="CompanyPhone">
 								<div class="invalid-input-feedback mt-1 ml-4 col-md-12"></div>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<h3>Point of Contact </h3>
+							<h3>@localizer["PointOfContact"] </h3>
 							<div class="row form-group form_row">
-								<label class="col-md-4" for="ContactName">Name:</label>
+								<label class="col-md-4" for="ContactName">@localizer["Name"]</label>
 								<input type="text" class="form-control col-md-8" id="ContactName" name="ContactName">
 								<div class="invalid-input-feedback mt-1 ml-4"></div>
 							</div>
 							<div class="row form-group form_row">
-								<label  class="col-md-4" for="ContactEmail">Email:</label>
+								<label  class="col-md-4" for="ContactEmail">@localizer["Email"]</label>
 								<input type="email" class="form-control col-md-8" id="ContactEmail" name="ContactEmail">
 								<div class="invalid-input-feedback mt-1 ml-4"></div>
 							</div>
 							<div class="row form-group form_row">
-								<label class="col-md-4" for="ContactPhone">Phone:</label>
+								<label class="col-md-4" for="ContactPhone">@localizer["Phone"]</label>
 								<input type="text" class="form-control col-md-8" id="ContactPhone" name="ContactPhone">
 								<div class="invalid-input-feedback mt-1 ml-4"></div>
 							</div>
@@ -99,8 +100,8 @@
 					</div>
 					<!-- Modal footer -->
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary">Submit</button>
-						<button type="button" class="btn btn-warning" onclick="closeEscalationForm()">Close</button>
+						<button type="submit" class="btn btn-primary">@localizer["Submit"]</button>
+						<button type="button" class="btn btn-warning" onclick="closeEscalationForm()">@localizer["Close"]</button>
 					</div>
 				</form>
 			</div>
@@ -125,15 +126,15 @@
 			<div class="modal-body">
 				<form class="ecalation" method="post" id="payment_req_form">
 					<fieldset>
-						<legend>Please enter your request details:</legend>
+						<legend>@localizer["title"]</legend>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="Contract">Contract</label>
+									<label for="Contract">@localizer["Contract"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<select class="form-control selectpicker "  title="Choose Contract" id="Contract">
+										<select class="form-control selectpicker " title= "@localizer["ChooseContract"]" id="Contract">
 										</select>
 										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
@@ -144,7 +145,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<h3>Contract Title</h3>
+									<h3>@localizer["ContractTitle"]</h3>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -153,7 +154,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="StartDate">Start Date</label>
+									<label for="StartDate">@localizer["StartDate"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -166,7 +167,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="Department">Department</label>
+									<label for="Department">@localizer["Department"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -175,7 +176,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="EndDate">End Date</label>
+									<label for="EndDate">@localizer["EndDate"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -188,7 +189,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="Classification">Classification</label>
+									<label for="Classification">@localizer["Classification"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -197,7 +198,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="ApplicationName">Application Name</label>
+									<label for="ApplicationName">@localizer["ApplicationName"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -210,7 +211,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="ContractRefType">Contract Ref Type</label>
+									<label for="ContractRefType">@localizer["ContractRefType"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -219,7 +220,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="ProjectName">Project Name</label>
+									<label for="ProjectName">@localizer["ProjectName"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -230,11 +231,11 @@
 							</div>
 						</div>
 
-						<h3>Invoice Details</h3>
+						<h3>@localizer["InvoiceDetails"]</h3>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="InvoiceNumber">Invoice Number</label>
+									<label for="InvoiceNumber">@localizer["InvoiceNumber"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -243,7 +244,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="InvoiceDate">Invoice Date</label>
+									<label for="InvoiceDate">@localizer["InvoiceDate"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -256,7 +257,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="InvoiceAmount">Invoice Amount </label>
+									<label for="InvoiceAmount">@localizer["InvoiceAmount"] </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -270,7 +271,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="Details">Details of Goods and Services provided </label>
+									<label for="Details">@localizer["Details"] </label>
 								</div>
 								<div class="col-md-5">
 									<div class="form-group">
@@ -284,7 +285,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="OrignalInvoice">Orignal Invoice  </label>
+									<label for="OrignalInvoice">@localizer["OrignalInvoice"]  </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -303,7 +304,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="ServiceConfirmation">Service Confirmation</label>
+									<label for="ServiceConfirmation">@localizer["ServiceConfirmation"] </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -322,7 +323,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="CopyOfApproval">Copy of Signed assignment  and approval  </label>
+									<label for="CopyOfApproval">@localizer["Copy"]  </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -341,11 +342,11 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="PaymentMode">Payment Mode</label>
+									<label for="PaymentMode">@localizer["PaymentMode"] </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<select class="form-control selectpicker" id="PaymentMode" title="Choose Mode" name="PaymentMode">
+										<select class="form-control selectpicker" id="PaymentMode" title="@localizer["ChooseMode"]" name="PaymentMode">
 											<option value="P1">P1</option>
 											<option value="P2">P2</option>
 											<option value="P3"> P3</option>
@@ -360,7 +361,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="BankName">Bank Name</label>
+									<label for="BankName">@localizer["Bank"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -382,7 +383,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="AccountName">Account Name</label>
+									<label for="AccountName">@localizer["AccountName"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -391,7 +392,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="email">Swift Code</label>
+									<label for="email">@localizer["Swift"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -404,7 +405,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="AccountNumber">Account Number</label>
+									<label for="AccountNumber">@localizer["AccountNumber"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -413,7 +414,7 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<label for="Branch">Branch</label>
+									<label for="Branch">@localizer["Branch"]</label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -429,8 +430,8 @@
 
 						<!-- Modal footer -->
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary">Submit</button>
-				<button type="button" class="btn btn-warning" onclick="closePaymentForm()" >Close</button>
+				<button type="submit" class="btn btn-primary">@localizer["Submit"]</button>
+				<button type="button" class="btn btn-warning" onclick="closePaymentForm()" >@localizer["Close"]</button>
 			</div>
 
 				</form>

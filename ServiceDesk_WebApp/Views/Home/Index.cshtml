@@ -50,17 +50,21 @@
 						 class="img-fluid" alt="Sample image">
 				</div>
 				<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                   <div class="partical-lang">
+					 @await Html.PartialAsync("_CulturePartial")
+
+				   </div>
 					<form id="loginForm" method="post">
 						<!-- Email input -->
 						<div class="form-outline mb-4">
-							<label class="form-label" for="form3Example3">Email</label>
+							<label class="form-label" for="form3Example3">@localizer["Email"]</label>
 							<input type="email" id="Email" name="Email" class="form-control form-control-lg"
 								   placeholder="Enter a valid email address" />
 							<div class="invalid-input-feedback mt-1 ml-4"></div>
 						</div>
 						<!-- Password input -->
 						<div class="form-outline mb-3">
-							<label class="form-label" for="form3Example4">Password</label>
+							<label class="form-label" for="form3Example4">@localizer["Password"]</label>
 							<input type="password" id="Password" name="Password" class="form-control form-control-lg"
 								   placeholder="Enter password" />
 							<div class="invalid-input-feedback mt-1 ml-4"></div>
@@ -68,7 +72,7 @@
 						<div class="text-center text-lg-start mt-4 pt-2">
 							<button type="submit" class="btn btn-primary btn-lg"
 									style="padding-left: 2.5rem; padding-right: 2.5rem;">
-								Login
+								@localizer["Login"]
 							</button>
 						</div>
 					</form>
@@ -80,7 +84,7 @@
 							Remember me
 							</label>
 							</div>*@
-						<a asp-controller="Account" asp-action="ForgetPassWord">Forgot password?</a>
+						<a asp-controller="Account" asp-action="ForgetPassWord">@localizer["forgetpassword"]</a>
 
 					</div>
 				</div>

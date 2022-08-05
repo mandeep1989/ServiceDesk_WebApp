@@ -117,49 +117,115 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action" xml:space="preserve">
-    <value>Action</value>
+  <data name="AccountName" xml:space="preserve">
+    <value>أسم الحساب</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>رقم حساب</value>
   </data>
-  <data name="CreateNew" xml:space="preserve">
-    <value>Create New</value>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>اسم التطبيق</value>
   </data>
-  <data name="Currency" xml:space="preserve">
-    <value>Currency</value>
+  <data name="Bank" xml:space="preserve">
+    <value>اسم البنك</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>فرع</value>
+  </data>
+  <data name="ChooseContract" xml:space="preserve">
+    <value>اختر العقد</value>
+  </data>
+  <data name="ChooseMode" xml:space="preserve">
+    <value>اختر الوضع</value>
+  </data>
+  <data name="Classification" xml:space="preserve">
+    <value>تصنيف</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>يلغي</value>
+  </data>
+  <data name="CompanyCEO" xml:space="preserve">
+    <value>الرئيس التنفيذي للشركة</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>عقد</value>
+  </data>
+  <data name="ContractRefType" xml:space="preserve">
+    <value>نوع مرجع العقد</value>
+  </data>
+  <data name="ContractTitle" xml:space="preserve">
+    <value>عنوان العقد</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>نسخة موقعة من التنازل والموافقة</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>قسم</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>تفاصيل السلع والخدمات المقدمة</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value>البريد الإلكتروني:</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>تاريخ الانتهاء</value>
+  </data>
+  <data name="Escalationform" xml:space="preserve">
+    <value>استمارة التصعيد</value>
+  </data>
+  <data name="EscalationFormTitle" xml:space="preserve">
+    <value>نموذج مصفوفة التصعيد</value>
+  </data>
+  <data name="InvoiceAmount" xml:space="preserve">
+    <value>قيمة الفاتورة</value>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>تاريخ الفاتورة</value>
+  </data>
+  <data name="InvoiceDetails" xml:space="preserve">
+    <value>تفاصيل الفاتورة</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>رقم الفاتورة</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>اسم:</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
+  <data name="OrignalInvoice" xml:space="preserve">
+    <value>الايصال الاصلي</value>
   </data>
-  <data name="ResidencyStatus" xml:space="preserve">
-    <value>ResidencyStatus</value>
+  <data name="PaymentMode" xml:space="preserve">
+    <value>طريقة الدفع</value>
   </data>
-  <data name="Status" xml:space="preserve">
-    <value>Status</value>
+  <data name="PaymentRequest" xml:space="preserve">
+    <value>طلب الدفع</value>
+  </data>
+  <data name="PaymentResource" xml:space="preserve">
+    <value>طلب الدفع للموارد</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>هاتف:</value>
+  </data>
+  <data name="PointOfContact" xml:space="preserve">
+    <value>نقطة الاتصال</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>اسم المشروع</value>
+  </data>
+  <data name="ServiceConfirmation" xml:space="preserve">
+    <value>تأكيد الخدمة</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>تاريخ البدء</value>
   </data>
   <data name="Submit" xml:space="preserve">
-    <value>Submit</value>
+    <value>يُقدِّم</value>
   </data>
-  <data name="update" xml:space="preserve">
-    <value>Update</value>
+  <data name="Swift" xml:space="preserve">
+    <value>رمز السرعة</value>
   </data>
-  <data name="VendorForm" xml:space="preserve">
-    <value>Vendor Form</value>
-  </data>
-  <data name="VendorName" xml:space="preserve">
-    <value>Vendor Name</value>
-  </data>
-  <data name="VendorNo" xml:space="preserve">
-    <value>VendorNo</value>
-  </data>
-  <data name="Vendors" xml:space="preserve">
-    <value>Vendors</value>
+  <data name="title" xml:space="preserve">
+    <value>الرجاء إدخال تفاصيل طلبك</value>
   </data>
 </root>

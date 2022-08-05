@@ -2,6 +2,7 @@
 using RestSharp;
 using ServiceDesk_WebApp.Common;
 using ServiceDesk_WebApp.ViewModel;
+using System.Globalization;
 
 namespace ServiceDesk_WebApp.Services
 {
@@ -27,7 +28,12 @@ namespace ServiceDesk_WebApp.Services
             _context = context;
 
         }
-
+        /// <summary>
+        /// Add Escalation Form
+        /// </summary>
+        /// <param name="escalationForm"></param>
+        /// <param name="createdBy"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> AddEscalationForm(EscalationFormRequest escalationForm, int createdBy)
         {
             try
@@ -56,10 +62,11 @@ namespace ServiceDesk_WebApp.Services
             {
                 LogError errorLog = new()
                 {
+
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
-                };
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+            };
 
                 await _context.AddAsync(errorLog);
                 await _context.SaveChangesAsync();
@@ -67,7 +74,11 @@ namespace ServiceDesk_WebApp.Services
             }
         }
 
-
+        /// <summary>
+        /// Check Whether Esalation form is submitted by vendor
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> CheckEscalationForm(int Id)
         {
             try
@@ -85,7 +96,7 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
                 };
 
                 await _context.AddAsync(errorLog);
@@ -93,7 +104,12 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<bool>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Adding Payment Request Form
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="createdBy"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<bool>> AddPaymentForm(PaymentRequestModel model, int createdBy)
         {
             try
@@ -167,7 +183,7 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
                 };
 
                 await _context.AddAsync(errorLog);
@@ -175,26 +191,37 @@ namespace ServiceDesk_WebApp.Services
                 return new ServiceResult<bool>(ex, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Get Payment Request by Vendor Id
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests(int UserId)
         {
             try
             {
+               // var cultureInfo = new CultureInfo("en-US");
+                //Calendar cl = currentCulture.Calendar;
                 var list = (await _applictionUserRepo.GetAllAsync<PaymentRequest>(x => x.CreatedBy == UserId)).OrderByDescending(x=>x.Id);
                 IEnumerable<PaymentRequestModel> data = new List<PaymentRequestModel>();
                 if (list.Any())
                 {
-                   var  result = list.Select(x => new PaymentRequestModel()
+                    var result = list.Select(x => new PaymentRequestModel()
                     {
                         Id = x.Id,
                         ContractTitle = x.ContractTitle,
                         ProjectName = x.ProjectName,
                         Department = x.Department,
                         Classification = x.Classification,
-                        Ticketid=x.Ticketid,
-                       Created = DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", null).Date
+                        Ticketid = x.Ticketid,
+                        //Created = Convert.ToDateTime(x.CreatedOn.Split(',',1), CultureInfo.CreateSpecificCulture("en-US")),
+                       // Created= DateTime.Parse(x.CreatedOn, cultureInfo)
+                         Created = DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.InvariantCulture).Date
+                        //Created = DateTime.ParseExact(x.CreatedOn, "dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US")).Date
+                        //Created = x.CreatedOn
 
-                   });
+
+                    });
                     return new ServiceResult<IEnumerable<PaymentRequestModel>>(result, "Payment Request  List!");
 
                 }
@@ -210,7 +237,7 @@ namespace ServiceDesk_WebApp.Services
                 {
                     Information = ex.Message + " " + ex.StackTrace,
                     UserId = 1,
-                    Time = DateTime.Now.ToString()
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
                 };
 
                 await _context.AddAsync(errorLog);

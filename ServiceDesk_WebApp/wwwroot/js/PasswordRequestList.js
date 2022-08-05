@@ -21,9 +21,10 @@ $(document).ready(function () {
 function loadPasswordRequests() {
     $.get(getAllRequestUrl, function (response) {
         var tableColumns = [
+            { data: "apiTicketId" },
             { data: "name" },
             { data: "email" },
-            { data: "apiTicketId" },
+           
             {
                 data: null, render: function (data) {
                     var bsClass;

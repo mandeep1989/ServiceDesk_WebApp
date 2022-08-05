@@ -1,11 +1,12 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
 	ViewData["Title"] = "Payment Request";
 }
 
 <div class="page-content p-4">
 
 	<h3 class="text-theme text-black">
-		Submitted Payment Requests
+		@localizer["PaymentRequests"]
 	</h3>
 	<hr class="border-theme" />
 
@@ -15,13 +16,12 @@
 			<table id="request-paymentVendor-list" class="table table-sm w-100 table-responsive-md">
 				<thead>
 					<tr>
-						
-						<th>Contract</th>
-							<th>ApiTicketId</th>
-						<th>ProjectName</th>
-						<th>Classification</th>
-						<th>Department</th>
-						<th>Created</th>
+						<th>ApiTicketId</th>
+						<th>@localizer["Contract"]</th>
+						<th>@localizer["ProjectName"]</th>
+						<th>@localizer["Classification"]</th>
+						<th>@localizer["Department"]</th>
+						<th>@localizer["Created"]</th>
 						@*<th class="doNotExport">Action</th>*@
 					</tr>
 				</thead>

@@ -117,49 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action" xml:space="preserve">
-    <value>Action</value>
+  <data name="Classification" xml:space="preserve">
+    <value>Classification</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="Contract" xml:space="preserve">
+    <value>Contract</value>
   </data>
-  <data name="CreateNew" xml:space="preserve">
-    <value>Create New</value>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
   </data>
-  <data name="Currency" xml:space="preserve">
-    <value>Currency</value>
+  <data name="Department" xml:space="preserve">
+    <value>Department</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
+  <data name="PaymentRequests" xml:space="preserve">
+    <value>Submitted Payment Requests</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="ResidencyStatus" xml:space="preserve">
-    <value>ResidencyStatus</value>
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="Submit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
-  <data name="update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="VendorForm" xml:space="preserve">
-    <value>Vendor Form</value>
-  </data>
-  <data name="VendorName" xml:space="preserve">
-    <value>Vendor Name</value>
-  </data>
-  <data name="VendorNo" xml:space="preserve">
-    <value>VendorNo</value>
-  </data>
-  <data name="Vendors" xml:space="preserve">
-    <value>Vendors</value>
+  <data name="ProjectName" xml:space="preserve">
+    <value>ProjectName</value>
   </data>
 </root>

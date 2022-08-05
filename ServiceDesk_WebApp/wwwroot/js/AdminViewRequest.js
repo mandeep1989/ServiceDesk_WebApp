@@ -11,9 +11,9 @@ $(document).ready(function () {
 function loadPaymentRequests() {
     $.get(getAllRequestUrl, function (response) {
         var tableColumns = [
+            { data: "ticketid" },
             { data: "name" },
             { data: "email" },
-            { data: "ticketid" },
             { data: "contractTitle" },
             { data: "projectName" },
             { data: "classification" },
