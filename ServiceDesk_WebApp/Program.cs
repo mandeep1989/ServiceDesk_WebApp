@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 using ServiceDesk_WebApp.Common;
 using System.Globalization;
-=======
-
->>>>>>> 7211a13726810ca91b2c8b0a8bad03eee54881cf
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddLocalization(option = &gt; options.ResourcesPath = "Resources");
