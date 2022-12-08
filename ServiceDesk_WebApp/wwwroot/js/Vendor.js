@@ -43,23 +43,23 @@ $(document).ready(function () {
     checkEscalationStatus();
     var csv_path = "./wwwroot/CSVFile/Book1.csv";
     $.get("/Vendor/GetCsv", function (data) {
-        var csv = CSVToArray(data);
-       renderCSVDropdown(csv);
+       // var csv = CSVToArray(data);
+       renderCSVDropdown(data);
     });
 
 });
 
 
 var renderCSVDropdown = function (csv) {
-    let email = userEmail.split("@")[1];
+   /* let email = userEmail.split("@")[1];*/
     var dropdown = $('#Contract');
-    for (var i = 0; i < csv.length; i++) {
-        if (csv[i][1] && email) {
-            if (csv[i][1].toLowerCase() == email.toLowerCase()) {
-                var entry = $('<option>', { value: csv[i][0], text: csv[i][0] })
+    for (var i = 0; i < csv.data.length; i++) {
+        //if (csv[i][1] && email) {
+        //    if (csv[i][1].toLowerCase() == email.toLowerCase()) {
+                var entry = $('<option>', { value: csv.data[i].id, text: csv.data[i].name})
                 dropdown.append(entry);
-            }
-        }
+        //    }
+        //}
     }
 };
 

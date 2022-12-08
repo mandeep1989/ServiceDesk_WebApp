@@ -31,5 +31,7 @@ namespace ServiceDesk_WebApp.Services.Interface
         /// <param name="UserId"></param>
         /// <returns></returns>
         Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests(int UserId);
+
+        Task<ServiceResult<IEnumerable<ContactResponseModel>>> GetContracts(string userdomain);
     }
 }

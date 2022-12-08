@@ -43,7 +43,6 @@ function Login(data) {
         type: 'POST',
         beforeSend: function () { $('#preloader').show(); },
         success: function (response) {
-            debugger
             if (response.isSuccess) {
                 return location.replace(response.url);
             }
