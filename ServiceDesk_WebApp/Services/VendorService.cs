@@ -258,27 +258,46 @@ namespace ServiceDesk_WebApp.Services
         }
         public async Task<ServiceResult<IEnumerable<ContactResponseModel>>> GetContracts(string userdomain)
         {
-            List<APIVendor> vendorsFromAPI = GetVEndorsFromAPI(userdomain);
-            List<ContactResponseModel> lst = new();
-            var client = new RestClient(ApiUrl.GetAllContractsUrl);
-            var contractlist = new List<Contract>();
-            var request = new RestRequest("", Method.Get);
-            request.AddHeader("authtoken", $"{authToken}");
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            request.AddParameter("input_data", input_data);
-            var response = client.Execute(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            try
             {
-                dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
-                ListInfo list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse["list_info"].ToString());
-                List<Contract> res = JsonConvert.DeserializeObject<List<Contract>>(apiResponse["contracts"].ToString());
-                contractlist.AddRange(res);
-                for (startIndex = 100; list_info.has_more_rows == true; startIndex = startIndex + 101)
+                List<APIVendor> vendorsFromAPI = await GetVEndorsFromAPI(userdomain);
+                List<ContactResponseModel> lst = new();
+                var client = new RestClient(ApiUrl.GetAllContractsUrl);
+                var contractlist = new List<Contract>();
+                var request = new RestRequest("", Method.Get);
+                request.AddHeader("authtoken", $"{authToken}");
+                request.AddParameter("text/plain", "", ParameterType.RequestBody);
+                request.AddParameter("input_data", input_data);
+                var response = client.Execute(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var client2 = new RestClient(ApiUrl.GetAllContractsUrl);
-                    var request2 = new RestRequest("", Method.Get);
-                    request2.AddHeader("authtoken", $"{authToken}");
-                    request2.AddParameter("text/plain", "", ParameterType.RequestBody);
+                    dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
+                    ListInfo list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse["list_info"].ToString());
+                    List<Contract> res = JsonConvert.DeserializeObject<List<Contract>>(apiResponse["contracts"].ToString());
+                    contractlist.AddRange(res);
+                    for (startIndex = 100; list_info.has_more_rows == true; startIndex = startIndex + 101)
+                    {
+                        var client2 = new RestClient(ApiUrl.GetAllContractsUrl);
+                        var request2 = new RestRequest("", Method.Get);
+                        request2.AddHeader("authtoken", $"{authToken}");
+                        request2.AddParameter("text/plain", "", ParameterType.RequestBody);
+                        input_data = $@"{{
+                        ""list_info"": {{
+                            ""row_count"": 100,
+                            ""start_index"": {startIndex},
+                            ""sort_field"": ""id"",
+                            ""sort_order"": ""asc"",
+                            ""get_total_count"": true
+                            }}
+                        }}";
+                        request2.AddParameter("input_data", input_data);
+                        var response2 = client2.Execute(request2);
+                        dynamic apiResponse2 = JsonConvert.DeserializeObject<object?>(response2.Content);
+                        list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse2["list_info"].ToString());
+                        List<Contract> res2 = JsonConvert.DeserializeObject<List<Contract>>(apiResponse2["contracts"].ToString());
+                        contractlist.AddRange(res2);
+                    }
+                    startIndex = 1;
                     input_data = $@"{{
                         ""list_info"": {{
                             ""row_count"": 100,
@@ -288,50 +307,67 @@ namespace ServiceDesk_WebApp.Services
                             ""get_total_count"": true
                             }}
                         }}";
-                    request2.AddParameter("input_data", input_data);
-                    var response2 = client2.Execute(request2);
-                    dynamic apiResponse2 = JsonConvert.DeserializeObject<object?>(response2.Content);
-                    list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse2["list_info"].ToString());
-                    List<Contract> res2 = JsonConvert.DeserializeObject<List<Contract>>(apiResponse2["contracts"].ToString());
-                    contractlist.AddRange(res2);
+                    lst = contractlist.Where(x => vendorsFromAPI.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
+                    //lst = mo.Where(x => go.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
                 }
-                startIndex = 1;
-                input_data = $@"{{
-                        ""list_info"": {{
-                            ""row_count"": 100,
-                            ""start_index"": {startIndex},
-                            ""sort_field"": ""id"",
-                            ""sort_order"": ""asc"",
-                            ""get_total_count"": true
-                            }}
-                        }}";
-                lst = contractlist.Where(x => vendorsFromAPI.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
-                //lst = mo.Where(x => go.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
+                return new ServiceResult<IEnumerable<ContactResponseModel>>(lst, "Contract List");
             }
-            return new ServiceResult<IEnumerable<ContactResponseModel>>(lst, "Contract List");
+            catch (Exception ex)
+            {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
+                return new ServiceResult<IEnumerable<ContactResponseModel>>(ex, ex.Message);
+            }
         }
 
-        public List<APIVendor> GetVEndorsFromAPI(string userdomain)
+        public async Task<List<APIVendor>> GetVEndorsFromAPI(string userdomain)
         {
-            var vendorlist = new List<APIVendor>();
-            var client = new RestClient(ApiUrl.GetAllVendorsUrl);
-            var request = new RestRequest("", Method.Get);
-            request.AddHeader("authtoken", $"{authToken}");
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            request.AddParameter("input_data", input_data);
-            var response = client.Execute(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            var res3 = new List<APIVendor>();
+            try
             {
-                dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
-                ListInfo list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse["list_info"].ToString());
-                List<APIVendor> res = JsonConvert.DeserializeObject<List<APIVendor>>(apiResponse["vendors"].ToString());
-                vendorlist.AddRange(res);
-                for (startIndex = 100; list_info.has_more_rows == true; startIndex = startIndex + 100)
+                var vendorlist = new List<APIVendor>();
+                var client = new RestClient(ApiUrl.GetAllVendorsUrl);
+                var request = new RestRequest("", Method.Get);
+                request.AddHeader("authtoken", $"{authToken}");
+                request.AddParameter("text/plain", "", ParameterType.RequestBody);
+                request.AddParameter("input_data", input_data);
+                var response = client.Execute(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var client2 = new RestClient(ApiUrl.GetAllVendorsUrl);
-                    var request2 = new RestRequest("", Method.Get);
-                    request2.AddHeader("authtoken", $"{authToken}");
-                    request2.AddParameter("text/plain", "", ParameterType.RequestBody);
+                    dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
+                    ListInfo list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse["list_info"].ToString());
+                    List<APIVendor> res = JsonConvert.DeserializeObject<List<APIVendor>>(apiResponse["vendors"].ToString());
+                    vendorlist.AddRange(res);
+                    for (startIndex = 100; list_info.has_more_rows == true; startIndex = startIndex + 100)
+                    {
+                        var client2 = new RestClient(ApiUrl.GetAllVendorsUrl);
+                        var request2 = new RestRequest("", Method.Get);
+                        request2.AddHeader("authtoken", $"{authToken}");
+                        request2.AddParameter("text/plain", "", ParameterType.RequestBody);
+                        input_data = $@"{{
+                        ""list_info"": {{
+                            ""row_count"": 100,
+                            ""start_index"": {startIndex},
+                            ""sort_field"": ""id"",
+                            ""sort_order"": ""asc"",
+                            ""get_total_count"": true
+                            }}
+                        }}";
+                        request2.AddParameter("input_data", input_data);
+                        var response2 = client2.Execute(request2);
+                        dynamic apiResponse2 = JsonConvert.DeserializeObject<object?>(response2.Content);
+                        list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse2["list_info"].ToString());
+                        List<APIVendor> res2 = JsonConvert.DeserializeObject<List<APIVendor>>(apiResponse2["vendors"].ToString());
+                        vendorlist.AddRange(res2);
+                    }
+                    startIndex = 1;
                     input_data = $@"{{
                         ""list_info"": {{
                             ""row_count"": 100,
@@ -341,31 +377,24 @@ namespace ServiceDesk_WebApp.Services
                             ""get_total_count"": true
                             }}
                         }}";
-                    request2.AddParameter("input_data", input_data);
-                    var response2 = client2.Execute(request2);
-                    dynamic apiResponse2 = JsonConvert.DeserializeObject<object?>(response2.Content);
-                    list_info = JsonConvert.DeserializeObject<ListInfo>(apiResponse2["list_info"].ToString());
-                    List<APIVendor> res2 = JsonConvert.DeserializeObject<List<APIVendor>>(apiResponse2["vendors"].ToString());
-                    vendorlist.AddRange(res2);
+                    res3 = vendorlist.Where(x => x.email_id != null && x.email_id.Contains('@')).ToList();
                 }
-                startIndex = 1;
-                input_data = $@"{{
-                        ""list_info"": {{
-                            ""row_count"": 100,
-                            ""start_index"": {startIndex},
-                            ""sort_field"": ""id"",
-                            ""sort_order"": ""asc"",
-                            ""get_total_count"": true
-                            }}
-                        }}";
-                var res3 = res.Where(x => x.email_id != null && x.email_id.Contains('@')).ToList();
-                //var userdomain = User.GetEmail().Split('@')[1];
+
                 return res3.Where(x => x.email_id.Split('@')[1] == userdomain).ToList();
             }
-            else
+            catch (Exception ex)
             {
-                return null;
 
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
+                return res3;
             }
         }
     }
