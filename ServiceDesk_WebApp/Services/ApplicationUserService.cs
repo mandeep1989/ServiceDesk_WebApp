@@ -121,8 +121,17 @@ namespace ServiceDesk_WebApp.Services
                     Currency = vendorViewModel.Currency,
                 };
                 await _applictionUserRepo.AddAsync(vendorModel, createdBy);
+                var ex = "hello";
                 await EmailHandler.SendUserDetails(vendorViewModel.Password, vendorViewModel.Email, link, From, SenderPassword, Host, Port, SSlEnable);
+                LogError errorLog = new()
+                {
+                    Information = ex + " " + ex,
+                    UserId = 1,
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
 
+                };
+                LogService log = new LogService();
+                log.AddLogError(ex + " " + ex);
                 return new ServiceResult<User>(contextModel, "Vendor added!");
             }
             catch (Exception ex)

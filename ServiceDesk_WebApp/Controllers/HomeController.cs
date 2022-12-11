@@ -21,6 +21,7 @@ namespace ServiceDesk_WebApp.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
+
             if (User.Identity.IsAuthenticated)
             {
                 if (User.GetUserRole() == (int)UserRole.Admin )
