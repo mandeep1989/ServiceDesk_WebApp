@@ -40,7 +40,6 @@ $(form_id).unbind().bind('submit', function (e) {
             data: $(this).serialize(),
             type: 'POST',
             success: function (response) {
-                debugger
                 if (response.isSuccess) {
 
                     SportaUtil.MessageBoxSuccess(response.message, "Vendor Created");

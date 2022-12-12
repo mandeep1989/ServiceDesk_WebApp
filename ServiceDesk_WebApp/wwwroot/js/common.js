@@ -562,7 +562,6 @@ class SportaUtil {
         $(globalSettings.divId).html(modalHtml);
         $(globalSettings.modalId).modal({ backdrop: 'static', keyboard: true });
         $(globalSettings.modalId).modal('show');
-        debugger
 
         //Setting the focus on load
         $(globalSettings.modalId).on('shown.bs.modal', function (event) {
@@ -630,7 +629,6 @@ class SportaUtil {
     }
 
     static ConfirmDialogue(message, settings, callback, callback_2) {
-        debugger
         let defaults = {
             type: 'danger',
             heading: 'Confirmation',

@@ -32,6 +32,8 @@ namespace ServiceDesk_WebApp.Common
             {
                 try
                 {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.CheckCertificateRevocation = false;
                     client.Connect(host, port, SecureSocketOptions.Auto);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
                     await client.AuthenticateAsync(From, SenderPassword);
