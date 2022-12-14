@@ -200,5 +200,10 @@ namespace ServiceDesk_WebApp.Controllers
             var userdomain = User.GetEmail().Split('@')[1];
             return GetResult(await _vendorService.GetContracts(userdomain));
         }
+        [HttpGet]
+        public async Task<JsonResult> GetContractById(int id)
+        {
+            return GetResult(await _vendorService.GetContractById(id));
+        }
     }
 }

@@ -46,9 +46,35 @@ $(document).ready(function () {
        // var csv = CSVToArray(data);
        renderCSVDropdown(data);
     });
-
+    ContractOnChange();
 });
 
+
+var ContractOnChange = function () {
+    $("#Contract").on("change", function () {
+        $.get(`/Vendor/GetContractById/${this.value}`, function (data) {
+            bindContractData(data.data);
+        });
+    })
+}
+function bindContractData(data) {
+
+// Set the value of the <input> element with a type of "date" to the formatted 
+    $(txt_StartDate).val(FormatDate(data.from_date.display_value)); 
+    $(txt_EndDate).val(FormatDate(data.to_date.display_value)); 
+    $(txt_ContractTitle).val(data.name);
+    $(txt_Department).val(data.user.department.name)  ;
+    $(txt_InvoiceAmount).val(data.total_price) ;
+}
+function FormatDate(date) {
+    var currentDate = new Date(date);
+    var year = currentDate.getFullYear();
+    var month = currentDate.getMonth() + 1; // month is zero-based, so we add 1
+    var day = currentDate.getDate();
+    month = month.toString().padStart(2, '0');
+    day = day.toString().padStart(2, '0');
+    return year + '-' + month + '-' + day;
+}
 
 var renderCSVDropdown = function (csv) {
    /* let email = userEmail.split("@")[1];*/

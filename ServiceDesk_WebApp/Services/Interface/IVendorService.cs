@@ -33,5 +33,6 @@ namespace ServiceDesk_WebApp.Services.Interface
         Task<ServiceResult<IEnumerable<PaymentRequestModel>>> GetPaymentRequests(int UserId);
 
         Task<ServiceResult<IEnumerable<ContactResponseModel>>> GetContracts(string userdomain);
+        Task<ServiceResult<Contract>> GetContractById(int id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+﻿using com.sun.tools.corba.se.idl.constExpr;
+using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 using RestSharp;
 using ServiceDesk_WebApp.Common;
@@ -308,7 +309,6 @@ namespace ServiceDesk_WebApp.Services
                             }}
                         }}";
                     lst = contractlist.Where(x => vendorsFromAPI.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
-                    //lst = mo.Where(x => go.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
                 }
                 return new ServiceResult<IEnumerable<ContactResponseModel>>(lst, "Contract List");
             }
@@ -395,6 +395,41 @@ namespace ServiceDesk_WebApp.Services
                 await _context.AddAsync(errorLog);
                 await _context.SaveChangesAsync();
                 return res3;
+            }
+        }
+
+        public async Task<ServiceResult<Contract>> GetContractById(int id)
+        {
+            try
+            {
+                Contract res = new();
+                var client = new RestClient(ApiUrl.GetAllContractsUrl + id.ToString());
+                var request = new RestRequest("", Method.Get);
+                request.AddHeader("authtoken", $"{authToken}");
+                var response = client.Execute(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
+                    res = JsonConvert.DeserializeObject<Contract>(apiResponse["contract"].ToString());
+                    if (res != null)
+                    {
+                        return new ServiceResult<Contract>(res, "Contract Details");
+                    }
+                }
+                return new ServiceResult<Contract>(res, "No Data");
+            }
+            catch (Exception ex)
+            {
+                LogError errorLog = new()
+                {
+                    Information = ex.Message + " " + ex.StackTrace,
+                    UserId = 1,
+                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+                };
+
+                await _context.AddAsync(errorLog);
+                await _context.SaveChangesAsync();
+                return new ServiceResult<Contract>(ex, ex.Message);
             }
         }
     }
