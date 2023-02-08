@@ -1,4 +1,5 @@
 ﻿using com.sun.tools.corba.se.idl.constExpr;
+using javax.xml.crypto;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 using RestSharp;
@@ -59,6 +60,9 @@ namespace ServiceDesk_WebApp.Services
                     ContactName = escalationForm.ContactName,
                     ContactPhone = escalationForm.ContactPhone,
                     UserId = createdBy,
+                    ManagerEmail = escalationForm.ManagerEmail,
+                    ManagerName= escalationForm.ManagerName,
+                    ManagerPhone= escalationForm.ManagerPhone,
                     IsDeleted = 0
                 };
 
@@ -126,66 +130,75 @@ namespace ServiceDesk_WebApp.Services
         {
             try
             {
-                var contextModel = new PaymentRequest
+                if (!_context.PaymentRequests.Any(x=>x.InvoiceNo==model.InvoiceNo))
                 {
-                    ContractTitle = model.ContractTitle,
-                    Department = model.Department,
-                    StartDate = model.StartDate,
-                    EndDate = model.EndDate,
-                    Classification = model.Classification,
-                    ApplicationName = model.ApplicationName,
-                    ContractRefType = model.ContractRefType,
-                    ProjectName = model.ProjectName,
-                    InvoiceNo = model.InvoiceNo,
-                    InvoiceDate = model.InvoiceDate,
-                    InvoiceAmount = model.InvoiceAmount,
-                    Details = model.Details,
-                    OrginalInvoice = model.OrginalInvoice,
-                    ServiceConfirmation = model.ServiceConfirmation,
-                    CopyOfApproval = model.CopyOfApproval,
-                    BankName = model.BankName,
-                    AccountName = model.AccountName,
-                    AccountNo = model.AccountNumber,
-                    Iban = model.Iban,
-                    SwiftCode = model.SwiftCode,
-                    Branch = model.Branch,
-                    PaymentMode = model.PaymentMode,
-                    Contract=model.Contract,
-                    IsDeleted = 0
-                };
+					var contextModel = new PaymentRequest
+					{
+						ContractTitle = model.ContractTitle,
+						Department = model.Department,
+						StartDate = model.StartDate,
+						EndDate = model.EndDate,
+						Classification = model.Classification,
+						ApplicationName = model.ApplicationName,
+						ContractRefType = model.ContractRefType,
+						ProjectName = model.ProjectName,
+						InvoiceNo = model.InvoiceNo,
+						InvoiceDate = model.InvoiceDate,
+						InvoiceAmount = model.InvoiceAmount,
+						Vatamount = model.Vatamount,
+						Details = model.Details,
+						OrginalInvoice = model.OrginalInvoice,
+						ServiceConfirmation = model.ServiceConfirmation,
+						CopyOfApproval = model.CopyOfApproval,
+						BankName = model.BankName,
+						AccountName = model.AccountName,
+						AccountNo = model.AccountNumber,
+						Iban = model.Iban,
+						SwiftCode = model.SwiftCode,
+						Branch = model.Branch,
+						PaymentMode = model.PaymentMode,
+						Contract = model.Contract,
+						IsDeleted = 0
+					};
 
-                var result = await _applictionUserRepo.AddAsync(contextModel, createdBy);
-                if (result != null)
+					var result = await _applictionUserRepo.AddAsync(contextModel, createdBy);
+					if (result != null)
+					{
+						var UserDetail = await _applictionUserRepo.GetAsync<User>(y => y.Id == createdBy);
+						var options = new RestClientOptions(ApiUrl.RequestAddUrl + $"?PORTALID={PORTALID}")
+						{
+							RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
+						};
+						var client = new RestClient(options);
+						var request = new RestRequest { Method = Method.Post };
+						request.AddHeader("Authtoken", $"{authToken}");
+						request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Payment request\",\"group\": {\"name\": \"ITFM\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": { \"email_id\":\"AlMatari@anb.com.sa\"},\"priority\": {\"name\": \"High\"}}}");
+						var response = client.ExecuteAsync(request).Result;
+						if (response.StatusCode == System.Net.HttpStatusCode.Created)
+						{
+							dynamic apiResponse = JsonConvert.DeserializeObject<object>(response.Content);
+							string id = apiResponse["request"]["id"];
+							id.Split('{', '}');
+							var context = await _applictionUserRepo.GetAsync<PaymentRequest>(x => x.Id == result.Id);
+							context.Ticketid = id;
+							await _applictionUserRepo.UpdateAsync(context, createdBy);
+							await EmailHandler.PaymentRequestMail(id, UserDetail.Email, From, SenderPassword, Host, Port);
+							return new ServiceResult<bool>(true, $"Payment Request Submited with Id: {id}!");
+						}
+						else
+						{
+
+							await EmailHandler.PaymentRequestFailMail(UserDetail.Email, From, SenderPassword, Host, Port);
+							return new ServiceResult<bool>(false, "There is Some Issue With Service Desk Plus", true);
+						}
+
+					}
+				}
+                else
                 {
-                    var UserDetail = await _applictionUserRepo.GetAsync<User>(y => y.Id == createdBy);
-                    var options = new RestClientOptions(ApiUrl.RequestAddUrl + $"?PORTALID={PORTALID}")
-                    {
-                        RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
-                    };
-                    var client = new RestClient(options);
-                    var request = new RestRequest { Method = Method.Post };
-                    request.AddHeader("Authtoken", $"{authToken}");
-                    request.AddParameter("input_data", "{\"request\":{\"template\": {\"name\": \"Default Request\"},\"subject\": \"Payment request\",\"group\": {\"name\": \"ITFM\"},\"request_type\": {\"name\": \"Service Request\"}, \"requester\": { \"email_id\":\"AlMatari@anb.com.sa\"},\"priority\": {\"name\": \"High\"}}}");
-                    var response = client.ExecuteAsync(request).Result;
-                    if (response.StatusCode == System.Net.HttpStatusCode.Created)
-                    {
-                        dynamic apiResponse = JsonConvert.DeserializeObject<object>(response.Content);
-                        string id = apiResponse["request"]["id"];
-                        id.Split('{', '}');
-                        var context = await _applictionUserRepo.GetAsync<PaymentRequest>(x => x.Id == result.Id);
-                        context.Ticketid = id;
-                        await _applictionUserRepo.UpdateAsync(context, createdBy);
-                        await EmailHandler.PaymentRequestMail(id, UserDetail.Email, From, SenderPassword, Host, Port);
-                        return new ServiceResult<bool>(true, $"Payment Request Submited with Id: {id}!");
-                    }
-                    else
-                    {
-
-                        await EmailHandler.PaymentRequestFailMail(UserDetail.Email, From, SenderPassword, Host, Port);
-                        return new ServiceResult<bool>(false, "There is Some Issue With Service Desk Plus", true);
-                    }
-
-                }
+					return new ServiceResult<bool>(false, "Invoice No. already exists!", true);
+				}
+                
                 return new ServiceResult<bool>(false, "Something went wrong", true);
 
             }
@@ -308,7 +321,7 @@ namespace ServiceDesk_WebApp.Services
                             ""get_total_count"": true
                             }}
                         }}";
-                    lst = contractlist.Where(x => vendorsFromAPI.Any(y => y.id == x.vendor.id)).Select(x => new ContactResponseModel { Id = x.id, Name = x.name }).ToList();
+                    //lst = contractlist.Where(x => vendorsFromAPI.Any(y => y.id == "")).Select(x => new ContactResponseModel { Id = x.Id, Name = x.name }).ToList();
                 }
                 return new ServiceResult<IEnumerable<ContactResponseModel>>(lst, "Contract List");
             }
@@ -398,39 +411,131 @@ namespace ServiceDesk_WebApp.Services
             }
         }
 
-        public async Task<ServiceResult<Contract>> GetContractById(int id)
+		//public async Task<ServiceResult<Contract>> GetContractById(int id)
+		//{
+		//    try
+		//    {
+		//        Contract res = new();
+		//        var client = new RestClient(ApiUrl.GetAllContractsUrl + id.ToString());
+		//        var request = new RestRequest("", Method.Get);
+		//        request.AddHeader("authtoken", $"{authToken}");
+		//        var response = client.Execute(request);
+		//        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+		//        {
+		//            dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
+		//            res = JsonConvert.DeserializeObject<Contract>(apiResponse["contract"].ToString());
+		//            if (res != null)
+		//            {
+		//                return new ServiceResult<Contract>(res, "Contract Details");
+		//            }
+		//        }
+		//        return new ServiceResult<Contract>(res, "No Data");
+		//    }
+		//    catch (Exception ex)
+		//    {
+		//        LogError errorLog = new()
+		//        {
+		//            Information = ex.Message + " " + ex.StackTrace,
+		//            UserId = 1,
+		//            Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
+		//        };
+
+		//        await _context.AddAsync(errorLog);
+		//        await _context.SaveChangesAsync();
+		//        return new ServiceResult<Contract>(ex, ex.Message);
+		//    }
+		//}
+
+		public async Task<ServiceResult<ContractResponseModel>> GetContractById(int id)
+        {
+			try
+			{
+
+				var res = await _context.Contracts.Where(x => x.ContractId == id).Join(_context.Vendors,
+								   p => p.Vendor,
+								   q => q.UserId,
+								   (p, q) => new { Contract = p, Vendor = q })
+				.Join(_context.Departments,
+					  p => p.Contract.Department,
+					  q => q.Id,
+					  (p, q) => new { Contract = p, Department = q })
+				.Select(a => new ContractResponseModel
+				{
+					ContractId = a.Contract.Contract.ContractId,
+					Department = a.Department.DepartmentName,
+					ContractType = a.Contract.Contract.ContractType,
+					Name = a.Contract.Contract.Name,
+					Vendor = a.Contract.Vendor.VendorName,
+					ContractClassification = a.Contract.Contract.ContractClassification,
+					Description = a.Contract.Contract.Description,
+					EndDate = a.Contract.Contract.EndDate,
+					StartDate = a.Contract.Contract.StartDate,
+                    ProjectName=a.Contract.Contract.ProjectName,
+				}).FirstOrDefaultAsync();
+				if (res != null)
+				{
+					return new ServiceResult<ContractResponseModel>(res, $"Contract List");
+				}
+				return new ServiceResult<ContractResponseModel>(null, "Something went wrong", true);
+
+			}
+			catch (Exception ex)
+			{
+				return new ServiceResult<ContractResponseModel>(ex, ex.Message);
+			}
+		}
+
+		public async Task<ServiceResult<IEnumerable<GeneralDropdown>>> GetContractsForDropdown(string email)
         {
             try
             {
-                Contract res = new();
-                var client = new RestClient(ApiUrl.GetAllContractsUrl + id.ToString());
-                var request = new RestRequest("", Method.Get);
-                request.AddHeader("authtoken", $"{authToken}");
-                var response = client.Execute(request);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                var res = await _applictionUserRepo.GetAllAsync<Contract>();
+                if (res != null)
                 {
-                    dynamic apiResponse = JsonConvert.DeserializeObject<object?>(response.Content);
-                    res = JsonConvert.DeserializeObject<Contract>(apiResponse["contract"].ToString());
-                    if (res != null)
-                    {
-                        return new ServiceResult<Contract>(res, "Contract Details");
-                    }
+                    var data =res.Join(_context.Users,
+                                   p => p.Vendor,
+                                   q => q.Id,
+                                   (p, q) => new { Contract = p, User = q });
+                    data=data.Where(x => x.User.Email.Split('@')[1] == email);
+
+					var  data2 =data.Select(x => new GeneralDropdown { Id = x.Contract.ContractId, Name = x.Contract.Name });
+
+                    return new ServiceResult<IEnumerable<GeneralDropdown>>(data2, "Contract List for drowdown");
                 }
-                return new ServiceResult<Contract>(res, "No Data");
-            }
+				return new ServiceResult<IEnumerable<GeneralDropdown>>(null, "Something went wrong!");
+			}
             catch (Exception ex)
             {
-                LogError errorLog = new()
-                {
-                    Information = ex.Message + " " + ex.StackTrace,
-                    UserId = 1,
-                    Time = DateTime.Now.Date.ToString("dd,MM,yyyy", CultureInfo.CreateSpecificCulture("en-US"))
-                };
-
-                await _context.AddAsync(errorLog);
-                await _context.SaveChangesAsync();
-                return new ServiceResult<Contract>(ex, ex.Message);
-            }
+				return new ServiceResult<IEnumerable<GeneralDropdown>>(ex, ex.Message);
+			}
         }
-    }
+
+		public async Task<ServiceResult<BankDetailsResponse>> GetBankDetails(int id)
+		{
+			try
+			{
+				var res = await _context.PaymentRequests.Where(x=>x.CreatedBy== id).OrderByDescending(x=>x.CreatedOn).Select(x=>new BankDetailsResponse
+                {
+                    AccountName= x.AccountName,
+                    AccountNo= x.AccountNo,
+                    BankName= x.BankName,
+                    Branch= x.Branch,
+                    Iban= x.Iban,
+                    SwiftCode= x.SwiftCode,
+                }).LastOrDefaultAsync();
+				if (res != null)
+				{
+					
+					return new ServiceResult<BankDetailsResponse>(res, "Bank Details");
+				}
+				return new ServiceResult<BankDetailsResponse>(null, "Something went wrong");
+			}
+			catch (Exception ex)
+			{
+				return new ServiceResult<BankDetailsResponse>(ex, ex.Message);
+			}
+		}
+
+		
+	}
 }

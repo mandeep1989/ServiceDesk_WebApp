@@ -2,7 +2,7 @@
 
 namespace ServiceDesk_WebApp.ViewModel
 {
-    public class Contract
+    public class ContractDet
     {
         public string comments { get; set; }
         public FromDate from_date { get; set; }
@@ -21,7 +21,7 @@ namespace ServiceDesk_WebApp.ViewModel
         public ContractUser user { get; set; }
         public bool is_renewed { get; set; }
 
-        public Contract()
+        public ContractDet()
         {
             vendor = new ContractVendor();
         }
@@ -79,7 +79,7 @@ namespace ServiceDesk_WebApp.ViewModel
     {
         public List<ResponseStatus> response_status { get; set; }
         public ListInfo list_info { get; set; }
-        public List<Contract> contracts { get; set; }
+        public List<ContractDet> contracts { get; set; }
     }
 
     public class ToDate
@@ -151,6 +151,36 @@ namespace ServiceDesk_WebApp.ViewModel
         public string landmark { get; set; }
         public string postal_code { get; set; }
     }
-
+    public class ContractViewModel
+    {
+		public long? Id { get; set; }
+		public long ContractId { get; set; }
+		public long? ParentContractId { get; set; }
+		public string Name { get; set; }
+		public string ContractType { get; set; }
+		public string ContractClassification { get; set; }
+		public string Description { get; set; }
+		public string StartDate { get; set; }
+		public string EndDate { get; set; }
+		public long Vendor { get; set; }
+		public string MemoReference { get; set; }
+		public long BudgetAmount { get; set; }
+		public long Pid { get; set; }
+		public string ProjectName { get; set; }
+		public string CostCenter { get; set; }
+		public string CostCenter2 { get; set; }
+		public long? Pid2 { get; set; }
+		public string CostCenter3 { get; set; }
+		public long? Pid3 { get; set; }
+		public string CostCenter4 { get; set; }
+		public long? Pid4 { get; set; }
+		public long Department { get; set; }
+		public string Currency { get; set; }
+		public double YearlyContractCostWithoutVat { get; set; }
+		public string CostBreakdown { get; set; }
+		public byte[] BudgetAttchment { get; set; }
+		public byte[] ContractAttachment { get; set; }
+		public byte[] OtherAttchment { get; set; }
+	}
 
 }

@@ -108,6 +108,7 @@ namespace ServiceDesk_WebApp.Controllers
             data.TryGetValue("InvoiceNumber", out var InvoiceNumber);
             data.TryGetValue("InvoiceAmount", out var InvoiceAmount);
             data.TryGetValue("InvoiceDate", out var InvoiceDate);
+            data.TryGetValue("VATAmount", out var VATAmount);
             data.TryGetValue("Details", out var Details);
             data.TryGetValue("PaymentMode", out var PaymentMode);
             data.TryGetValue("BankName", out var BankName);
@@ -127,6 +128,7 @@ namespace ServiceDesk_WebApp.Controllers
             model.Department = Department;
             model.InvoiceNo = InvoiceNumber;
             model.InvoiceAmount = InvoiceAmount;
+            model.Vatamount= VATAmount;
             model.ProjectName = ProjectName;
             model.Classification = Classification;
             model.ContractRefType = ContractRefType;
@@ -198,12 +200,18 @@ namespace ServiceDesk_WebApp.Controllers
             //string contentRootPath = _hostingEnvironment.ContentRootPath+"\\wwwroot\\CSVFile\\";
             //return PhysicalFile(Path.Combine(contentRootPath, fileName), "application/csv", fileName);
             var userdomain = User.GetEmail().Split('@')[1];
-            return GetResult(await _vendorService.GetContracts(userdomain));
+            //return GetResult(await _vendorService.GetContracts(userdomain));
+            return GetResult(await _vendorService.GetContractsForDropdown(userdomain));
         }
         [HttpGet]
         public async Task<JsonResult> GetContractById(int id)
         {
+            //return GetResult(await _vendorService.GetContractById(id));
             return GetResult(await _vendorService.GetContractById(id));
+        } 
+        public async Task<JsonResult> GetBankDetails()
+        {
+            return GetResult(await _vendorService.GetBankDetails(User.GetUserId()));
         }
     }
 }

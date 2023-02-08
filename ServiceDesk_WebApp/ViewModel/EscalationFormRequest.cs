@@ -26,5 +26,8 @@
         /// ContactPhone
         /// </summary>
         public string ContactPhone { get; set; }
-    }
+		public string ManagerName { get; set; }
+		public string ManagerEmail { get; set; }
+		public string ManagerPhone { get; set; }
+	}
 }

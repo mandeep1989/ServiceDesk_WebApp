@@ -177,6 +177,9 @@
   <data name="EscalationFormTitle" xml:space="preserve">
     <value>نموذج مصفوفة التصعيد</value>
   </data>
+  <data name="Invoice Submission" xml:space="preserve">
+    <value>تقديم الفاتورة</value>
+  </data>
   <data name="InvoiceAmount" xml:space="preserve">
     <value>قيمة الفاتورة</value>
   </data>

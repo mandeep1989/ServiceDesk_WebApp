@@ -35,5 +35,6 @@ namespace ServiceDesk_WebApp.Models
         public long IsDeleted { get; set; }
         public string Ticketid { get; set; }
         public string Contract { get; set; }
+        public string Vatamount { get; set; }
     }
 }

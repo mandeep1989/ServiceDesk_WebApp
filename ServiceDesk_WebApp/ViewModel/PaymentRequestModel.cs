@@ -110,5 +110,6 @@
         /// </summary>
         public string Contract { get; set; }
         public string Ticketid { get; set; }
+        public string Vatamount { get; set; }
     }
 }

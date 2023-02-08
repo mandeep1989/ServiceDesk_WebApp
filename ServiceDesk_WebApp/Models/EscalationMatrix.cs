@@ -18,5 +18,8 @@ namespace ServiceDesk_WebApp.Models
         public long ModifiedBy { get; set; }
         public string ModifiedOn { get; set; }
         public long IsDeleted { get; set; }
+        public string ManagerName { get; set; }
+        public string ManagerEmail { get; set; }
+        public string ManagerPhone { get; set; }
     }
 }

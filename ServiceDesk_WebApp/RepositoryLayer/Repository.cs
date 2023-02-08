@@ -281,7 +281,9 @@ namespace ServiceDesk_WebApp.RepositoryLayer
             if (includeDeleted)
                 return await _context.Set<T>().CountAsync();
             else
+                
                 return await _context.Set<T>().Where(x => x.IsDeleted==0).CountAsync();
+
         }
 
         #endregion

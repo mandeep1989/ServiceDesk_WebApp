@@ -347,7 +347,7 @@ class SportaForms {
 
 
         if ($(formId + ' .form-control, ' + formId + ' button').hasClass('is-invalid'))
-            $(formId + ' button[type="submit"]').prop('disabled', true);
+            $(formId + ' button[type="submit"]').prop('disabled', false);
         else
             $(formId + ' button[type="submit"]').prop('disabled', false)
 

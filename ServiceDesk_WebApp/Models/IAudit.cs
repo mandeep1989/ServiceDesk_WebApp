@@ -17,6 +17,8 @@ namespace ServiceDesk_WebApp.Models
 
     public partial class User : IAudit { }
     public partial class Vendor : IAudit { }
+    public partial class Contract : IAudit { }
+    public partial class Department : IAudit { }
     public partial class ChangePasswordRequest : IAudit { }
     public partial class EscalationMatrix : IAudit { }
     public partial class PaymentRequest : IAudit { }

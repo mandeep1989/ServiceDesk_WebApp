@@ -92,5 +92,12 @@ namespace ServiceDesk_WebApp.Services.Interface
         /// </summary>
         /// <returns></returns>
         Task<ServiceResult<GetVendorCount>> GetRequestCountByDate();
+
+        Task<ServiceResult<bool>> AddContract(ContractViewModel ViewModel, int createdBy);
+        Task<ServiceResult<bool>> DeleteContract(long ContractId);
+        Task<ServiceResult<List<Models.Department>>> GetDepartments();
+		Task<ServiceResult<IEnumerable<ContractResponseModel>>> GetAllContracts();
+		Task<ServiceResult<ContractViewModel>> GetContractById(long Id);
+        Task<ServiceResult<bool>> UpdateContract(ContractViewModel viewModel, long v);
     }
 }

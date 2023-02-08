@@ -8,7 +8,10 @@ let txt_CompanyName = "#CompanyName",
     txt_CompanyPhone = "#CompanyPhone",
     txt_ContactName = "#ContactName",
     txt_ContactEmail = "#ContactEmail",
-    txt_ContactPhone = "#ContactPhone";
+    txt_ContactPhone = "#ContactPhone",
+    txt_ManagerName = "#ManagerName",
+    txt_ManagerEmail = "#ManagerEmail",
+    txt_ManagerPhone = "#ManagerPhone"
 
 //PaymentRequestForm
 let req_form_id = "#payment_req_form",
@@ -23,6 +26,7 @@ let req_form_id = "#payment_req_form",
     txt_InvoiceNumber = "#InvoiceNumber",
     txt_InvoiceDate = "#InvoiceDate",
     txt_InvoiceAmount = "#InvoiceAmount",
+    txt_VATAmount = "#VATAmount",
     txt_Details = "#Details",
     file_OrignalInvoice = "#OrignalInvoice",
     file_ServiceConfirmation = "#ServiceConfirmation",
@@ -39,13 +43,11 @@ let req_form_id = "#payment_req_form",
 
 
 $(document).ready(function () {
-
     checkEscalationStatus();
-    var csv_path = "./wwwroot/CSVFile/Book1.csv";
     $.get("/Vendor/GetCsv", function (data) {
-       // var csv = CSVToArray(data);
-       renderCSVDropdown(data);
+        renderCSVDropdown(data);
     });
+
     ContractOnChange();
 });
 
@@ -58,14 +60,29 @@ var ContractOnChange = function () {
     })
 }
 function bindContractData(data) {
-
 // Set the value of the <input> element with a type of "date" to the formatted 
-    $(txt_StartDate).val(FormatDate(data.from_date.display_value)); 
-    $(txt_EndDate).val(FormatDate(data.to_date.display_value)); 
+    $(txt_StartDate).val(FormatDate(data.startDate)); 
+    $(txt_EndDate).val(FormatDate(data.endDate)); 
     $(txt_ContractTitle).val(data.name);
-    $(txt_Department).val(data.user.department.name)  ;
-    $(txt_InvoiceAmount).val(data.total_price) ;
+    $(txt_Classification).val(data.contractClassification);
+    $(txt_Department).val(data.department);
+    $(txt_ProjectName).val(data.projectName);
+    
 }
+function renderBankDetails(data) {
+// Set the value of the <input> element with a type of "date" to the formatted
+    if (data) {
+        $(txt_BankName).val(data.bankName);
+        $(txt_IBAN).val(data.iban);
+        $(txt_AccountName).val(data.accountName);
+        $(txt_SwiftCode).val(data.swiftCode);
+        $(txt_AccountNumber).val(data.accountNo);
+        $(txt_Branch).val(data.branch);
+    }
+    
+    
+}
+
 function FormatDate(date) {
     var currentDate = new Date(date);
     var year = currentDate.getFullYear();
@@ -143,7 +160,6 @@ function checkEscalationStatus() {
         url: check_escalation_url,
         type: 'GET',
         success: function (response) {
-            debugger
             if (response.isSuccess) {
 
                 $("#escalationBtn").prop('disabled', true);
@@ -172,6 +188,11 @@ function closePaymentForm() {
 }
 function openPaymentForm() {
     SportaForms.ResetForm(req_form_id);
+    checkEscalationStatus();
+    
+    $.get("/Vendor/GetBankDetails", function (data) {
+        renderBankDetails(data.data);
+    });
     SportaForms.InitializeFormStyle(req_form_id);
     $("#payment_req_modal").modal("show");
 }
@@ -223,6 +244,7 @@ $(req_form_id).unbind().bind('submit', function (e) {
         fileData.append('Invoicedate', $(txt_InvoiceDate).val());
         fileData.append('Details', $(txt_Details).val());
         fileData.append('InvoiceAmount', $(txt_InvoiceAmount).val());
+        fileData.append('VATAmount', $(txt_VATAmount).val());
         fileData.append('PaymentMode', $(txt_PaymentMode).val());
         fileData.append('BankName', $(txt_BankName).val());
         fileData.append('IBAN', $(txt_IBAN).val());

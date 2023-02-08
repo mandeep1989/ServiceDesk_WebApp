@@ -117,118 +117,85 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountName" xml:space="preserve">
-    <value>Account Name</value>
+  <data name="Action" xml:space="preserve">
+    <value>فعل</value>
   </data>
-  <data name="AccountNumber" xml:space="preserve">
-    <value>Account Number</value>
+  <data name="Budget Amount" xml:space="preserve">
+    <value>مبلغ الميزانية</value>
   </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>Application Name</value>
+  <data name="Budget attachment" xml:space="preserve">
+    <value>مرفق الميزانية</value>
   </data>
-  <data name="Bank" xml:space="preserve">
-    <value>Bank Name</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>يلغي</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch</value>
+  <data name="Contract attachment" xml:space="preserve">
+    <value>إرفاق العقد</value>
   </data>
-  <data name="ChooseContract" xml:space="preserve">
-    <value>Choose Contract</value>
+  <data name="Contract Classification" xml:space="preserve">
+    <value>تصنيف العقد</value>
   </data>
-  <data name="ChooseMode" xml:space="preserve">
-    <value>Choose Mode</value>
+  <data name="Contract Id" xml:space="preserve">
+    <value>معرف العقد</value>
   </data>
-  <data name="Classification" xml:space="preserve">
-    <value>Classification</value>
+  <data name="Contract Type" xml:space="preserve">
+    <value>نوع العقد</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>Close</value>
+  <data name="Contracts" xml:space="preserve">
+    <value>انكماش</value>
   </data>
-  <data name="CompanyCEO" xml:space="preserve">
-    <value>Company CEO</value>
+  <data name="Cost Breakdown" xml:space="preserve">
+    <value>تحليل التكاليف</value>
   </data>
-  <data name="Contract" xml:space="preserve">
-    <value>Contract</value>
+  <data name="Cost Center" xml:space="preserve">
+    <value>مركز التثمين</value>
   </data>
-  <data name="ContractRefType" xml:space="preserve">
-    <value>Contract Ref Type</value>
+  <data name="Cost Center 2" xml:space="preserve">
+    <value>مركز التكلفة 2</value>
   </data>
-  <data name="ContractTitle" xml:space="preserve">
-    <value>Contract Title</value>
+  <data name="Cost Center 3" xml:space="preserve">
+    <value>مركز التكلفة 3</value>
   </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Copy of Signed assignment and approval</value>
+  <data name="Cost Center 4" xml:space="preserve">
+    <value>مركز التكلفة 4</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>عملة</value>
   </data>
   <data name="Department" xml:space="preserve">
-    <value>Department</value>
+    <value>قسم</value>
   </data>
-  <data name="Details" xml:space="preserve">
-    <value>Details of Goods and Services provided</value>
+  <data name="Description" xml:space="preserve">
+    <value>وصف</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email:</value>
+  <data name="End Date" xml:space="preserve">
+    <value>تاريخ الانتهاء</value>
   </data>
-  <data name="EndDate" xml:space="preserve">
-    <value>End Date</value>
-  </data>
-  <data name="Escalationform" xml:space="preserve">
-    <value>Escalation Form</value>
-  </data>
-  <data name="EscalationFormTitle" xml:space="preserve">
-    <value>Escalation Matrix Form</value>
-  </data>
-  <data name="Invoice Submission" xml:space="preserve">
-    <value>Invoice Submission</value>
-  </data>
-  <data name="InvoiceAmount" xml:space="preserve">
-    <value>Invoice Amount</value>
-  </data>
-  <data name="InvoiceDate" xml:space="preserve">
-    <value>Invoice Date</value>
-  </data>
-  <data name="InvoiceDetails" xml:space="preserve">
-    <value>Invoice Details</value>
-  </data>
-  <data name="InvoiceNumber" xml:space="preserve">
-    <value>Invoice Number</value>
+  <data name="Memo Reference" xml:space="preserve">
+    <value>مرجع المذكرة</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name:</value>
+    <value>اسم</value>
   </data>
-  <data name="OrignalInvoice" xml:space="preserve">
-    <value>Orignal Invoice</value>
+  <data name="Other Attachments" xml:space="preserve">
+    <value>مرفقات أخرى</value>
   </data>
-  <data name="PaymentMode" xml:space="preserve">
-    <value>Payment Mode</value>
+  <data name="Parent Contract ID" xml:space="preserve">
+    <value>عقد الوالدين</value>
   </data>
-  <data name="PaymentRequest" xml:space="preserve">
-    <value>Payment Request</value>
+  <data name="Project Name" xml:space="preserve">
+    <value>اسم المشروع</value>
   </data>
-  <data name="PaymentResource" xml:space="preserve">
-    <value>Payment Request for Resources</value>
-  </data>
-  <data name="Phone" xml:space="preserve">
-    <value>Phone:</value>
-  </data>
-  <data name="PointOfContact" xml:space="preserve">
-    <value>Point of Contact</value>
-  </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Project Name</value>
-  </data>
-  <data name="ServiceConfirmation" xml:space="preserve">
-    <value>Service Confirmation</value>
-  </data>
-  <data name="StartDate" xml:space="preserve">
-    <value>Start Date</value>
+  <data name="Start Date" xml:space="preserve">
+    <value>تاريخ البدء</value>
   </data>
   <data name="Submit" xml:space="preserve">
-    <value>Submit</value>
+    <value>يُقدِّم</value>
   </data>
-  <data name="Swift" xml:space="preserve">
-    <value>Swift Code</value>
+  <data name="Vendor" xml:space="preserve">
+    <value>بائع</value>
   </data>
-  <data name="title" xml:space="preserve">
-    <value>Please enter your request details :</value>
+  <data name="Yearly Contract Cost" xml:space="preserve">
+    <value>تكلفة العقد السنوية</value>
   </data>
 </root>

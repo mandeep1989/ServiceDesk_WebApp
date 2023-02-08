@@ -18,6 +18,8 @@ namespace ServiceDesk_WebApp.Data
         }
 
         public virtual DbSet<ChangePasswordRequest> ChangePasswordRequests { get; set; }
+        public virtual DbSet<Contract> Contracts { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<EscalationMatrix> EscalationMatrices { get; set; }
         public virtual DbSet<LogError> LogErrors { get; set; }
         public virtual DbSet<PaymentRequest> PaymentRequests { get; set; }
@@ -30,6 +32,52 @@ namespace ServiceDesk_WebApp.Data
             {
                 entity.ToTable("ChangePasswordRequest");
 
+                entity.Property(e => e.CreatedOn).IsRequired();
+
+                entity.Property(e => e.ModifiedOn).IsRequired();
+            });
+
+            modelBuilder.Entity<Contract>(entity =>
+            {
+                entity.HasKey(e => e.ContractId);
+
+                entity.Property(e => e.ContractId).HasColumnName("ContractID");
+
+                entity.Property(e => e.ContractType).IsRequired();
+
+                entity.Property(e => e.CostCenter).IsRequired();
+
+                entity.Property(e => e.CreatedOn).IsRequired();
+
+                entity.Property(e => e.Currency).IsRequired();
+
+                entity.Property(e => e.Description).IsRequired();
+
+                entity.Property(e => e.EndDate).IsRequired();
+
+                entity.Property(e => e.ModifiedOn).IsRequired();
+
+                entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.ParentContractId).HasColumnName("ParentContractID");
+
+                entity.Property(e => e.Pid).HasColumnName("PID");
+
+                entity.Property(e => e.Pid2).HasColumnName("PID2");
+
+                entity.Property(e => e.Pid3).HasColumnName("PID3");
+
+                entity.Property(e => e.Pid4).HasColumnName("PID4");
+
+                entity.Property(e => e.ProjectName).IsRequired();
+
+                entity.Property(e => e.StartDate).IsRequired();
+
+                entity.Property(e => e.YearlyContractCostWithoutVat).HasColumnName("YearlyContractCostWithoutVAT");
+            });
+
+            modelBuilder.Entity<Department>(entity =>
+            {
                 entity.Property(e => e.CreatedOn).IsRequired();
 
                 entity.Property(e => e.ModifiedOn).IsRequired();
@@ -52,6 +100,18 @@ namespace ServiceDesk_WebApp.Data
                 entity.Property(e => e.ContactPhone).IsRequired();
 
                 entity.Property(e => e.CreatedOn).IsRequired();
+
+                entity.Property(e => e.ManagerEmail)
+                    .IsRequired()
+                    .HasDefaultValueSql("0");
+
+                entity.Property(e => e.ManagerName)
+                    .IsRequired()
+                    .HasDefaultValueSql("0");
+
+                entity.Property(e => e.ManagerPhone)
+                    .IsRequired()
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.ModifiedOn).IsRequired();
             });
@@ -110,6 +170,8 @@ namespace ServiceDesk_WebApp.Data
                 entity.Property(e => e.StartDate).IsRequired();
 
                 entity.Property(e => e.SwiftCode).IsRequired();
+
+                entity.Property(e => e.Vatamount).HasColumnName("VATAmount");
             });
 
             modelBuilder.Entity<User>(entity =>

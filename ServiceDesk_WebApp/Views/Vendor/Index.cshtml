@@ -8,7 +8,7 @@
 						<i class="fa fa-fw fa-list"></i>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-outline-primary" id="paymentBtn" onclick="openPaymentForm()">@localizer["PaymentRequest"]  </button>
+						<button class="btn btn-outline-primary" id="paymentBtn" onclick="openPaymentForm()">@localizer["Invoice Submission"]  </button>
 					</div>
 				</div>
 
@@ -60,7 +60,7 @@
 			<div class="modal-body">
 				<form class="ecalation" method="post" id="escalationRequest_form">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<h3>@localizer["CompanyCEO"] </h3>
 							<div class="row form-group form_row">
 								<label class="col-md-4" for="CompanyName">@localizer["Name"]</label>
@@ -79,7 +79,25 @@
 								<div class="invalid-input-feedback mt-1 ml-4 col-md-12"></div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
+							<h3>@localizer["Manager"] </h3>
+							<div class="row form-group form_row">
+								<label class="col-md-4" for="ManagerName">@localizer["Name"]</label>
+								<input type="text" class="form-control col-md-8" id="ManagerName" name="ManagerName">
+								<div class="invalid-input-feedback mt-1 ml-4"></div>
+							</div>
+							<div class="row form-group form_row">
+								<label class="col-md-4" for="ManagerEmail">@localizer["Email"]</label>
+								<input type="email" class="form-control col-md-8" id="ManagerEmail" name="ManagerEmail">
+								<div class="invalid-input-feedback mt-1 ml-4"></div>
+							</div>
+							<div class="row form-group form_row">
+								<label class="col-md-4" for="ManagerPhone">@localizer["Phone"]</label>
+								<input type="text" class="form-control col-md-8" id="ManagerPhone" name="ManagerPhone">
+								<div class="invalid-input-feedback mt-1 ml-4"></div>
+							</div>
+						</div>
+						<div class="col-md-4">
 							<h3>@localizer["PointOfContact"] </h3>
 							<div class="row form-group form_row">
 								<label class="col-md-4" for="ContactName">@localizer["Name"]</label>
@@ -97,6 +115,7 @@
 								<div class="invalid-input-feedback mt-1 ml-4"></div>
 							</div>
 						</div>
+						
 					</div>
 					<!-- Modal footer -->
 					<div class="modal-footer">
@@ -257,7 +276,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
-									<label for="InvoiceAmount">@localizer["InvoiceAmount"] </label>
+									<label for="InvoiceAmount">@localizer["InvoiceAmount"] (Without VAT) </label>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -265,7 +284,15 @@
 										<div class="invalid-input-feedback mt-1 ml-4"></div>
 									</div>
 								</div>
-
+								<div class="col-md-2">
+									<label for="VATamount">@localizer["VAT Amount"]</label>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<input type="text" class="form-control" id="VATAmount" name="VATamount">
+										<div class="invalid-input-feedback mt-1 ml-4"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">

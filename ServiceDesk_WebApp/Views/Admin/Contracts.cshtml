@@ -1,0 +1,290 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = "Vendors";
+}
+
+<div class="page-content p-4">
+
+    <h3 class="text-theme text-black">
+        @localizer["Contracts"]
+        <button class="btn btn-sm btn-primary border-10 create_btn float-right" id="btn-create-new" onclick="openUserForm()">@localizer["CreateNew"] <i class="fas fa-plus"></i></button>
+    </h3>
+    <hr class="border-theme" />
+
+    <div class="sidebar">
+        <div class="sidebar-title">
+            @localizer["Contracts"]
+            <button type="button" class="close" aria-label="Close" data-dismiss="sidebar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="sidebar-body">
+            <form id="contract-form">
+                <input type="hidden" name="Id" id="txt-id" />
+
+                <div class="form-row">
+                    @*<div class="col-sm-6 form-group">
+                    <label class="floating-label" for="txt-contract-id">Contract ID</label>
+                    <input type="text" name="ContractId" id="txt-contract-id" class="form-control" />
+                    <div class="invalid-input-feedback"></div>
+                    </div>*@
+
+                    <div class="col-sm-6 form-group">
+                        <label for="txt-parent-contract-id">@localizer["Parent Contract ID"]</label>
+                        <input type="text" name="ParentContractId" id="txt-parent-contract-id" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-name">@localizer["Name"]</label>
+                        <input type="text" name="Name" id="txt-name" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-contract-type">@localizer["Contract Type"]</label>
+                        <select class="form-control selectpicker" name="ContractClassification" id="txt-contract-type">
+                            <option value="Project">Project</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="License">License</option>
+                            <option value="Resource">Resource</option>
+                            <option value="Service">Service</option>
+                        </select>
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-contract-classification">@localizer["Contract Classification"]</label>
+                        <select class="form-control selectpicker" name="ContractClassification" id="txt-contract-classification">
+
+                            <option value="SW">SW</option>
+                            <option value="HW">HW</option>
+                        </select>
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-description">@localizer["Description"]</label>
+                        <input type="text" name="Description" id="txt-description" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-start-date">@localizer["Start Date"]</label>
+                        <input type="date" name="StartDate" id="txt-start-date" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-end-date">@localizer["End Date"]</label>
+                        <input type="date" name="EndDate" id="txt-end-date" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-vendor">@localizer["Vendor"]</label>
+                        <select type="text" name="Vendor" id="txt-vendor" class="form-control selectpicker"></select>
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-memo-reference">@localizer["Memo Reference"]</label>
+                        <input type="text" name="MemoReference" id="txt-memo-reference" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-budget-amount">@localizer["Budget Amount"]</label>
+                        <input type="number" name="BudgetAmount" id="txt-budget-amount" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-pid">@localizer["PID"]</label>
+                        <input type="number" name="Pid" id="txt-pid" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-projectname">@localizer["Project Name"]</label>
+                        <input type="text" name="ProjectName" id="txt-projectname" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-costcenter">@localizer["Cost Center"]</label>
+                        <input type="text" name="CostCenter" id="txt-costcenter" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-costcenter2">@localizer["Cost Center 2"]</label>
+                        <input type="text" name="CostCenter2" id="txt-costcenter2" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-pid2">@localizer["Pid 2"]</label>
+                        <input type="number" name="Pid2" id="txt-pid2" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-costcenter3">@localizer["Cost Center 3"]</label>
+                        <input type="text" name="CostCenter3" id="txt-costcenter3" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-pid3">@localizer["Pid 3"]</label>
+                        <input type="number" name="Pid3" id="txt-pid3" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-costcenter4">@localizer["Cost Center 4"]</label>
+                        <input type="text" name="CostCenter4" id="txt-costcenter4" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-pid4">@localizer["Pid 4"]</label>
+                        <input type="number" name="Pid4" id="txt-pid4" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-department">@localizer["Department"]</label>
+                        <select name="Department" id="txt-department" class="form-control selectpicker"></select>
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-currency">@localizer["Currency"]</label>
+                        <select class="form-control selectpicker" name="ContractClassification" id="txt-currency">
+                            <option value="SAR">SAR</option>
+                            <option value="USD">USD</option>
+                            <option value="EURO">EURO</option>
+                            <option value="GP">GP</option>
+                        </select>
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-yearly-contract-cost-without-vat">@localizer["Yearly Contract Cost"]</label>
+                        <input type="number" name="YearlyContractCostWithoutVat" id="txt-yearly-contract-cost-without-vat" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-cost-breakdown">@localizer["Cost Breakdown"]</label>
+                        <input type="text" name="CostBreakdown" id="txt-cost-breakdown" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-Budgetattachment">@localizer["Budget attachment"]</label>
+                        <input type="file" name="Budgetattachment" id="txt-Budgetattachment" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-Contractattachment">@localizer["Contract attachment"]</label>
+                        <input type="file" name="Contractattachment" id="txt-Contractattachment" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="floating-label" for="txt-OtherAttachments ">@localizer["Other Attachments"]</label>
+                        <input type="file" name="OtherAttachments" id="txt-OtherAttachments" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary mr-2" id="btn-submit"> @localizer["Submit"]</button>
+                        <button type="button" class="btn btn-danger" id="btn-cancel" onclick="closeVendorForm()"> @localizer["Cancel"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Users List -->
+            <table id="application-contract-list" class="table table-sm w-100 table-responsive-md">
+                <thead>
+                    <tr>
+                        <th>@localizer["Contract Id"]</th>
+                        <th>@localizer["Name"]</th>
+                        <th>@localizer["Contract Type"]</th>
+                        <th>@localizer["Vendor"]</th>
+                        <th>@localizer["Department"]</th>
+                        <th class="doNotExport">@localizer["Action"]</th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- Users List End -->
+        </div>
+    </div>
+</div>
+<script>
+    var translations = {
+        update: '@localizer["update"]',
+        submit: '@localizer["Submit"]'
+    }
+
+    // opening Create User Form Or Edit User Form
+    function openUserForm(id) {
+        SportaForms.ResetForm(form_id);
+        if (id) {
+            $.get(getContract_url, 'id=' + id, function (response) {
+                var data = response.data;
+                
+                $("#txt-id").val(data.contractId)
+                $(txtParentContractId).val(data.parentContractId);
+                $(txtName).val(data.name);
+                $(txtContractType).val(data.contractType).change();
+                $(txtContractClassification).val(data.contractClassification).change();
+                $(txtDescription).val(data.description);
+                $(txtStartDate).val(FormatDate(data.startDate));
+                $(txtEndDate).val(FormatDate(data.endDate));
+                $(txtVendor).val(data.vendor).change();
+                $(txtMemoReference).val(data.memoReference);
+                $(txtBudgetAmount).val(data.budgetAmount);
+                $(txtPid).val(data.pid);
+                $(txtProjectName).val(data.projectName);
+                $(txtCostCenter).val(data.costCenter);
+                $(txtCostCenter2).val(data.costCenter2);
+                $(txtPid2).val(data.pid2);
+                $(txtCostCenter3).val(data.costCenter3);
+                $(txtPid3).val(data.pid3);
+                $(txtCostCenter4).val(data.costCenter4);
+                $(txtPid4).val(data.pid4);
+                $(txtDepartment).val(data.department).change();
+                $(txtCurrency).val(data.currency).change();
+                $(txtYearlyContractCostWithoutVat).val(data.yearlyContractCostWithoutVat);
+                $(txtCostBreakdown).val(data.costBreakdown);
+                $(txtBudgetattachment).val(data.budgetattachment);
+                $(txtContractattachment).val(data.contractattachment);
+                $(txtOtherAttachments).val(data.otherAttachments);
+                $(btn_submit).text(translations.update);
+                openSidebar();
+                SportaForms.InitializeFormStyle(form_id);
+            });
+        }
+        else {
+            $(txt_id).val(0);
+            $(txt_Password).parent('.Pgroup').show();
+            $(txt_email).prop('readonly', false);
+            $(btn_submit).text(translations.submit);
+            openSidebar();
+            SportaForms.InitializeFormStyle(form_id);
+        }
+
+    }
+    
+
+
+    // Closing User Form
+    function closeUserForm() {
+        SportaForms.ResetForm(form_id);
+        $(txt_id).val(0);
+        $(txt_email).prop('readonly', false);
+        $(txt_Password).parent('.Pgroup').show();
+        $(btn_submit).text(translations.submit);
+        $(form_id).fadeOut();
+        $(btn_create_new).show();
+    }
+</script>
+@section Scripts{
+    <script src="~/js/contract.js" asp-append-version="true"></script>
+}
+
+

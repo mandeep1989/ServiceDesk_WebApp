@@ -123,6 +123,9 @@
   <data name="Close" xml:space="preserve">
     <value>قريب</value>
   </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>انكماش</value>
+  </data>
   <data name="Dashboard" xml:space="preserve">
     <value>لوحة القيادة</value>
   </data>
