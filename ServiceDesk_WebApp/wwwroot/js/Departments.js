@@ -137,7 +137,7 @@ function validateVendor() {
 
 
 
-    var blankChecks = [txtParentContractId, txtName, txtContractType, txtContractClassification, txtDescription, txtStartDate, txtEndDate, txtVendor, txtMemoReference, txtBudgetAmount, txtCostCenter, txtDepartment, txtCurrency, txtYearlyContractCostWithoutVat, txtCostBreakdown];
+    var blankChecks = [];
     if ($(txtContractType).val() == "Project") {
         blankChecks.push(txtPid, txtProjectName);
     }
