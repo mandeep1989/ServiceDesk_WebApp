@@ -1,0 +1,110 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = "Department";
+}
+
+<div class="page-content p-4">
+
+    <h3 class="text-theme text-black">
+        @localizer["Department"]
+        <button class="btn btn-sm btn-primary border-10 create_btn float-right" id="btn-create-new" onclick="openUserForm()">@localizer["CreateNew"] <i class="fas fa-plus"></i></button>
+    </h3>
+    <hr class="border-theme" />
+
+    <div class="sidebar">
+        <div class="sidebar-title">
+            @localizer["Department"]
+            <button type="button" class="close" aria-label="Close" data-dismiss="sidebar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="sidebar-body">
+            <form id="Department-form">
+                <input type="hidden" name="Id" id="txt-id" />
+
+                <div class="form-row">
+                    @*<div class="col-sm-6 form-group">
+                    <label class="floating-label" for="txt-contract-id">Contract ID</label>
+                    <input type="text" name="ContractId" id="txt-contract-id" class="form-control" />
+                    <div class="invalid-input-feedback"></div>
+                    </div>*@
+
+                    <div class="col-sm-6 form-group">
+                        <label for="departmentNametxt">@localizer["Department Name"]</label>
+                        <input type="text" name="departmentNametxt" id="departmentNametxt" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+
+                   
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary mr-2" id="btn-submit"> @localizer["Submit"]</button>
+                        <button type="button" class="btn btn-danger" id="btn-cancel" onclick="closeVendorForm()"> @localizer["Cancel"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Users List -->
+            <table id="application-contract-list" class="table table-sm w-100 table-responsive-md">
+                <thead>
+                    <tr>
+                        <th>@localizer["Department Id"]</th>
+                        
+                        <th>@localizer["Department Name"]</th>
+                        <th class="doNotExport">@localizer["Action"]</th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- Users List End -->
+        </div>
+    </div>
+</div>
+<script>
+    var translations = {
+        update: '@localizer["update"]',
+        submit: '@localizer["Submit"]'
+    }
+
+    // opening Create User Form Or Edit User Form
+    function openUserForm(id) {
+        SportaForms.ResetForm(form_id);
+        if (id) {
+            $.get(getContract_url, 'id=' + id, function (response) {
+                var data = response.data;
+                openSidebar();
+                SportaForms.InitializeFormStyle(form_id);
+            });
+        }
+        else {
+            $(txt_id).val(0);
+            $(txt_Password).parent('.Pgroup').show();
+            $(txt_email).prop('readonly', false);
+            $(btn_submit).text(translations.submit);
+            openSidebar();
+            SportaForms.InitializeFormStyle(form_id);
+        }
+
+    }
+
+
+
+    // Closing User Form
+    function closeUserForm() {
+        SportaForms.ResetForm(form_id);
+        $(txt_id).val(0);
+        $(txt_email).prop('readonly', false);
+        $(txt_Password).parent('.Pgroup').show();
+        $(btn_submit).text(translations.submit);
+        $(form_id).fadeOut();
+        $(btn_create_new).show();
+    }
+</script>
+@section Scripts{
+    <script src="~/js/Deaprtments.js" asp-append-version="true"></script>
+}
+
+

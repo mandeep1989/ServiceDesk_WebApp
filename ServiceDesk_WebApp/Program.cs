@@ -1,5 +1,7 @@
+using Org.BouncyCastle.Crypto.Tls;
 using ServiceDesk_WebApp.Common;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddLocalization(option = &gt; options.ResourcesPath = "Resources");
@@ -22,7 +24,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-builder.Services.AddDbContext<ServiceDesk_WebAppContext>(opt => opt.UseSqlite("Name=ServiceDeskDB"));
+//builder.Services.AddDbContext<ServiceDesk_WebAppContext>(opt => opt.UseSqlite("Name=ServiceDeskDB"));
+builder.Services.AddDbContext<ServiceDesk_WebAppContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("ServiceDeskDB")));
+
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped(typeof(IRepository), typeof(Repository));

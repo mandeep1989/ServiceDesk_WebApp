@@ -215,7 +215,8 @@ namespace ServiceDesk_WebApp.Controllers
 			model.Vendor = Convert.ToInt64(txtVendor);
 			model.MemoReference = txtMemoReference;
 			model.BudgetAmount = Convert.ToInt64(txtBudgetAmount);
-			model.Pid = Convert.ToInt64(txtPid);
+            long.TryParse(txtPid, out var longtxtPid);
+            model.Pid = longtxtPid;
 			model.ProjectName = txtProjectName;
 			model.CostCenter = txtCostCenter;
 			model.CostCenter2 = txtCostCenter2;

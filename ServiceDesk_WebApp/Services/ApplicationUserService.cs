@@ -169,14 +169,18 @@ namespace ServiceDesk_WebApp.Services
 				foreach (var user in list)
 				{
 					var UserDetail = await _applictionUserRepo.GetAsync<Vendor>(y => y.UserId == user.Id);
-					applicationUsers.Add(new VendorViewModel
+					if (UserDetail != null)
 					{
-						Id = user.Id,
-						VendorName = user.Name,
-						Email = user.Email,
-						VendorNo = UserDetail.VendorNo,
-						ResidencyStatus = UserDetail.ResidencyStatus
-					});
+                        applicationUsers.Add(new VendorViewModel
+                        {
+                            Id = user.Id,
+                            VendorName = user.Name,
+                            Email = user.Email,
+                            VendorNo = UserDetail.VendorNo,
+                            ResidencyStatus = UserDetail.ResidencyStatus
+                        });
+                    }
+					
 				}
 
 				return new ServiceResult<IEnumerable<VendorViewModel>>(applicationUsers, "Vendor List!");
